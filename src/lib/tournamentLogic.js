@@ -39,3 +39,22 @@ export function splitIntoGroups(teams) {
 
   return { groupA, groupB };
 }
+export function generateGroupMatches(teams) {
+  const matches = [];
+  let matchId = 1;
+
+  for (let i = 0; i < teams.length; i++) {
+    for (let j = i + 1; j < teams.length; j++) {
+      matches.push({
+        id: matchId++,
+        teamA: teams[i],
+        teamB: teams[j],
+        group: teams[i].group,
+        sets: [],
+        finished: false,
+      });
+    }
+  }
+
+  return matches;
+}
