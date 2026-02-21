@@ -16,7 +16,7 @@ export function generateTeams(number) {
     teams.push({
       id: i,
       name: `Drużyna ${i}`,
-      group: null,
+      group: "", // na start brak grupy
     });
   }
 

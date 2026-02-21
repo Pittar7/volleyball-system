@@ -19,20 +19,16 @@ export default function AdminPage() {
 
   const handleGenerate = () => {
   const teams = generateTeams(tournament.settings.numberOfTeams);
-  const { groupA, groupB } = splitIntoGroups(teams);
-
-  const groupAMatches = generateGroupMatches(groupA);
-  const groupBMatches = generateGroupMatches(groupB);
 
   setTournament({
     ...tournament,
     teams,
   });
 
-  setGroupA(groupA);
-  setGroupB(groupB);
-  setMatchesA(groupAMatches);
-  setMatchesB(groupBMatches);
+  setGroupA([]);
+  setGroupB([]);
+  setMatchesA([]);
+  setMatchesB([]);
 };
 
   return (
@@ -91,6 +87,62 @@ export default function AdminPage() {
           </div>
         </div>
       )}
+
+{tournament.teams.length > 0 && (
+  <div className="mt-8">
+    <h2 className="text-xl font-bold mb-4">Przypisz drużyny do grup</h2>
+
+    {tournament.teams.map((team) => (
+      <div key={team.id} className="flex items-center gap-4 mb-2">
+        <span className="w-40">{team.name}</span>
+
+        <select
+          value={team.group}
+          onChange={(e) => {
+            const updatedTeams = tournament.teams.map((t) =>
+              t.id === team.id
+                ? { ...t, group: e.target.value }
+                : t
+            );
+
+            setTournament({
+              ...tournament,
+              teams: updatedTeams,
+            });
+          }}
+          className="border p-1 rounded"
+        >
+          <option value="">-- wybierz --</option>
+          <option value="A">Grupa A</option>
+          <option value="B">Grupa B</option>
+        </select>
+      </div>
+    ))}
+  </div>
+)}
+<button
+  onClick={() => {
+    const groupA = tournament.teams.filter(t => t.group === "A");
+    const groupB = tournament.teams.filter(t => t.group === "B");
+
+    if (Math.abs(groupA.length - groupB.length) > 1) {
+      alert("Grupy nie mogą różnić się więcej niż o 1 drużynę!");
+      return;
+    }
+
+    const groupAMatches = generateGroupMatches(groupA);
+    const groupBMatches = generateGroupMatches(groupB);
+
+    setGroupA(groupA);
+    setGroupB(groupB);
+    setMatchesA(groupAMatches);
+    setMatchesB(groupBMatches);
+  }}
+  className="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+>
+  Zatwierdź grupy
+</button>
+
       {matchesA.length > 0 && (
   <div className="mt-10">
     <h2 className="text-2xl font-bold mb-4">Mecze – Grupa A</h2>
