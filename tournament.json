@@ -10,49 +10,31 @@
       {
         "id": 2,
         "name": "Drużyna 2",
-        "group": "",
+        "group": "A",
         "logo": null
       },
       {
         "id": 3,
         "name": "Drużyna 3",
-        "group": "",
+        "group": "A",
         "logo": null
       },
       {
         "id": 4,
         "name": "Drużyna 4",
-        "group": "",
+        "group": "B",
         "logo": null
       },
       {
         "id": 5,
         "name": "Drużyna 5",
-        "group": "",
-        "logo": null
-      },
-      {
-        "id": 6,
-        "name": "Drużyna 6",
-        "group": "",
-        "logo": null
-      },
-      {
-        "id": 7,
-        "name": "Drużyna 7",
-        "group": "",
-        "logo": null
-      },
-      {
-        "id": 8,
-        "name": "Drużyna 8",
-        "group": "",
+        "group": "B",
         "logo": null
       }
     ],
     "matches": [],
     "settings": {
-      "numberOfTeams": 8,
+      "numberOfTeams": 5,
       "teamsFromGroup": 2
     }
   },
@@ -62,13 +44,322 @@
       "name": "Drużyna 1",
       "group": "A",
       "logo": "/logos/RCI_Bydgoszcz.png"
+    },
+    {
+      "id": 2,
+      "name": "Drużyna 2",
+      "group": "A",
+      "logo": null
+    },
+    {
+      "id": 3,
+      "name": "Drużyna 3",
+      "group": "A",
+      "logo": null
     }
   ],
-  "groupB": [],
-  "schedule": [],
-  "tableA": [],
-  "tableB": [],
-  "semifinals": [],
+  "groupB": [
+    {
+      "id": 4,
+      "name": "Drużyna 4",
+      "group": "B",
+      "logo": null
+    },
+    {
+      "id": 5,
+      "name": "Drużyna 5",
+      "group": "B",
+      "logo": null
+    }
+  ],
+  "schedule": [
+    {
+      "id": 1,
+      "type": "group",
+      "teamA": {
+        "id": 1,
+        "name": "Drużyna 1",
+        "group": "A",
+        "logo": "/logos/RCI_Bydgoszcz.png"
+      },
+      "teamB": {
+        "id": 2,
+        "name": "Drużyna 2",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "sets": [
+        {
+          "a": "20",
+          "b": "25"
+        },
+        {
+          "a": "20",
+          "b": "25"
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": true,
+      "round": 1,
+      "court": "A"
+    },
+    {
+      "id": 2,
+      "type": "group",
+      "teamA": {
+        "id": 1,
+        "name": "Drużyna 1",
+        "group": "A",
+        "logo": "/logos/RCI_Bydgoszcz.png"
+      },
+      "teamB": {
+        "id": 3,
+        "name": "Drużyna 3",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "sets": [
+        {
+          "a": "25",
+          "b": "20"
+        },
+        {
+          "a": "25",
+          "b": "23"
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": true,
+      "round": 1,
+      "court": "B"
+    },
+    {
+      "id": 3,
+      "type": "group",
+      "teamA": {
+        "id": 2,
+        "name": "Drużyna 2",
+        "group": "A",
+        "logo": null
+      },
+      "teamB": {
+        "id": 3,
+        "name": "Drużyna 3",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "sets": [
+        {
+          "a": "20",
+          "b": "25"
+        },
+        {
+          "a": "25",
+          "b": "20"
+        },
+        {
+          "a": "15",
+          "b": "10"
+        }
+      ],
+      "finished": true,
+      "round": 2,
+      "court": "A"
+    },
+    {
+      "id": 4,
+      "type": "group",
+      "teamA": {
+        "id": 4,
+        "name": "Drużyna 4",
+        "group": "B",
+        "logo": null
+      },
+      "teamB": {
+        "id": 5,
+        "name": "Drużyna 5",
+        "group": "B",
+        "logo": null
+      },
+      "group": "B",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 2,
+      "court": "B"
+    }
+  ],
+  "tableA": [
+    {
+      "id": 2,
+      "name": "Drużyna 2",
+      "played": 2,
+      "won": 2,
+      "lost": 0,
+      "points": 6,
+      "setsWon": 4,
+      "setsLost": 1,
+      "smallPointsWon": 110,
+      "smallPointsLost": 95
+    },
+    {
+      "id": 1,
+      "name": "Drużyna 1",
+      "played": 2,
+      "won": 1,
+      "lost": 1,
+      "points": 4,
+      "setsWon": 2,
+      "setsLost": 2,
+      "smallPointsWon": 90,
+      "smallPointsLost": 93
+    },
+    {
+      "id": 3,
+      "name": "Drużyna 3",
+      "played": 2,
+      "won": 0,
+      "lost": 2,
+      "points": 2,
+      "setsWon": 1,
+      "setsLost": 4,
+      "smallPointsWon": 98,
+      "smallPointsLost": 110
+    }
+  ],
+  "tableB": [
+    {
+      "id": 4,
+      "name": "Drużyna 4",
+      "played": 0,
+      "won": 0,
+      "lost": 0,
+      "points": 0,
+      "setsWon": 0,
+      "setsLost": 0,
+      "smallPointsWon": 0,
+      "smallPointsLost": 0
+    },
+    {
+      "id": 5,
+      "name": "Drużyna 5",
+      "played": 0,
+      "won": 0,
+      "lost": 0,
+      "points": 0,
+      "setsWon": 0,
+      "setsLost": 0,
+      "smallPointsWon": 0,
+      "smallPointsLost": 0
+    }
+  ],
+  "semifinals": [
+    {
+      "id": "SF1",
+      "teamA": {
+        "id": 2,
+        "name": "Drużyna 2",
+        "played": 2,
+        "won": 2,
+        "lost": 0,
+        "points": 6,
+        "setsWon": 4,
+        "setsLost": 1,
+        "smallPointsWon": 110,
+        "smallPointsLost": 95
+      },
+      "teamB": {
+        "id": 5,
+        "name": "Drużyna 5",
+        "played": 0,
+        "won": 0,
+        "lost": 0,
+        "points": 0,
+        "setsWon": 0,
+        "setsLost": 0,
+        "smallPointsWon": 0,
+        "smallPointsLost": 0
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false
+    },
+    {
+      "id": "SF2",
+      "teamA": {
+        "id": 4,
+        "name": "Drużyna 4",
+        "played": 0,
+        "won": 0,
+        "lost": 0,
+        "points": 0,
+        "setsWon": 0,
+        "setsLost": 0,
+        "smallPointsWon": 0,
+        "smallPointsLost": 0
+      },
+      "teamB": {
+        "id": 1,
+        "name": "Drużyna 1",
+        "played": 2,
+        "won": 1,
+        "lost": 1,
+        "points": 4,
+        "setsWon": 2,
+        "setsLost": 2,
+        "smallPointsWon": 90,
+        "smallPointsLost": 93
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false
+    }
+  ],
   "finalMatch": null,
   "thirdPlaceMatch": null
 }

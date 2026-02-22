@@ -70,7 +70,7 @@ export default function AdminPage() {
           console.error("Błąd autozapisu", error);
         }
       },
-      5 * 60 * 10000,
+      5 * 60 * 1000,
     ); // 5 minut
 
     return () => clearInterval(interval);
@@ -132,8 +132,6 @@ export default function AdminPage() {
       }
 
       setTournament(data.tournament);
-      setGroupA(data.groupA);
-      setGroupB(data.groupB);
       setSchedule(data.schedule);
       setTableA(data.tableA);
       setTableB(data.tableB);
@@ -156,8 +154,6 @@ export default function AdminPage() {
       teams,
     });
 
-    setGroupA([]);
-    setGroupB([]);
     setMatchesA([]);
     setMatchesB([]);
   };
@@ -343,8 +339,6 @@ export default function AdminPage() {
           const scheduled = generateSchedule(groupAMatches, groupBMatches);
           setSchedule(scheduled);
 
-          setGroupA(groupA);
-          setGroupB(groupB);
           setMatchesA(groupAMatches);
           setMatchesB(groupBMatches);
         }}
@@ -358,7 +352,10 @@ export default function AdminPage() {
           <h2 className="text-2xl font-bold mb-4">Mecze – Grupa A</h2>
           <ul className="space-y-2">
             {matchesA.map((match) => (
-              <li key={match.id} className="bg-white p-3 rounded shadow">
+              <li
+                key={`${match.teamA.id}-${match.teamB.id}`}
+                className="bg-white p-3 rounded shadow"
+              >
                 {match.teamA.name} vs {match.teamB.name}
               </li>
             ))}
@@ -367,7 +364,10 @@ export default function AdminPage() {
           <h2 className="text-2xl font-bold mt-8 mb-4">Mecze – Grupa B</h2>
           <ul className="space-y-2">
             {matchesB.map((match) => (
-              <li key={match.id} className="bg-white p-3 rounded shadow">
+              <li
+                key={`${match.teamA.id}-${match.teamB.id}`}
+                className="bg-white p-3 rounded shadow"
+              >
                 {match.teamA.name} vs {match.teamB.name}
               </li>
             ))}

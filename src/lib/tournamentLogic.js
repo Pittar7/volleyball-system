@@ -47,12 +47,10 @@ export function splitIntoGroups(teams) {
 // ==========================
 export function generateGroupMatches(teams) {
   const matches = [];
-  let matchId = 1;
 
   for (let i = 0; i < teams.length; i++) {
     for (let j = i + 1; j < teams.length; j++) {
       matches.push({
-        id: matchId++,
         teamA: teams[i],
         teamB: teams[j],
         group: teams[i].group,
@@ -75,21 +73,23 @@ export function generateSchedule(matchesA, matchesB) {
   const scheduledMatches = [];
 
   let round = 1;
-  let court = 1;
+  let courtToggle = true; // true = A, false = B
+  let globalMatchId = 1;
 
-  allMatches.forEach((match, index) => {
+  allMatches.forEach((match) => {
     scheduledMatches.push({
+      id: globalMatchId++, // GLOBALNE ID
+      type: "group", // NOWE
       ...match,
       round,
-      court,
+      court: courtToggle ? "A" : "B", // A/B zamiast 1/2
     });
 
-    if (court === 2) {
+    if (!courtToggle) {
       round++;
-      court = 1;
-    } else {
-      court = 2;
     }
+
+    courtToggle = !courtToggle;
   });
 
   return scheduledMatches;
