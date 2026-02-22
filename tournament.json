@@ -1,0 +1,74 @@
+{
+  "tournament": {
+    "teams": [
+      {
+        "id": 1,
+        "name": "Drużyna 1",
+        "group": "A",
+        "logo": "/logos/RCI_Bydgoszcz.png"
+      },
+      {
+        "id": 2,
+        "name": "Drużyna 2",
+        "group": "",
+        "logo": null
+      },
+      {
+        "id": 3,
+        "name": "Drużyna 3",
+        "group": "",
+        "logo": null
+      },
+      {
+        "id": 4,
+        "name": "Drużyna 4",
+        "group": "",
+        "logo": null
+      },
+      {
+        "id": 5,
+        "name": "Drużyna 5",
+        "group": "",
+        "logo": null
+      },
+      {
+        "id": 6,
+        "name": "Drużyna 6",
+        "group": "",
+        "logo": null
+      },
+      {
+        "id": 7,
+        "name": "Drużyna 7",
+        "group": "",
+        "logo": null
+      },
+      {
+        "id": 8,
+        "name": "Drużyna 8",
+        "group": "",
+        "logo": null
+      }
+    ],
+    "matches": [],
+    "settings": {
+      "numberOfTeams": 8,
+      "teamsFromGroup": 2
+    }
+  },
+  "groupA": [
+    {
+      "id": 1,
+      "name": "Drużyna 1",
+      "group": "A",
+      "logo": "/logos/RCI_Bydgoszcz.png"
+    }
+  ],
+  "groupB": [],
+  "schedule": [],
+  "tableA": [],
+  "tableB": [],
+  "semifinals": [],
+  "finalMatch": null,
+  "thirdPlaceMatch": null
+}
