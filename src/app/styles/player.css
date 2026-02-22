@@ -194,3 +194,99 @@
   height: 22px;
   object-fit: contain;
 }
+/* ===== KLASYFIKACJA KOŃCOWA ===== */
+
+.final-ranking-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.ranking-table-container {
+  width: 100%;
+  max-width: 600px;
+}
+
+.ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.ranking-table th {
+  background: #f0f2f5;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.ranking-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.rank-place {
+  font-weight: bold;
+  width: 80px;
+}
+
+.rank-medal {
+  text-align: right;
+  font-size: 20px;
+}
+
+/* TOP 3 KOLORY */
+
+.rank-gold {
+  background: linear-gradient(90deg, #fff8dc, #fff3b0);
+  font-weight: 600;
+}
+
+.rank-silver {
+  background: linear-gradient(90deg, #f4f4f4, #e2e2e2);
+  font-weight: 600;
+}
+
+.rank-bronze {
+  background: linear-gradient(90deg, #fbe5d6, #f4c7a1);
+  font-weight: 600;
+}
+
+/* ===== LOGO W KLASYFIKACJI ===== */
+
+.ranking-team {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ranking-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.ranking-logo-big {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.ranking-logo-placeholder {
+  width: 32px;
+  height: 32px;
+  background: #ddd;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.ranking-team-name {
+  font-weight: 500;
+}

@@ -277,38 +277,48 @@ export function generateFinals(semifinals) {
 export function validateMatch(match) {
   let setsA = 0;
   let setsB = 0;
-  let playedSets = 0;
 
-  for (const set of match.sets) {
-    const a = Number(set.a);
-    const b = Number(set.b);
+  for (let set of match.sets) {
+    const a = parseInt(set.a);
+    const b = parseInt(set.b);
 
-    // jeśli oba pola puste → pomijamy
-    if (set.a === "" && set.b === "") continue;
+    if (isNaN(a) || isNaN(b)) continue;
 
-    // jeśli jedno puste → błąd
-    if (set.a === "" || set.b === "") {
-      return "Uzupełnij oba pola w każdym rozegranym secie.";
-    }
-
-    // remis niedozwolony
     if (a === b) {
       return "Set nie może zakończyć się remisem.";
     }
-
-    playedSets++;
 
     if (a > b) setsA++;
     if (b > a) setsB++;
   }
 
-  if (playedSets < 2) {
-    return "Mecz musi mieć rozegrane przynajmniej 2 sety.";
+  // 🔥 DLA FINAŁU – musi być 3 wygrane
+  if (match.type === "final") {
+    if (setsA < 3 && setsB < 3) {
+      return "Finał musi być wygrany do 3 setów.";
+    }
   }
 
-  if (setsA !== 2 && setsB !== 2) {
-    return "Mecz musi być wygrany 2 setami.";
+  // 🔥 DLA MECZU O 3 MIEJSCE – dopuszczamy 2 LUB 3 wygrane
+  else if (match.type === "thirdPlace") {
+    if (
+      setsA < 2 &&
+      setsB < 2 // mniej niż 2
+    ) {
+      return "Mecz musi być wygrany przynajmniej 2 setami.";
+    }
   }
 
-  return null; // brak błędu
+  // 🔥 POZOSTAŁE MECZE – standard BO3
+  else {
+    if (setsA < 2 && setsB < 2) {
+      return "Mecz musi być wygrany do 2 setów.";
+    }
+  }
+
+  if (setsA === setsB) {
+    return "Nieprawidłowy wynik meczu.";
+  }
+
+  return null;
 }
