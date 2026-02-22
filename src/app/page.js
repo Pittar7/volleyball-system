@@ -1,19 +1,13 @@
 "use client";
 
-// ==========================
-// STRONA DLA ZAWODNIKÓW /
-// ==========================
-
 import { useEffect, useState } from "react";
 import MatchMatrix from "@/components/MatchMatrix";
+import "./styles/player.css";
 
 export default function HomePage() {
   const [data, setData] = useState(null);
-  const [activeTab, setActiveTab] = useState("table"); // table | schedule
-  const [tableView, setTableView] = useState("groups"); // groups | main
-
-  // ===== ROZWIJANY MECZ =====
-  const [expandedMatchId, setExpandedMatchId] = useState(null);
+  const [activeTab, setActiveTab] = useState("table");
+  const [tableView, setTableView] = useState("groups");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,25 +20,20 @@ export default function HomePage() {
       }
     };
 
-    // pierwsze ładowanie
     fetchData();
-
-    // auto refresh co 20 sekund
     const interval = setInterval(fetchData, 20000);
-
     return () => clearInterval(interval);
   }, []);
 
-  if (!data) return <div className="p-8">Ładowanie...</div>;
-  console.log("DATA:", data);
-  const { tournament, schedule } = data;
+  if (!data) return <div className="player-page">Ładowanie...</div>;
+
+  const { tournament, schedule = [], finalMatch, thirdPlaceMatch } = data;
 
   const groupA = tournament.teams.filter((t) => t.group === "A");
   const groupB = tournament.teams.filter((t) => t.group === "B");
 
-  const groupMatches = schedule.filter((m) => m.type === "group");
+  const getTeamById = (id) => tournament.teams.find((t) => t.id === id);
 
-  // ===== LICZENIE WYGRANYCH SETÓW =====
   const calculateSetsScore = (match) => {
     let setsA = 0;
     let setsB = 0;
@@ -62,185 +51,273 @@ export default function HomePage() {
     return { setsA, setsB };
   };
 
-  // ===== AKTUALNY MECZ =====
-  const currentMatch = groupMatches.find((m) => !m.finished);
+  const calculateGroupTable = (teams, matches) => {
+    const table = teams.map((team) => ({
+      id: team.id,
+      name: team.name,
+      logo: team.logo, // 🔥 DODANE
+      played: 0,
+      points: 0,
+      setsWon: 0,
+      setsLost: 0,
+      smallPointsWon: 0,
+      smallPointsLost: 0,
+    }));
+
+    matches.forEach((match) => {
+      if (!match.finished) return;
+
+      const teamA = table.find((t) => t.id === match.teamA.id);
+      const teamB = table.find((t) => t.id === match.teamB.id);
+
+      let setsA = 0;
+      let setsB = 0;
+
+      match.sets.forEach((set) => {
+        const a = parseInt(set.a);
+        const b = parseInt(set.b);
+
+        if (!isNaN(a) && !isNaN(b)) {
+          teamA.smallPointsWon += a;
+          teamA.smallPointsLost += b;
+          teamB.smallPointsWon += b;
+          teamB.smallPointsLost += a;
+
+          if (a > b) setsA++;
+          if (b > a) setsB++;
+        }
+      });
+
+      teamA.played++;
+      teamB.played++;
+
+      teamA.setsWon += setsA;
+      teamA.setsLost += setsB;
+      teamB.setsWon += setsB;
+      teamB.setsLost += setsA;
+
+      if (setsA > setsB) {
+        teamA.points += 3;
+        teamB.points += 1;
+      } else {
+        teamB.points += 3;
+        teamA.points += 1;
+      }
+    });
+
+    return table.sort((a, b) => b.points - a.points);
+  };
+
+  const tableA = calculateGroupTable(
+    groupA,
+    schedule.filter((m) => m.group === "A"),
+  );
+
+  const tableB = calculateGroupTable(
+    groupB,
+    schedule.filter((m) => m.group === "B"),
+  );
+
+  const ranking = [];
 
   return (
-    <main className="min-h-screen p-6 bg-gray-100">
-      {/* ===== GÓRNE ZAKŁADKI ===== */}
-      <div className="flex gap-4 mb-6">
+    <main className="player-page">
+      <div
+        className="background-logo"
+        style={{
+          backgroundImage: "url('/logos/logo-turnieju.png')",
+        }}
+      />
+
+      <div className="tabs">
         <button
           onClick={() => setActiveTab("table")}
-          className={`px-4 py-2 rounded ${
-            activeTab === "table" ? "bg-blue-600 text-white" : "bg-white"
-          }`}
+          className={`tab-button ${activeTab === "table" ? "active" : ""}`}
         >
           Tabela
         </button>
 
         <button
           onClick={() => setActiveTab("schedule")}
-          className={`px-4 py-2 rounded ${
-            activeTab === "schedule" ? "bg-blue-600 text-white" : "bg-white"
-          }`}
+          className={`tab-button ${activeTab === "schedule" ? "active" : ""}`}
         >
           Terminarz
         </button>
       </div>
 
-      {/* ===== TABELA ===== */}
+      {/* ========================== TABELA ========================== */}
       {activeTab === "table" && (
-        <>
-          {/* PODZAKŁADKI */}
-          <div className="flex gap-4 mb-6">
-            <button
-              onClick={() => setTableView("groups")}
-              className={`px-4 py-2 rounded ${
-                tableView === "groups" ? "bg-green-600 text-white" : "bg-white"
-              }`}
-            >
-              Grupy
-            </button>
-
-            <button
-              onClick={() => setTableView("matches")}
-              className={`px-4 py-2 rounded ${
-                tableView === "matches" ? "bg-green-600 text-white" : "bg-white"
-              }`}
-            >
-              Mecze
-            </button>
-
-            <button
-              onClick={() => setTableView("main")}
-              className={`px-4 py-2 rounded ${
-                tableView === "main" ? "bg-green-600 text-white" : "bg-white"
-              }`}
-            >
-              Główna
-            </button>
-          </div>
-
+        <div className="player-card">
           {tableView === "groups" && (
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-white p-4 rounded shadow">
-                <h2 className="text-xl font-bold mb-4">Grupa A</h2>
-                {groupA.map((team) => (
-                  <div key={team.id} className="py-2 border-b">
-                    {team.name}
-                  </div>
-                ))}
-              </div>
-
-              <div className="bg-white p-4 rounded shadow">
-                <h2 className="text-xl font-bold mb-4">Grupa B</h2>
-                {groupB.map((team) => (
-                  <div key={team.id} className="py-2 border-b">
-                    {team.name}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {tableView === "matches" && (
-            <div className="space-y-8">
+            <div className="groups-wrapper">
+              {/* GRUPA A */}
               <div>
-                <h2 className="text-xl font-bold mb-4">Grupa A</h2>
-                <MatchMatrix
-                  teams={groupA}
-                  matches={schedule.filter((m) => m.group === "A")}
-                  mode="mobile"
-                />
+                <h2 className="section-title">Grupa A</h2>
+                <table className="group-table">
+                  <thead>
+                    <tr>
+                      <th>Drużyna</th>
+                      <th>M</th>
+                      <th>Pkt</th>
+                      <th>Sety</th>
+                      <th>Małe pkt</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tableA.map((team) => (
+                      <tr key={team.id}>
+                        <td className="team-cell">
+                          {team.logo && (
+                            <img
+                              src={team.logo}
+                              alt={team.name}
+                              className="team-logo"
+                            />
+                          )}
+                          <span>{team.name}</span>
+                        </td>
+                        <td>{team.played}</td>
+                        <td>{team.points}</td>
+                        <td>
+                          {team.setsWon}:{team.setsLost}
+                        </td>
+                        <td>
+                          {team.smallPointsWon}:{team.smallPointsLost}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
 
+              {/* GRUPA B */}
               <div>
-                <h2 className="text-xl font-bold mb-4">Grupa B</h2>
-                <MatchMatrix
-                  teams={groupB}
-                  matches={schedule.filter((m) => m.group === "B")}
-                  mode="mobile"
-                />
+                <h2 className="section-title">Grupa B</h2>
+                <table className="group-table">
+                  <thead>
+                    <tr>
+                      <th>Drużyna</th>
+                      <th>M</th>
+                      <th>Pkt</th>
+                      <th>Sety</th>
+                      <th>Małe pkt</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tableB.map((team) => (
+                      <tr key={team.id}>
+                        <td className="team-cell">
+                          {team.logo && (
+                            <img
+                              src={team.logo}
+                              alt={team.name}
+                              className="team-logo"
+                            />
+                          )}
+                          <span>{team.name}</span>
+                        </td>
+                        <td>{team.played}</td>
+                        <td>{team.points}</td>
+                        <td>
+                          {team.setsWon}:{team.setsLost}
+                        </td>
+                        <td>
+                          {team.smallPointsWon}:{team.smallPointsLost}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           )}
-
-          {tableView === "main" && (
-            <div className="bg-white p-4 rounded shadow">
-              Klasyfikacja końcowa (w budowie)
-            </div>
-          )}
-        </>
+        </div>
       )}
 
-      {/* ===== TERMINARZ ===== */}
+      {/* ========================== TERMINARZ ========================== */}
       {activeTab === "schedule" && (
-        <div className="bg-white p-4 rounded shadow space-y-4">
-          <h2 className="text-xl font-bold mb-4">Mecze grupowe</h2>
+        <div className="player-card">
+          <h2 className="section-title text-center">Harmonogram turnieju</h2>
 
-          {groupMatches.map((match) => {
-            const isCurrent = currentMatch?.id === match.id;
-            const { setsA, setsB } = calculateSetsScore(match);
-            const isFinished = match.finished;
+          <table className="schedule-table">
+            <thead>
+              <tr>
+                <th>Boisko</th>
+                <th>Drużyna A</th>
+                <th>Wynik</th>
+                <th>Drużyna B</th>
+                <th>Status</th>
+              </tr>
+            </thead>
 
-            const teamAClass =
-              isFinished && setsA > setsB ? "font-bold text-green-700" : "";
-            const teamBClass =
-              isFinished && setsB > setsA ? "font-bold text-green-700" : "";
+            <tbody>
+              {schedule
+                .sort((a, b) => a.order - b.order)
+                .map((match) => {
+                  const { setsA, setsB } = calculateSetsScore(match);
 
-            return (
-              <div
-                key={match.id}
-                onClick={() =>
-                  setExpandedMatchId(
-                    expandedMatchId === match.id ? null : match.id,
-                  )
-                }
-                className={`p-4 rounded border transition-all duration-300 cursor-pointer
-            ${
-              match.finished
-                ? "opacity-40 bg-gray-100"
-                : isCurrent
-                  ? "bg-yellow-100 border-yellow-500 border-2 shadow-lg"
-                  : "bg-white"
-            }
-          `}
-              >
-                {isCurrent && (
-                  <div className="text-xs font-bold text-yellow-700 mb-1">
-                    W TRAKCIE
-                  </div>
-                )}
+                  const unfinished = schedule
+                    .filter((m) => !m.finished)
+                    .sort((a, b) => a.order - b.order);
 
-                <div className="text-sm text-gray-500 mb-1">
-                  Boisko {match.court}
-                </div>
+                  const isCurrent =
+                    unfinished.length > 0 && unfinished[0].id === match.id;
 
-                <div className="flex justify-between items-center font-semibold">
-                  <span className={teamAClass}>{match.teamA.name}</span>
+                  const isFinished = match.finished;
 
-                  <span className="text-lg font-bold px-3">
-                    {isFinished ? `${setsA} : ${setsB}` : "vs"}
-                  </span>
+                  return (
+                    <tr
+                      key={match.id}
+                      className={
+                        isCurrent
+                          ? "match-live"
+                          : isFinished
+                            ? "match-finished"
+                            : ""
+                      }
+                    >
+                      <td>{match.court}</td>
 
-                  <span className={teamBClass}>{match.teamB.name}</span>
-                </div>
+                      <td className="team-cell">
+                        {getTeamById(match.teamA.id)?.logo && (
+                          <img
+                            src={getTeamById(match.teamA.id).logo}
+                            alt={match.teamA.name}
+                            className="team-logo"
+                          />
+                        )}
+                        <span>{match.teamA.name}</span>
+                      </td>
 
-                {/* ===== SZCZEGÓŁY SETÓW ===== */}
-                {expandedMatchId === match.id && (
-                  <div className="mt-3 pt-2 border-t text-sm text-gray-700">
-                    {match.sets.map((set, index) =>
-                      set.a && set.b ? (
-                        <div key={index}>
-                          Set {index + 1}: {set.a} : {set.b}
-                        </div>
-                      ) : null,
-                    )}
-                  </div>
-                )}
-              </div>
-            );
-          })}
+                      <td>{isFinished ? `${setsA} : ${setsB}` : "—"}</td>
+
+                      <td className="team-cell">
+                        {getTeamById(match.teamB.id)?.logo && (
+                          <img
+                            src={getTeamById(match.teamB.id).logo}
+                            alt={match.teamB.name}
+                            className="team-logo"
+                          />
+                        )}
+                        <span>{match.teamB.name}</span>
+                      </td>
+
+                      <td>
+                        {isCurrent && (
+                          <span className="status-live">W TRAKCIE</span>
+                        )}
+
+                        {isFinished && (
+                          <span className="status-finished">Zakończony</span>
+                        )}
+
+                        {!isFinished && !isCurrent && <span>Zaplanowany</span>}
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
         </div>
       )}
     </main>

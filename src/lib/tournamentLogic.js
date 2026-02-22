@@ -73,16 +73,18 @@ export function generateSchedule(matchesA, matchesB) {
   const scheduledMatches = [];
 
   let round = 1;
-  let courtToggle = true; // true = A, false = B
+  let courtToggle = true;
   let globalMatchId = 1;
+  let order = 1;
 
   allMatches.forEach((match) => {
     scheduledMatches.push({
-      id: globalMatchId++, // GLOBALNE ID
-      type: "group", // NOWE
+      id: globalMatchId++,
+      type: "group",
       ...match,
       round,
-      court: courtToggle ? "A" : "B", // A/B zamiast 1/2
+      order: order++, // 🔥 NOWE
+      court: courtToggle ? "A" : "B",
     });
 
     if (!courtToggle) {

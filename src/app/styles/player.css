@@ -1,0 +1,196 @@
+/* ==========================
+   PLAYER VIEW STYLES
+========================== */
+
+.player-page {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: #f3f4f6;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* WYŚRODKOWANIE */
+}
+
+.player-card {
+  width: 100%;
+  max-width: 1100px; /* OGRANICZENIE SZEROKOŚCI */
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.section-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.schedule-table th {
+  background: #f1f5f9;
+  padding: 12px;
+  border-bottom: 2px solid #d1d5db;
+  text-align: center;
+}
+
+.schedule-table td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.schedule-table td:first-child,
+.schedule-table th:first-child {
+  text-align: left;
+}
+
+.schedule-table td:nth-child(2),
+.schedule-table td:nth-child(4) {
+  text-align: left;
+}
+
+.schedule-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.match-live {
+  background: #fef9c3;
+}
+
+.match-finished {
+  opacity: 0.5;
+}
+
+.status-live {
+  color: #b45309;
+  font-weight: 600;
+}
+
+.status-finished {
+  color: #15803d;
+  font-weight: 600;
+}
+
+.tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: white;
+  transition: 0.2s ease;
+}
+
+.tab-button.active {
+  background: #2563eb;
+  color: white;
+}
+
+.tab-button:hover {
+  transform: translateY(-2px);
+}
+
+.sub-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.sub-tabs button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #e5e7eb;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.sub-tabs button.sub-active {
+  background: #2563eb;
+  color: white;
+}
+
+/* ===== TABELA GRUPOWA ===== */
+
+.group-table {
+  width: 100%;
+  max-width: 900px; /* ograniczenie szerokości */
+  margin: 0 auto 50px auto; /* wyśrodkowanie */
+  border-collapse: collapse;
+  font-size: 14px;
+  background: white;
+  border: 1px solid #e5e7eb;
+}
+
+/* NAGŁÓWEK */
+.group-table th {
+  background: #f1f5f9;
+  padding: 12px 10px;
+  border-bottom: 2px solid #d1d5db;
+  border-right: 1px solid #e5e7eb; /* PIONOWE LINIE */
+  font-weight: 600;
+  text-align: center;
+}
+
+/* KOMÓRKI */
+.group-table td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb; /* PIONOWE LINIE */
+  text-align: center;
+}
+
+/* OSTATNIA KOLUMNA BEZ PRAWEJ LINII */
+.group-table th:last-child,
+.group-table td:last-child {
+  border-right: none;
+}
+
+/* PIERWSZA KOLUMNA - NAZWA DRUŻYNY */
+.group-table td:first-child,
+.group-table th:first-child {
+  text-align: left;
+  padding-left: 14px;
+}
+
+/* HOVER */
+.group-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+/* RÓŻNICA MAŁYCH PUNKTÓW */
+.diff-plus {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.diff-minus {
+  color: #dc2626;
+  font-weight: 600;
+}
+/* ===== KOMÓRKA Z DRUŻYNĄ ===== */
+
+.team-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-logo {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}

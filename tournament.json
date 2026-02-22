@@ -30,11 +30,29 @@
         "name": "Drużyna 5",
         "group": "B",
         "logo": null
+      },
+      {
+        "id": 6,
+        "name": "Drużyna 6",
+        "group": "B",
+        "logo": null
+      },
+      {
+        "id": 7,
+        "name": "Drużyna 7",
+        "group": "A",
+        "logo": null
+      },
+      {
+        "id": 8,
+        "name": "Drużyna 8",
+        "group": "B",
+        "logo": null
       }
     ],
     "matches": [],
     "settings": {
-      "numberOfTeams": 5,
+      "numberOfTeams": 8,
       "teamsFromGroup": 2
     }
   },
@@ -56,6 +74,12 @@
       "name": "Drużyna 3",
       "group": "A",
       "logo": null
+    },
+    {
+      "id": 7,
+      "name": "Drużyna 7",
+      "group": "A",
+      "logo": null
     }
   ],
   "groupB": [
@@ -70,6 +94,18 @@
       "name": "Drużyna 5",
       "group": "B",
       "logo": null
+    },
+    {
+      "id": 6,
+      "name": "Drużyna 6",
+      "group": "B",
+      "logo": null
+    },
+    {
+      "id": 8,
+      "name": "Drużyna 8",
+      "group": "B",
+      "logo": null
     }
   ],
   "schedule": [
@@ -80,7 +116,7 @@
         "id": 1,
         "name": "Drużyna 1",
         "group": "A",
-        "logo": "/logos/RCI_Bydgoszcz.png"
+        "logo": null
       },
       "teamB": {
         "id": 2,
@@ -105,6 +141,7 @@
       ],
       "finished": true,
       "round": 1,
+      "order": 1,
       "court": "A"
     },
     {
@@ -114,7 +151,7 @@
         "id": 1,
         "name": "Drużyna 1",
         "group": "A",
-        "logo": "/logos/RCI_Bydgoszcz.png"
+        "logo": null
       },
       "teamB": {
         "id": 3,
@@ -130,7 +167,7 @@
         },
         {
           "a": "25",
-          "b": "23"
+          "b": "20"
         },
         {
           "a": "",
@@ -139,10 +176,46 @@
       ],
       "finished": true,
       "round": 1,
+      "order": 2,
       "court": "B"
     },
     {
       "id": 3,
+      "type": "group",
+      "teamA": {
+        "id": 1,
+        "name": "Drużyna 1",
+        "group": "A",
+        "logo": null
+      },
+      "teamB": {
+        "id": 7,
+        "name": "Drużyna 7",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "sets": [
+        {
+          "a": "15",
+          "b": "25"
+        },
+        {
+          "a": "25",
+          "b": "15"
+        },
+        {
+          "a": "15",
+          "b": "10"
+        }
+      ],
+      "finished": true,
+      "round": 2,
+      "order": 3,
+      "court": "A"
+    },
+    {
+      "id": 4,
       "type": "group",
       "teamA": {
         "id": 2,
@@ -159,24 +232,95 @@
       "group": "A",
       "sets": [
         {
-          "a": "20",
-          "b": "25"
+          "a": "",
+          "b": ""
         },
         {
-          "a": "25",
-          "b": "20"
+          "a": "",
+          "b": ""
         },
         {
-          "a": "15",
-          "b": "10"
+          "a": "",
+          "b": ""
         }
       ],
-      "finished": true,
+      "finished": false,
       "round": 2,
+      "order": 4,
+      "court": "B"
+    },
+    {
+      "id": 5,
+      "type": "group",
+      "teamA": {
+        "id": 2,
+        "name": "Drużyna 2",
+        "group": "A",
+        "logo": null
+      },
+      "teamB": {
+        "id": 7,
+        "name": "Drużyna 7",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 3,
+      "order": 5,
       "court": "A"
     },
     {
-      "id": 4,
+      "id": 6,
+      "type": "group",
+      "teamA": {
+        "id": 3,
+        "name": "Drużyna 3",
+        "group": "A",
+        "logo": null
+      },
+      "teamB": {
+        "id": 7,
+        "name": "Drużyna 7",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 3,
+      "order": 6,
+      "court": "B"
+    },
+    {
+      "id": 7,
       "type": "group",
       "teamA": {
         "id": 4,
@@ -206,46 +350,234 @@
         }
       ],
       "finished": false,
-      "round": 2,
+      "round": 4,
+      "order": 7,
+      "court": "A"
+    },
+    {
+      "id": 8,
+      "type": "group",
+      "teamA": {
+        "id": 4,
+        "name": "Drużyna 4",
+        "group": "B",
+        "logo": null
+      },
+      "teamB": {
+        "id": 6,
+        "name": "Drużyna 6",
+        "group": "B",
+        "logo": null
+      },
+      "group": "B",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 4,
+      "order": 8,
+      "court": "B"
+    },
+    {
+      "id": 9,
+      "type": "group",
+      "teamA": {
+        "id": 4,
+        "name": "Drużyna 4",
+        "group": "B",
+        "logo": null
+      },
+      "teamB": {
+        "id": 8,
+        "name": "Drużyna 8",
+        "group": "B",
+        "logo": null
+      },
+      "group": "B",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 5,
+      "order": 9,
+      "court": "A"
+    },
+    {
+      "id": 10,
+      "type": "group",
+      "teamA": {
+        "id": 5,
+        "name": "Drużyna 5",
+        "group": "B",
+        "logo": null
+      },
+      "teamB": {
+        "id": 6,
+        "name": "Drużyna 6",
+        "group": "B",
+        "logo": null
+      },
+      "group": "B",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 5,
+      "order": 10,
+      "court": "B"
+    },
+    {
+      "id": 11,
+      "type": "group",
+      "teamA": {
+        "id": 5,
+        "name": "Drużyna 5",
+        "group": "B",
+        "logo": null
+      },
+      "teamB": {
+        "id": 8,
+        "name": "Drużyna 8",
+        "group": "B",
+        "logo": null
+      },
+      "group": "B",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 6,
+      "order": 11,
+      "court": "A"
+    },
+    {
+      "id": 12,
+      "type": "group",
+      "teamA": {
+        "id": 6,
+        "name": "Drużyna 6",
+        "group": "B",
+        "logo": null
+      },
+      "teamB": {
+        "id": 8,
+        "name": "Drużyna 8",
+        "group": "B",
+        "logo": null
+      },
+      "group": "B",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 6,
+      "order": 12,
       "court": "B"
     }
   ],
   "tableA": [
     {
-      "id": 2,
-      "name": "Drużyna 2",
-      "played": 2,
-      "won": 2,
-      "lost": 0,
-      "points": 6,
-      "setsWon": 4,
-      "setsLost": 1,
-      "smallPointsWon": 110,
-      "smallPointsLost": 95
-    },
-    {
       "id": 1,
       "name": "Drużyna 1",
-      "played": 2,
-      "won": 1,
+      "played": 3,
+      "won": 2,
       "lost": 1,
-      "points": 4,
+      "points": 7,
+      "setsWon": 4,
+      "setsLost": 3,
+      "smallPointsWon": 145,
+      "smallPointsLost": 140
+    },
+    {
+      "id": 2,
+      "name": "Drużyna 2",
+      "played": 1,
+      "won": 1,
+      "lost": 0,
+      "points": 3,
       "setsWon": 2,
+      "setsLost": 0,
+      "smallPointsWon": 50,
+      "smallPointsLost": 40
+    },
+    {
+      "id": 7,
+      "name": "Drużyna 7",
+      "played": 1,
+      "won": 0,
+      "lost": 1,
+      "points": 1,
+      "setsWon": 1,
       "setsLost": 2,
-      "smallPointsWon": 90,
-      "smallPointsLost": 93
+      "smallPointsWon": 50,
+      "smallPointsLost": 55
     },
     {
       "id": 3,
       "name": "Drużyna 3",
-      "played": 2,
+      "played": 1,
       "won": 0,
-      "lost": 2,
-      "points": 2,
-      "setsWon": 1,
-      "setsLost": 4,
-      "smallPointsWon": 98,
-      "smallPointsLost": 110
+      "lost": 1,
+      "points": 1,
+      "setsWon": 0,
+      "setsLost": 2,
+      "smallPointsWon": 40,
+      "smallPointsLost": 50
     }
   ],
   "tableB": [
@@ -272,94 +604,33 @@
       "setsLost": 0,
       "smallPointsWon": 0,
       "smallPointsLost": 0
-    }
-  ],
-  "semifinals": [
-    {
-      "id": "SF1",
-      "teamA": {
-        "id": 2,
-        "name": "Drużyna 2",
-        "played": 2,
-        "won": 2,
-        "lost": 0,
-        "points": 6,
-        "setsWon": 4,
-        "setsLost": 1,
-        "smallPointsWon": 110,
-        "smallPointsLost": 95
-      },
-      "teamB": {
-        "id": 5,
-        "name": "Drużyna 5",
-        "played": 0,
-        "won": 0,
-        "lost": 0,
-        "points": 0,
-        "setsWon": 0,
-        "setsLost": 0,
-        "smallPointsWon": 0,
-        "smallPointsLost": 0
-      },
-      "sets": [
-        {
-          "a": "",
-          "b": ""
-        },
-        {
-          "a": "",
-          "b": ""
-        },
-        {
-          "a": "",
-          "b": ""
-        }
-      ],
-      "finished": false
     },
     {
-      "id": "SF2",
-      "teamA": {
-        "id": 4,
-        "name": "Drużyna 4",
-        "played": 0,
-        "won": 0,
-        "lost": 0,
-        "points": 0,
-        "setsWon": 0,
-        "setsLost": 0,
-        "smallPointsWon": 0,
-        "smallPointsLost": 0
-      },
-      "teamB": {
-        "id": 1,
-        "name": "Drużyna 1",
-        "played": 2,
-        "won": 1,
-        "lost": 1,
-        "points": 4,
-        "setsWon": 2,
-        "setsLost": 2,
-        "smallPointsWon": 90,
-        "smallPointsLost": 93
-      },
-      "sets": [
-        {
-          "a": "",
-          "b": ""
-        },
-        {
-          "a": "",
-          "b": ""
-        },
-        {
-          "a": "",
-          "b": ""
-        }
-      ],
-      "finished": false
+      "id": 6,
+      "name": "Drużyna 6",
+      "played": 0,
+      "won": 0,
+      "lost": 0,
+      "points": 0,
+      "setsWon": 0,
+      "setsLost": 0,
+      "smallPointsWon": 0,
+      "smallPointsLost": 0
+    },
+    {
+      "id": 8,
+      "name": "Drużyna 8",
+      "played": 0,
+      "won": 0,
+      "lost": 0,
+      "points": 0,
+      "setsWon": 0,
+      "setsLost": 0,
+      "smallPointsWon": 0,
+      "smallPointsLost": 0
     }
   ],
+  "semifinals": [],
   "finalMatch": null,
   "thirdPlaceMatch": null
 }

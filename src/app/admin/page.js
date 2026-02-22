@@ -28,6 +28,15 @@ export default function AdminPage() {
   const [finalMatch, setFinalMatch] = useState(null);
   const [thirdPlaceMatch, setThirdPlaceMatch] = useState(null);
   const [availableLogos, setAvailableLogos] = useState([]);
+  // ===== MECZE O MIEJSCA =====
+  const [playFor5, setPlayFor5] = useState(false);
+  const [playFor7, setPlayFor7] = useState(false);
+  const [playFor9, setPlayFor9] = useState(false);
+  const [playFor11, setPlayFor11] = useState(false);
+
+  // ===== POSORTOWANY HARMONOGRAM =====
+
+  const sortedSchedule = [...schedule].sort((a, b) => a.order - b.order);
 
   // ===== POBIERANIE LOGO =====
   useEffect(() => {
@@ -157,6 +166,179 @@ export default function AdminPage() {
     setMatchesA([]);
     setMatchesB([]);
   };
+  // ==========================
+  // PRZESUWANIE MECZU W GÓRĘ
+  // ==========================
+  const moveMatchUp = (id) => {
+    const sorted = [...schedule].sort((a, b) => a.order - b.order);
+    const index = sorted.findIndex((m) => m.id === id);
+
+    if (index <= 0) return;
+
+    const prev = sorted[index - 1];
+    const current = sorted[index];
+
+    const updatedSchedule = schedule.map((m) => {
+      if (m.id === prev.id) return { ...m, order: current.order };
+      if (m.id === current.id) return { ...m, order: prev.order };
+      return m;
+    });
+
+    setSchedule(updatedSchedule);
+  };
+
+  // ==========================
+  // PRZESUWANIE MECZU W DÓŁ
+  // ==========================
+  const moveMatchDown = (id) => {
+    const sorted = [...schedule].sort((a, b) => a.order - b.order);
+    const index = sorted.findIndex((m) => m.id === id);
+
+    if (index === -1 || index === sorted.length - 1) return;
+
+    const next = sorted[index + 1];
+    const current = sorted[index];
+
+    const updatedSchedule = schedule.map((m) => {
+      if (m.id === next.id) return { ...m, order: current.order };
+      if (m.id === current.id) return { ...m, order: next.order };
+      return m;
+    });
+
+    setSchedule(updatedSchedule);
+  };
+
+  // ==========================
+  // GENEROWANIE PÓŁFINAŁÓW
+  // ==========================
+  const generateSemifinalsMatches = () => {
+    // 🔒 BLOKADA DUPLIKATÓW
+    if (schedule.some((m) => m.type === "semifinal")) {
+      alert("Półfinały już zostały wygenerowane.");
+      return;
+    }
+
+    const tableA = calculateTable(
+      groupA,
+      schedule.filter((m) => m.group === "A"),
+    );
+
+    const tableB = calculateTable(
+      groupB,
+      schedule.filter((m) => m.group === "B"),
+    );
+
+    if (tableA.length < 2 || tableB.length < 2) {
+      alert("Za mało drużyn do wygenerowania półfinałów.");
+      return;
+    }
+
+    const firstA = tableA[0];
+    const secondA = tableA[1];
+    const firstB = tableB[0];
+    const secondB = tableB[1];
+
+    const maxOrder =
+      schedule.length > 0 ? Math.max(...schedule.map((m) => m.order || 0)) : 0;
+
+    const newMatches = [
+      {
+        id: Date.now(),
+        type: "semifinal",
+        order: maxOrder + 1,
+        court: "A",
+        teamA: firstA,
+        teamB: secondB,
+        sets: [
+          { a: "", b: "" },
+          { a: "", b: "" },
+          { a: "", b: "" },
+        ],
+        finished: false,
+      },
+      {
+        id: Date.now() + 1,
+        type: "semifinal",
+        order: maxOrder + 2,
+        court: "B",
+        teamA: firstB,
+        teamB: secondA,
+        sets: [
+          { a: "", b: "" },
+          { a: "", b: "" },
+          { a: "", b: "" },
+        ],
+        finished: false,
+      },
+    ];
+
+    setSchedule([...schedule, ...newMatches]);
+  };
+
+  // ==========================
+  // GENEROWANIE MECZÓW O MIEJSCA (SMART & CLEAN)
+  // ==========================
+  const generatePlacementMatches = () => {
+    const tableA = calculateTable(
+      groupA,
+      schedule.filter((m) => m.group === "A"),
+    );
+
+    const tableB = calculateTable(
+      groupB,
+      schedule.filter((m) => m.group === "B"),
+    );
+
+    const maxOrder =
+      schedule.length > 0 ? Math.max(...schedule.map((m) => m.order || 0)) : 0;
+
+    let nextOrder = maxOrder + 1;
+    let updatedSchedule = [...schedule];
+
+    const placements = [
+      { enabled: playFor5, index: 2, label: "Mecz o 5 miejsce" },
+      { enabled: playFor7, index: 3, label: "Mecz o 7 miejsce" },
+      { enabled: playFor9, index: 4, label: "Mecz o 9 miejsce" },
+      { enabled: playFor11, index: 5, label: "Mecz o 11 miejsce" },
+    ];
+
+    placements.forEach(({ enabled, index, label }) => {
+      if (!enabled) return;
+      if (!tableA[index] || !tableB[index]) return;
+
+      const existingMatch = updatedSchedule.find((m) => m.label === label);
+
+      if (existingMatch) {
+        // 🔄 Aktualizacja drużyn
+        updatedSchedule = updatedSchedule.map((m) =>
+          m.label === label
+            ? { ...m, teamA: tableA[index], teamB: tableB[index] }
+            : m,
+        );
+      } else {
+        // ➕ Tworzenie nowego meczu
+        updatedSchedule.push({
+          id: crypto.randomUUID(),
+          type: "placement",
+          label,
+          order: nextOrder++,
+          court: "A",
+          teamA: tableA[index],
+          teamB: tableB[index],
+          sets: [
+            { a: "", b: "" },
+            { a: "", b: "" },
+            { a: "", b: "" },
+          ],
+          finished: false,
+        });
+      }
+    });
+
+    setSchedule(updatedSchedule);
+  };
+
+  
 
   // ===== RETURN JSX =====
   return (
@@ -378,96 +560,213 @@ export default function AdminPage() {
       {/* ==========================
  WYŚWIETLANIE HARMONOGRAMU + WYNIKI
  ==========================*/}
+      <button
+        onClick={generateSemifinalsMatches}
+        className="mb-4 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+      >
+        Generuj półfinały
+      </button>
 
+      <div className="mt-4 space-y-2">
+        <label className="block">
+          <input
+            type="checkbox"
+            checked={playFor5}
+            onChange={(e) => setPlayFor5(e.target.checked)}
+            className="mr-2"
+          />
+          Mecz o 5 miejsce
+        </label>
+
+        <label className="block">
+          <input
+            type="checkbox"
+            checked={playFor7}
+            onChange={(e) => setPlayFor7(e.target.checked)}
+            className="mr-2"
+          />
+          Mecz o 7 miejsce
+        </label>
+
+        <label className="block">
+          <input
+            type="checkbox"
+            checked={playFor9}
+            onChange={(e) => setPlayFor9(e.target.checked)}
+            className="mr-2"
+          />
+          Mecz o 9 miejsce
+        </label>
+
+        <label className="block">
+          <input
+            type="checkbox"
+            checked={playFor11}
+            onChange={(e) => setPlayFor11(e.target.checked)}
+            className="mr-2"
+          />
+          Mecz o 11 miejsce
+        </label>
+      </div>
+      <button
+        onClick={generatePlacementMatches}
+        className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+      >
+        Generuj mecze o miejsca
+      </button>
+
+      {/* ==========================
+   HARMONOGRAM PODZIELONY NA SEKCJE
+========================== */}
       {schedule.length > 0 && (
         <div className="mt-10">
-          <h2 className="text-2xl font-bold mb-4">Harmonogram</h2>
+          <h2 className="text-2xl font-bold mb-6">Harmonogram</h2>
 
-          {schedule.map((match, index) => (
-            <div
-              key={`${match.group}-${match.id}-${match.round}`}
-              className="bg-gray-200 p-4 rounded mb-3"
-            >
-              <div className="font-semibold mb-2">
-                Runda {match.round} | Boisko {match.court} | {match.teamA.name}{" "}
-                vs {match.teamB.name}
+          {/* ===== FUNKCJA RENDERUJĄCA MECZ ===== */}
+          {["group", "semifinal", "placement"].map((type) => {
+            const matches = sortedSchedule.filter((m) => m.type === type);
+
+            if (matches.length === 0) return null;
+
+            const sectionTitle =
+              type === "group"
+                ? "Mecze grupowe"
+                : type === "semifinal"
+                  ? "Półfinały"
+                  : "Mecze o miejsca";
+
+            return (
+              <div key={type} className="mb-10">
+                <h3 className="text-xl font-bold mb-4">{sectionTitle}</h3>
+
+                {matches.map((match) => (
+                  <div key={match.id} className="bg-gray-200 p-4 rounded mb-3">
+                    {/* ===== ZMIANA KOLEJNOŚCI ===== */}
+                    <div className="flex gap-2 mb-2">
+                      <button
+                        onClick={() => moveMatchUp(match.id)}
+                        className="px-2 py-1 bg-gray-300 rounded hover:bg-gray-400"
+                      >
+                        ⬆
+                      </button>
+
+                      <button
+                        onClick={() => moveMatchDown(match.id)}
+                        className="px-2 py-1 bg-gray-300 rounded hover:bg-gray-400"
+                      >
+                        ⬇
+                      </button>
+                    </div>
+
+                    {/* ===== OPIS MECZU ===== */}
+                    <div className="font-semibold mb-2">
+                      {match.label ? match.label : ""}
+                      {match.label && " | "}
+                      Boisko {match.court} | {match.teamA.name} vs{" "}
+                      {match.teamB.name}
+                    </div>
+
+                    {/* ===== SETY ===== */}
+                    {match.sets.map((set, setIndex) => (
+                      <div key={setIndex} className="flex gap-2 mb-1">
+                        <input
+                          type="number"
+                          value={set.a}
+                          onChange={(e) => {
+                            const updatedSchedule = schedule.map((m) =>
+                              m.id === match.id
+                                ? {
+                                    ...m,
+                                    sets: m.sets.map((s, i) =>
+                                      i === setIndex
+                                        ? { ...s, a: e.target.value }
+                                        : s,
+                                    ),
+                                  }
+                                : m,
+                            );
+
+                            setSchedule(updatedSchedule);
+                          }}
+                          className="w-16 border p-1 rounded"
+                        />
+
+                        <input
+                          type="number"
+                          value={set.b}
+                          onChange={(e) => {
+                            const updatedSchedule = schedule.map((m) =>
+                              m.id === match.id
+                                ? {
+                                    ...m,
+                                    sets: m.sets.map((s, i) =>
+                                      i === setIndex
+                                        ? { ...s, b: e.target.value }
+                                        : s,
+                                    ),
+                                  }
+                                : m,
+                            );
+
+                            setSchedule(updatedSchedule);
+                          }}
+                          className="w-16 border p-1 rounded"
+                        />
+                      </div>
+                    ))}
+
+                    {/* ===== ZAPIS WYNIKU ===== */}
+                    <button
+                      onClick={() => {
+                        const error = validateMatch(match);
+                        if (error) {
+                          alert(error);
+                          return;
+                        }
+
+                        const updatedSchedule = schedule.map((m) =>
+                          m.id === match.id ? { ...m, finished: true } : m,
+                        );
+
+                        setSchedule(updatedSchedule);
+
+                        const groupAMatches = updatedSchedule.filter(
+                          (m) => m.group === "A",
+                        );
+                        const groupBMatches = updatedSchedule.filter(
+                          (m) => m.group === "B",
+                        );
+
+                        const updatedTableA = calculateTable(
+                          groupA,
+                          groupAMatches,
+                        );
+                        const updatedTableB = calculateTable(
+                          groupB,
+                          groupBMatches,
+                        );
+
+                        setTableA(updatedTableA);
+                        setTableB(updatedTableB);
+                      }}
+                      className="mt-2 bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                    >
+                      Zapisz wynik
+                    </button>
+
+                    {match.finished && (
+                      <div className="text-green-600 mt-2 font-semibold">
+                        ✅ Mecz zakończony
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
-
-              {/* Pola do wpisywania setów */}
-              {match.sets.map((set, setIndex) => (
-                <div key={setIndex} className="flex gap-2 mb-1">
-                  <input
-                    type="number"
-                    placeholder="A"
-                    value={set.a}
-                    onChange={(e) => {
-                      const updatedSchedule = [...schedule];
-                      updatedSchedule[index].sets[setIndex].a = e.target.value;
-                      setSchedule(updatedSchedule);
-                    }}
-                    className="w-16 border p-1 rounded"
-                  />
-
-                  <input
-                    type="number"
-                    placeholder="B"
-                    value={set.b}
-                    onChange={(e) => {
-                      const updatedSchedule = [...schedule];
-                      updatedSchedule[index].sets[setIndex].b = e.target.value;
-                      setSchedule(updatedSchedule);
-                    }}
-                    className="w-16 border p-1 rounded"
-                  />
-                </div>
-              ))}
-
-              <button
-                onClick={() => {
-                  const error = validateMatch(match);
-
-                  if (error) {
-                    alert(error);
-                    return;
-                  }
-
-                  const updatedSchedule = [...schedule];
-                  updatedSchedule[index].finished = true;
-                  setSchedule(updatedSchedule);
-
-                  const groupAMatches = updatedSchedule.filter(
-                    (m) => m.group === "A",
-                  );
-                  const groupBMatches = updatedSchedule.filter(
-                    (m) => m.group === "B",
-                  );
-
-                  const updatedTableA = calculateTable(groupA, groupAMatches);
-                  const updatedTableB = calculateTable(groupB, groupBMatches);
-
-                  setTableA(updatedTableA);
-                  setTableB(updatedTableB);
-
-                  if (updatedTableA.length >= 2 && updatedTableB.length >= 2) {
-                    setSemifinals(
-                      generateSemifinals(updatedTableA, updatedTableB),
-                    );
-                  }
-                }}
-                className="mt-2 bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
-              >
-                Zapisz wynik
-              </button>
-
-              {match.finished && (
-                <div className="text-green-600 mt-2 font-semibold">
-                  ✅ Mecz zakończony
-                </div>
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
+
       {/* ==========================
  WYŚWIETLANIE TABELI
  ==========================*/}
