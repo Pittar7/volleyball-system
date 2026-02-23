@@ -14,29 +14,13 @@ import {
 export default function AdminPage() {
   const [tournament, setTournament] = useState(createEmptyTournament());
   const [schedule, setSchedule] = useState([]);
-  const [availableLogos, setAvailableLogos] = useState([]);
-
-  const [playFor5, setPlayFor5] = useState(false);
-  const [playFor7, setPlayFor7] = useState(false);
-  const [playFor9, setPlayFor9] = useState(false);
-  const [playFor11, setPlayFor11] = useState(false);
+  const [adminView, setAdminView] = useState("setup");
+  // setup | groups | bracket | summary
 
   const groupA = tournament.teams.filter((t) => t.group === "A");
   const groupB = tournament.teams.filter((t) => t.group === "B");
 
   const sortedSchedule = [...schedule].sort((a, b) => a.order - b.order);
-
-  // ==============================
-  // LOGA
-  // ==============================
-  useEffect(() => {
-    const fetchLogos = async () => {
-      const res = await fetch("/api/logos");
-      const data = await res.json();
-      setAvailableLogos(data);
-    };
-    fetchLogos();
-  }, []);
 
   // ==============================
   // ZAPIS / WCZYTANIE
@@ -67,13 +51,20 @@ export default function AdminPage() {
   };
 
   // ==============================
-  // GENEROWANIE GRUP
+  // ZATWIERDZANIE GRUP
   // ==============================
   const confirmGroups = () => {
+    if (!groupA.length || !groupB.length) {
+      alert("Obie grupy muszą mieć przynajmniej 1 drużynę");
+      return;
+    }
+
     const groupAMatches = generateGroupMatches(groupA);
     const groupBMatches = generateGroupMatches(groupB);
     const scheduled = generateSchedule(groupAMatches, groupBMatches);
+
     setSchedule(scheduled);
+    setAdminView("groups");
   };
 
   // ==============================
@@ -87,15 +78,15 @@ export default function AdminPage() {
 
     const tableA = calculateTable(
       groupA,
-      schedule.filter((m) => m.group === "A"),
+      schedule.filter((m) => m.group === "A")
     );
     const tableB = calculateTable(
       groupB,
-      schedule.filter((m) => m.group === "B"),
+      schedule.filter((m) => m.group === "B")
     );
 
     if (tableA.length < 2 || tableB.length < 2) {
-      alert("Za mało drużyn");
+      alert("Za mało drużyn do półfinałów");
       return;
     }
 
@@ -141,7 +132,7 @@ export default function AdminPage() {
   // ==============================
   const generateFinalMatches = () => {
     const semifinals = schedule.filter(
-      (m) => m.type === "semifinal" && m.finished,
+      (m) => m.type === "semifinal" && m.finished
     );
 
     if (semifinals.length !== 2) {
@@ -169,15 +160,10 @@ export default function AdminPage() {
       type: "final",
       order: maxOrder + 1,
       court: "A",
+      label: "Finał",
       teamA: winner1,
       teamB: winner2,
-      sets: [
-        { a: "", b: "" },
-        { a: "", b: "" },
-        { a: "", b: "" },
-        { a: "", b: "" },
-        { a: "", b: "" },
-      ],
+      sets: Array(5).fill({ a: "", b: "" }),
       finished: false,
     };
 
@@ -186,20 +172,15 @@ export default function AdminPage() {
       type: "thirdPlace",
       order: maxOrder + 2,
       court: "B",
+      label: "Mecz o 3 miejsce",
       teamA: loser1,
       teamB: loser2,
-      sets: [
-        { a: "", b: "" },
-        { a: "", b: "" },
-        { a: "", b: "" },
-        { a: "", b: "" },
-        { a: "", b: "" },
-      ],
+      sets: Array(5).fill({ a: "", b: "" }),
       finished: false,
     };
 
     const cleaned = schedule.filter(
-      (m) => m.type !== "final" && m.type !== "thirdPlace",
+      (m) => m.type !== "final" && m.type !== "thirdPlace"
     );
 
     setSchedule([...cleaned, thirdPlace, finalMatch]);
@@ -209,7 +190,7 @@ export default function AdminPage() {
   // RENDER MECZU
   // ==============================
   const renderMatch = (match) => (
-    <div key={match.id} className="bg-gray-200 p-4 rounded mb-3">
+    <div key={match.id} className="bg-gray-200 p-4 rounded mb-4">
       <div className="font-semibold mb-2">
         {match.label && (
           <span className="text-purple-700 mr-3">{match.label}</span>
@@ -228,10 +209,10 @@ export default function AdminPage() {
                   ? {
                       ...m,
                       sets: m.sets.map((s, idx) =>
-                        idx === i ? { ...s, a: e.target.value } : s,
+                        idx === i ? { ...s, a: e.target.value } : s
                       ),
                     }
-                  : m,
+                  : m
               );
               setSchedule(updated);
             }}
@@ -246,10 +227,10 @@ export default function AdminPage() {
                   ? {
                       ...m,
                       sets: m.sets.map((s, idx) =>
-                        idx === i ? { ...s, b: e.target.value } : s,
+                        idx === i ? { ...s, b: e.target.value } : s
                       ),
                     }
-                  : m,
+                  : m
               );
               setSchedule(updated);
             }}
@@ -265,8 +246,8 @@ export default function AdminPage() {
 
           setSchedule(
             schedule.map((m) =>
-              m.id === match.id ? { ...m, finished: true } : m,
-            ),
+              m.id === match.id ? { ...m, finished: true } : m
+            )
           );
         }}
         className="mt-2 bg-blue-600 text-white px-3 py-1 rounded"
@@ -284,95 +265,146 @@ export default function AdminPage() {
 
   return (
     <main className="min-h-screen p-8">
-      <h1 className="text-3xl font-bold mb-6">Panel Administratora ⚙️</h1>
-
-      <div className="flex gap-4 mb-6">
-        <button
-          onClick={saveTournament}
-          className="bg-gray-800 text-white px-4 py-2 rounded"
-        >
-          Zapisz turniej
-        </button>
-        <button
-          onClick={loadTournament}
-          className="bg-gray-500 text-white px-4 py-2 rounded"
-        >
-          Wczytaj turniej
-        </button>
+      {/* ===== GÓRNY PASEK ===== */}
+      <div className="flex justify-between items-center mb-6 border-b pb-4">
+        <h1 className="text-3xl font-bold">Panel Administratora ⚙️</h1>
+        <div className="flex gap-3">
+          <button
+            onClick={saveTournament}
+            className="bg-green-600 text-white px-4 py-2 rounded"
+          >
+            💾 Zapisz
+          </button>
+          <button
+            onClick={loadTournament}
+            className="bg-gray-500 text-white px-4 py-2 rounded"
+          >
+            📂 Wczytaj
+          </button>
+        </div>
       </div>
 
-      <div className="mb-6">
-        <label>Liczba drużyn:</label>
-        <input
-          type="number"
-          min="4"
-          max="12"
-          value={tournament.settings.numberOfTeams}
-          onChange={(e) =>
-            setTournament({
-              ...tournament,
-              settings: {
-                ...tournament.settings,
-                numberOfTeams: Number(e.target.value),
-              },
-            })
-          }
-          className="border p-2 ml-2 w-20"
-        />
+      {/* ===== ZAKŁADKI ===== */}
+      <div className="flex gap-4 mb-8">
+        {["setup", "groups", "bracket", "summary"].map((view) => (
+          <button
+            key={view}
+            onClick={() => setAdminView(view)}
+            className={`px-4 py-2 rounded ${
+              adminView === view ? "bg-blue-600 text-white" : "bg-gray-200"
+            }`}
+          >
+            {view === "setup" && "Tworzenie"}
+            {view === "groups" && "Faza grupowa"}
+            {view === "bracket" && "Drabinka"}
+            {view === "summary" && "Podsumowanie"}
+          </button>
+        ))}
       </div>
 
-      <button
-        onClick={handleGenerate}
-        className="bg-blue-600 text-white px-4 py-2 rounded"
-      >
-        Generuj drużyny
-      </button>
+      {/* ===== SETUP ===== */}
+      {adminView === "setup" && (
+        <>
+          <div className="mb-4">
+            <label>Liczba drużyn:</label>
+            <input
+              type="number"
+              min="4"
+              max="12"
+              value={tournament.settings.numberOfTeams}
+              onChange={(e) =>
+                setTournament({
+                  ...tournament,
+                  settings: {
+                    ...tournament.settings,
+                    numberOfTeams: Number(e.target.value),
+                  },
+                })
+              }
+              className="border p-2 ml-2 w-20"
+            />
+          </div>
 
-      <button
-        onClick={confirmGroups}
-        className="ml-4 bg-green-600 text-white px-4 py-2 rounded"
-      >
-        Zatwierdź grupy
-      </button>
+          <button
+            onClick={handleGenerate}
+            className="bg-blue-600 text-white px-4 py-2 rounded"
+          >
+            Generuj drużyny
+          </button>
 
-      <button
-        onClick={generateSemifinals}
-        className="ml-4 bg-purple-600 text-white px-4 py-2 rounded"
-      >
-        Generuj półfinały
-      </button>
+          {tournament.teams.length > 0 && (
+            <div className="mt-6 space-y-2">
+              {tournament.teams.map((team) => (
+                <div key={team.id} className="flex gap-4 items-center">
+                  <input
+                    type="text"
+                    value={team.name}
+                    onChange={(e) => {
+                      const updated = tournament.teams.map((t) =>
+                        t.id === team.id ? { ...t, name: e.target.value } : t
+                      );
+                      setTournament({ ...tournament, teams: updated });
+                    }}
+                    className="border p-1 rounded w-40"
+                  />
 
-      <button
-        onClick={generateFinalMatches}
-        className="ml-4 bg-red-600 text-white px-4 py-2 rounded"
-      >
-        Generuj finał
-      </button>
+                  <select
+                    value={team.group || ""}
+                    onChange={(e) => {
+                      const updated = tournament.teams.map((t) =>
+                        t.id === team.id ? { ...t, group: e.target.value } : t
+                      );
+                      setTournament({ ...tournament, teams: updated });
+                    }}
+                    className="border p-1 rounded"
+                  >
+                    <option value="">-- wybierz --</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                  </select>
+                </div>
+              ))}
 
-      <div className="mt-10">
-        <h2 className="text-2xl font-bold mb-6">Harmonogram</h2>
+              <button
+                onClick={confirmGroups}
+                className="mt-4 bg-green-600 text-white px-4 py-2 rounded"
+              >
+                Zatwierdź grupy
+              </button>
+            </div>
+          )}
+        </>
+      )}
 
-        {["group", "placement", "semifinal", "thirdPlace", "final"].map(
-          (type) => {
-            const matches = sortedSchedule.filter((m) => m.type === type);
-            if (!matches.length) return null;
+      {/* ===== FAZA GRUPOWA ===== */}
+      {adminView === "groups" &&
+        sortedSchedule.filter((m) => m.type === "group").map(renderMatch)}
 
-            let title = "";
-            if (type === "group") title = "Mecze grupowe";
-            if (type === "placement") title = "Mecze o miejsca";
-            if (type === "semifinal") title = "Półfinały";
-            if (type === "thirdPlace") title = "Mecz o 3 miejsce";
-            if (type === "final") title = "Finał";
+      {/* ===== DRABINKA ===== */}
+      {adminView === "bracket" && (
+        <>
+          <div className="flex gap-4 mb-6">
+            <button
+              onClick={generateSemifinals}
+              className="bg-purple-600 text-white px-4 py-2 rounded"
+            >
+              Generuj półfinały
+            </button>
+            <button
+              onClick={generateFinalMatches}
+              className="bg-red-600 text-white px-4 py-2 rounded"
+            >
+              Generuj finał
+            </button>
+          </div>
 
-            return (
-              <div key={type} className="mb-10">
-                <h3 className="text-xl font-bold mb-4">{title}</h3>
-                {matches.map(renderMatch)}
-              </div>
-            );
-          },
-        )}
-      </div>
+          {sortedSchedule
+            .filter((m) =>
+              ["placement", "semifinal", "thirdPlace", "final"].includes(m.type)
+            )
+            .map(renderMatch)}
+        </>
+      )}
     </main>
   );
 }
