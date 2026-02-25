@@ -290,3 +290,34 @@
 .ranking-team-name {
   font-weight: 500;
 }
+
+/* ============================= */
+/* OGÓLNY LAYOUT ADMINA */
+/* ============================= */
+
+.admin-page {
+  min-height: 100vh;
+  padding: 40px;
+  transition: background 0.3s ease;
+}
+
+/* ============================= */
+/* TŁO SEKCJI */
+/* ============================= */
+
+.setup-theme {
+  background-color: rgba(59, 130, 246, 0.08);
+}
+
+.groups-theme {
+  background-color: rgba(34, 197, 94, 0.08);
+}
+
+.bracket-theme {
+  background-color: rgba(147, 51, 234, 0.08);
+}
+
+.summary-theme {
+  background-color: rgba(234, 179, 8, 0.08);
+}
+

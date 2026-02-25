@@ -1,11 +1,381 @@
 {
   "tournament": {
-    "teams": [],
+    "teams": [
+      {
+        "id": "9f2a8c4a-ec28-4190-8c0e-883bac6d3cb4",
+        "name": "Power Volley",
+        "group": "A",
+        "logo": null
+      },
+      {
+        "id": "80a20a0e-306c-45d5-aef8-96d5588f965d",
+        "name": "Złota Siatka",
+        "group": "B",
+        "logo": null
+      },
+      {
+        "id": "e4c1a40d-cc1c-4174-aab0-118d6b07707e",
+        "name": "Siatkarska Pasja",
+        "group": "A",
+        "logo": null
+      },
+      {
+        "id": "819dfd34-8768-4ce9-ba50-6f0bda738edb",
+        "name": "Atakujący",
+        "group": "B",
+        "logo": null
+      },
+      {
+        "id": "01034779-b5e4-4ed8-bec8-50bba7c01cd4",
+        "name": "Volley Team Kraków",
+        "group": "A",
+        "logo": null
+      }
+    ],
     "matches": [],
     "settings": {
       "numberOfTeams": 8,
       "teamsFromGroup": 2
     }
   },
-  "schedule": []
+  "schedule": [
+    {
+      "id": 1,
+      "type": "group",
+      "teamA": {
+        "id": "9f2a8c4a-ec28-4190-8c0e-883bac6d3cb4",
+        "name": "Power Volley",
+        "group": "A",
+        "logo": null
+      },
+      "teamB": {
+        "id": "e4c1a40d-cc1c-4174-aab0-118d6b07707e",
+        "name": "Siatkarska Pasja",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "sets": [
+        {
+          "a": "1",
+          "b": "111"
+        },
+        {
+          "a": "77",
+          "b": "7"
+        },
+        {
+          "a": "11",
+          "b": "111"
+        }
+      ],
+      "finished": true,
+      "round": 1,
+      "order": 1,
+      "court": "A"
+    },
+    {
+      "id": 2,
+      "type": "group",
+      "teamA": {
+        "id": "9f2a8c4a-ec28-4190-8c0e-883bac6d3cb4",
+        "name": "Power Volley",
+        "group": "A",
+        "logo": null
+      },
+      "teamB": {
+        "id": "01034779-b5e4-4ed8-bec8-50bba7c01cd4",
+        "name": "Volley Team Kraków",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "sets": [
+        {
+          "a": "11",
+          "b": "1"
+        },
+        {
+          "a": "11",
+          "b": "1"
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": true,
+      "round": 1,
+      "order": 2,
+      "court": "B"
+    },
+    {
+      "id": 3,
+      "type": "group",
+      "teamA": {
+        "id": "e4c1a40d-cc1c-4174-aab0-118d6b07707e",
+        "name": "Siatkarska Pasja",
+        "group": "A",
+        "logo": null
+      },
+      "teamB": {
+        "id": "01034779-b5e4-4ed8-bec8-50bba7c01cd4",
+        "name": "Volley Team Kraków",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "sets": [
+        {
+          "a": "11",
+          "b": "1"
+        },
+        {
+          "a": "11",
+          "b": "1"
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": true,
+      "round": 2,
+      "order": 3,
+      "court": "A"
+    },
+    {
+      "id": 4,
+      "type": "group",
+      "teamA": {
+        "id": "80a20a0e-306c-45d5-aef8-96d5588f965d",
+        "name": "Złota Siatka",
+        "group": "B",
+        "logo": null
+      },
+      "teamB": {
+        "id": "819dfd34-8768-4ce9-ba50-6f0bda738edb",
+        "name": "Atakujący",
+        "group": "B",
+        "logo": null
+      },
+      "group": "B",
+      "sets": [
+        {
+          "a": "11",
+          "b": "1"
+        },
+        {
+          "a": "11",
+          "b": "1"
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": true,
+      "round": 2,
+      "order": 4,
+      "court": "B"
+    },
+    {
+      "id": "45ddd50f-1885-4664-b9e7-643e65d4fbed",
+      "type": "semifinal",
+      "order": 5,
+      "court": "A",
+      "teamA": {
+        "id": "9f2a8c4a-ec28-4190-8c0e-883bac6d3cb4",
+        "name": "Power Volley",
+        "played": 2,
+        "won": 2,
+        "lost": 0,
+        "points": 6,
+        "setsWon": 4,
+        "setsLost": 0,
+        "smallPointsWon": 144,
+        "smallPointsLost": 4
+      },
+      "teamB": {
+        "id": "819dfd34-8768-4ce9-ba50-6f0bda738edb",
+        "name": "Atakujący",
+        "played": 1,
+        "won": 0,
+        "lost": 1,
+        "points": 1,
+        "setsWon": 0,
+        "setsLost": 2,
+        "smallPointsWon": 2,
+        "smallPointsLost": 22
+      },
+      "sets": [
+        {
+          "a": "22",
+          "b": "2"
+        },
+        {
+          "a": "22",
+          "b": "2"
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": true
+    },
+    {
+      "id": "79600915-77d1-4837-8cf2-5b115549e3dc",
+      "type": "semifinal",
+      "order": 6,
+      "court": "B",
+      "teamA": {
+        "id": "80a20a0e-306c-45d5-aef8-96d5588f965d",
+        "name": "Złota Siatka",
+        "played": 1,
+        "won": 1,
+        "lost": 0,
+        "points": 3,
+        "setsWon": 2,
+        "setsLost": 0,
+        "smallPointsWon": 22,
+        "smallPointsLost": 2
+      },
+      "teamB": {
+        "id": "e4c1a40d-cc1c-4174-aab0-118d6b07707e",
+        "name": "Siatkarska Pasja",
+        "played": 2,
+        "won": 1,
+        "lost": 1,
+        "points": 4,
+        "setsWon": 2,
+        "setsLost": 2,
+        "smallPointsWon": 24,
+        "smallPointsLost": 124
+      },
+      "sets": [
+        {
+          "a": "22",
+          "b": "2"
+        },
+        {
+          "a": "22",
+          "b": "2"
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": true
+    },
+    {
+      "id": "395c347f-5616-45be-8267-3f2bf68beca1",
+      "type": "thirdPlace",
+      "order": 8,
+      "court": "B",
+      "label": "Mecz o 3 miejsce",
+      "teamA": {
+        "id": "819dfd34-8768-4ce9-ba50-6f0bda738edb",
+        "name": "Atakujący",
+        "played": 1,
+        "won": 0,
+        "lost": 1,
+        "points": 1,
+        "setsWon": 0,
+        "setsLost": 2,
+        "smallPointsWon": 2,
+        "smallPointsLost": 22
+      },
+      "teamB": {
+        "id": "e4c1a40d-cc1c-4174-aab0-118d6b07707e",
+        "name": "Siatkarska Pasja",
+        "played": 2,
+        "won": 1,
+        "lost": 1,
+        "points": 4,
+        "setsWon": 2,
+        "setsLost": 2,
+        "smallPointsWon": 24,
+        "smallPointsLost": 124
+      },
+      "sets": [
+        {
+          "a": "22",
+          "b": "2"
+        },
+        {
+          "a": "22",
+          "b": "2"
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": true
+    },
+    {
+      "id": "13dbc2a4-b5ea-42b2-bf58-a9906239e755",
+      "type": "final",
+      "order": 7,
+      "court": "A",
+      "label": "Finał",
+      "teamA": {
+        "id": "9f2a8c4a-ec28-4190-8c0e-883bac6d3cb4",
+        "name": "Power Volley",
+        "played": 2,
+        "won": 2,
+        "lost": 0,
+        "points": 6,
+        "setsWon": 4,
+        "setsLost": 0,
+        "smallPointsWon": 144,
+        "smallPointsLost": 4
+      },
+      "teamB": {
+        "id": "80a20a0e-306c-45d5-aef8-96d5588f965d",
+        "name": "Złota Siatka",
+        "played": 1,
+        "won": 1,
+        "lost": 0,
+        "points": 3,
+        "setsWon": 2,
+        "setsLost": 0,
+        "smallPointsWon": 22,
+        "smallPointsLost": 2
+      },
+      "sets": [
+        {
+          "a": "22",
+          "b": "2"
+        },
+        {
+          "a": "22",
+          "b": "2"
+        },
+        {
+          "a": "22",
+          "b": "2"
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": true
+    }
+  ]
 }

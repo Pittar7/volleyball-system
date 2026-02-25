@@ -10,17 +10,46 @@ import {
   getMatchWinner,
   validateMatch,
 } from "@/lib/tournamentLogic";
+import "../styles/admin.css";
 
 export default function AdminPage() {
   const [tournament, setTournament] = useState(createEmptyTournament());
   const [schedule, setSchedule] = useState([]);
   const [adminView, setAdminView] = useState("setup");
   // setup | groups | bracket | summary
-
+  const [selectedTeams, setSelectedTeams] = useState([]);
   const groupA = tournament.teams.filter((t) => t.group === "A");
   const groupB = tournament.teams.filter((t) => t.group === "B");
 
   const sortedSchedule = [...schedule].sort((a, b) => a.order - b.order);
+
+  // lista drużyn
+  const TEAM_POOL = [
+    "AZS Warszawa",
+    "Volley Team Kraków",
+    "Siatkarska Pasja",
+    "Mocny Serwis",
+    "Blokersi",
+    "Team Smash",
+    "Latające Orły",
+    "Atakujący",
+    "Siatkarskie Wilki",
+    "Power Volley",
+    "Asy Serwisowe",
+    "Złota Siatka",
+  ];
+
+  // dodawanie drużyn
+  const addTeam = (name) => {
+    if (!name) return;
+    if (selectedTeams.includes(name)) return;
+
+    setSelectedTeams([...selectedTeams, name]);
+  };
+  // usuwanie drużyn
+  const removeTeam = (name) => {
+    setSelectedTeams(selectedTeams.filter((t) => t !== name));
+  };
 
   // ==============================
   // ZAPIS / WCZYTANIE
@@ -46,8 +75,22 @@ export default function AdminPage() {
   // GENEROWANIE DRUŻYN
   // ==============================
   const handleGenerate = () => {
-    const teams = generateTeams(tournament.settings.numberOfTeams);
-    setTournament({ ...tournament, teams });
+    if (selectedTeams.length < 4) {
+      alert("Minimum 4 drużyny");
+      return;
+    }
+
+    const teams = selectedTeams.map((name, index) => ({
+      id: crypto.randomUUID(),
+      name,
+      group: "",
+      logo: null,
+    }));
+
+    setTournament({
+      ...tournament,
+      teams,
+    });
   };
 
   // ==============================
@@ -190,70 +233,90 @@ export default function AdminPage() {
   // RENDER MECZU
   // ==============================
   const renderMatch = (match) => (
-    <div key={match.id} className="bg-gray-200 p-4 rounded mb-4">
-      <div className="font-semibold mb-2">
-        {match.label && (
-          <span className="text-purple-700 mr-3">{match.label}</span>
-        )}
+    <div key={match.id} className="admin-match-card results-section">
+      <div className="match-title">
         {match.teamA.name} vs {match.teamB.name}
       </div>
 
-      {match.sets.map((set, i) => (
-        <div key={i} className="flex gap-2 mb-1">
-          <input
-            type="number"
-            value={set.a}
-            onChange={(e) => {
-              const updated = schedule.map((m) =>
-                m.id === match.id
-                  ? {
-                      ...m,
-                      sets: m.sets.map((s, idx) =>
-                        idx === i ? { ...s, a: e.target.value } : s
-                      ),
-                    }
-                  : m
-              );
-              setSchedule(updated);
-            }}
-            className="w-16 border p-1 rounded"
-          />
-          <input
-            type="number"
-            value={set.b}
-            onChange={(e) => {
-              const updated = schedule.map((m) =>
-                m.id === match.id
-                  ? {
-                      ...m,
-                      sets: m.sets.map((s, idx) =>
-                        idx === i ? { ...s, b: e.target.value } : s
-                      ),
-                    }
-                  : m
-              );
-              setSchedule(updated);
-            }}
-            className="w-16 border p-1 rounded"
-          />
-        </div>
-      ))}
+      <div className="results-section">
+        <table className="results-table">
+          <thead>
+            <tr>
+              <th>Set</th>
+              <th>{match.teamA.name}</th>
+              <th>{match.teamB.name}</th>
+            </tr>
+          </thead>
 
-      <button
-        onClick={() => {
-          const error = validateMatch(match);
-          if (error) return alert(error);
+          <tbody>
+            {match.sets.map((set, i) => (
+              <tr key={i}>
+                <td>#{i + 1}</td>
 
-          setSchedule(
-            schedule.map((m) =>
-              m.id === match.id ? { ...m, finished: true } : m
-            )
-          );
-        }}
-        className="mt-2 bg-blue-600 text-white px-3 py-1 rounded"
-      >
-        Zapisz wynik
-      </button>
+                <td>
+                  <input
+                    type="number"
+                    placeholder="Wpisz wynik"
+                    value={set.a}
+                    onChange={(e) => {
+                      const updated = schedule.map((m) =>
+                        m.id === match.id
+                          ? {
+                              ...m,
+                              sets: m.sets.map((s, idx) =>
+                                idx === i ? { ...s, a: e.target.value } : s
+                              ),
+                            }
+                          : m
+                      );
+                      setSchedule(updated);
+                    }}
+                  />
+                </td>
+
+                <td>
+                  <input
+                    type="number"
+                    placeholder="Wpisz wynik"
+                    value={set.b}
+                    onChange={(e) => {
+                      const updated = schedule.map((m) =>
+                        m.id === match.id
+                          ? {
+                              ...m,
+                              sets: m.sets.map((s, idx) =>
+                                idx === i ? { ...s, b: e.target.value } : s
+                              ),
+                            }
+                          : m
+                      );
+                      setSchedule(updated);
+                    }}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="match-actions">
+        <button
+          onClick={() => {
+            const error = validateMatch(match);
+            if (error) return alert(error);
+
+            setSchedule(
+              schedule.map((m) =>
+                m.id === match.id ? { ...m, finished: true } : m
+              )
+            );
+          }}
+          className="admin-btn admin-btn-primary"
+        >
+          Zapisz wynik
+        </button>
+      </div>
 
       {match.finished && (
         <div className="text-green-600 mt-2 font-semibold">
@@ -264,78 +327,97 @@ export default function AdminPage() {
   );
 
   return (
-    <main className="min-h-screen p-8">
+    <main className={`admin-page ${adminView}-theme`}>
       {/* ===== GÓRNY PASEK ===== */}
       <div className="flex justify-between items-center mb-6 border-b pb-4">
         <h1 className="text-3xl font-bold">Panel Administratora ⚙️</h1>
-        <div className="flex gap-3">
-          <button
-            onClick={saveTournament}
-            className="bg-green-600 text-white px-4 py-2 rounded"
-          >
+        <div className="admin-actions">
+          <button onClick={saveTournament} className="admin-save">
             💾 Zapisz
           </button>
-          <button
-            onClick={loadTournament}
-            className="bg-gray-500 text-white px-4 py-2 rounded"
-          >
+
+          <button onClick={loadTournament} className="admin-load">
             📂 Wczytaj
           </button>
         </div>
       </div>
 
       {/* ===== ZAKŁADKI ===== */}
-      <div className="flex gap-4 mb-8">
-        {["setup", "groups", "bracket", "summary"].map((view) => (
-          <button
-            key={view}
-            onClick={() => setAdminView(view)}
-            className={`px-4 py-2 rounded ${
-              adminView === view ? "bg-blue-600 text-white" : "bg-gray-200"
-            }`}
-          >
-            {view === "setup" && "Tworzenie"}
-            {view === "groups" && "Faza grupowa"}
-            {view === "bracket" && "Drabinka"}
-            {view === "summary" && "Podsumowanie"}
-          </button>
-        ))}
+      <div className="admin-tabs">
+        <button
+          onClick={() => setAdminView("setup")}
+          className={adminView === "setup" ? "active" : ""}
+        >
+          Tworzenie
+        </button>
+
+        <button
+          onClick={() => setAdminView("groups")}
+          className={adminView === "groups" ? "active" : ""}
+        >
+          Faza grupowa
+        </button>
+
+        <button
+          onClick={() => setAdminView("bracket")}
+          className={adminView === "bracket" ? "active" : ""}
+        >
+          Drabinka
+        </button>
+
+        <button
+          onClick={() => setAdminView("summary")}
+          className={adminView === "summary" ? "active" : ""}
+        >
+          Podsumowanie
+        </button>
       </div>
 
       {/* ===== SETUP ===== */}
       {adminView === "setup" && (
-        <>
-          <div className="mb-4">
-            <label>Liczba drużyn:</label>
-            <input
-              type="number"
-              min="4"
-              max="12"
-              value={tournament.settings.numberOfTeams}
-              onChange={(e) =>
-                setTournament({
-                  ...tournament,
-                  settings: {
-                    ...tournament.settings,
-                    numberOfTeams: Number(e.target.value),
-                  },
-                })
-              }
-              className="border p-2 ml-2 w-20"
-            />
+        <div className="admin-card team-selector">
+          <h3 className="section-title">Wybierz drużyny</h3>
+
+          <select
+            onChange={(e) => addTeam(e.target.value)}
+            className="admin-select"
+            value=""
+          >
+            <option value="">-- wybierz drużynę --</option>
+
+            {TEAM_POOL.filter((name) => !selectedTeams.includes(name)).map(
+              (name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              )
+            )}
+          </select>
+
+          <div className="selected-teams">
+            {selectedTeams.map((team) => (
+              <div key={team} className="selected-team">
+                {team}
+                <button onClick={() => removeTeam(team)}>×</button>
+              </div>
+            ))}
           </div>
+
+          <div className="team-counter">Wybrano: {selectedTeams.length}</div>
 
           <button
             onClick={handleGenerate}
-            className="bg-blue-600 text-white px-4 py-2 rounded"
+            disabled={selectedTeams.length < 4}
+            className="admin-btn admin-btn-secondary"
           >
-            Generuj drużyny
+            Utwórz turniej
           </button>
 
+          {/* LISTA DO PRZYPISANIA DO GRUP */}
           {tournament.teams.length > 0 && (
-            <div className="mt-6 space-y-2">
+            <div className="group-assignment">
               {tournament.teams.map((team) => (
-                <div key={team.id} className="flex gap-4 items-center">
+                <div key={team.id} className="team-row">
                   <input
                     type="text"
                     value={team.name}
@@ -345,7 +427,7 @@ export default function AdminPage() {
                       );
                       setTournament({ ...tournament, teams: updated });
                     }}
-                    className="border p-1 rounded w-40"
+                    className="admin-input"
                   />
 
                   <select
@@ -356,7 +438,7 @@ export default function AdminPage() {
                       );
                       setTournament({ ...tournament, teams: updated });
                     }}
-                    className="border p-1 rounded"
+                    className="admin-select"
                   >
                     <option value="">-- wybierz --</option>
                     <option value="A">A</option>
@@ -367,32 +449,40 @@ export default function AdminPage() {
 
               <button
                 onClick={confirmGroups}
-                className="mt-4 bg-green-600 text-white px-4 py-2 rounded"
+                className="admin-btn admin-btn-primary"
               >
                 Zatwierdź grupy
               </button>
             </div>
           )}
-        </>
+        </div>
       )}
 
       {/* ===== FAZA GRUPOWA ===== */}
-      {adminView === "groups" &&
-        sortedSchedule.filter((m) => m.type === "group").map(renderMatch)}
+      {adminView === "groups" && (
+        <>
+          {/* <div className="admin-card"> */}
+          <h4 className="results-title">WYNIKI</h4>
+          {/* </div> */}
+          {sortedSchedule.filter((m) => m.type === "group").map(renderMatch)}
+        </>
+      )}
 
       {/* ===== DRABINKA ===== */}
       {adminView === "bracket" && (
         <>
-          <div className="flex gap-4 mb-6">
+          <div className="admin-card">
+            <h4 className="results-title">WYNIKI</h4>
             <button
               onClick={generateSemifinals}
-              className="bg-purple-600 text-white px-4 py-2 rounded"
+              className="admin-btn admin-btn-purple"
             >
               Generuj półfinały
             </button>
+
             <button
               onClick={generateFinalMatches}
-              className="bg-red-600 text-white px-4 py-2 rounded"
+              className="admin-btn admin-btn-purple"
             >
               Generuj finał
             </button>
