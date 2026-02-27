@@ -2,33 +2,63 @@
   "tournament": {
     "teams": [
       {
-        "id": "9f2a8c4a-ec28-4190-8c0e-883bac6d3cb4",
-        "name": "Power Volley",
+        "id": "d824d43f-e4f7-4c32-9d0c-fbe0d72adb9d",
+        "name": "AZS Warszawa",
         "group": "A",
         "logo": null
       },
       {
-        "id": "80a20a0e-306c-45d5-aef8-96d5588f965d",
-        "name": "Złota Siatka",
-        "group": "B",
+        "id": "000c54bd-46d6-430e-a347-3a4be4e875a1",
+        "name": "Volley Team Kraków",
+        "group": "A",
         "logo": null
       },
       {
-        "id": "e4c1a40d-cc1c-4174-aab0-118d6b07707e",
+        "id": "8d122466-20e1-40b9-a168-286e70d93cc2",
         "name": "Siatkarska Pasja",
         "group": "A",
         "logo": null
       },
       {
-        "id": "819dfd34-8768-4ce9-ba50-6f0bda738edb",
+        "id": "71db6adc-41a4-45cb-8e04-ba5c4966167e",
+        "name": "Mocny Serwis",
+        "group": "A",
+        "logo": null
+      },
+      {
+        "id": "60ea8f85-d51d-4878-a8fa-5165109ff084",
+        "name": "Team Smash",
+        "group": "A",
+        "logo": null
+      },
+      {
+        "id": "6f7c8e0b-432b-4af2-973c-c284ed7ef50a",
+        "name": "Latające Orły",
+        "group": "B",
+        "logo": null
+      },
+      {
+        "id": "16d78843-0ec2-4711-b867-892777d7dbe8",
+        "name": "Blokersi",
+        "group": "B",
+        "logo": null
+      },
+      {
+        "id": "8b99fe0f-19b7-4666-813e-9f7b51bcc2b9",
+        "name": "Siatkarskie Wilki",
+        "group": "B",
+        "logo": null
+      },
+      {
+        "id": "56cfb107-7a0d-47f8-ae9f-924d196b3aa7",
         "name": "Atakujący",
         "group": "B",
         "logo": null
       },
       {
-        "id": "01034779-b5e4-4ed8-bec8-50bba7c01cd4",
-        "name": "Volley Team Kraków",
-        "group": "A",
+        "id": "6e6ebcd2-b10b-4cf3-b051-8d36fd9a2c89",
+        "name": "Power Volley",
+        "group": "B",
         "logo": null
       }
     ],
@@ -43,33 +73,33 @@
       "id": 1,
       "type": "group",
       "teamA": {
-        "id": "9f2a8c4a-ec28-4190-8c0e-883bac6d3cb4",
-        "name": "Power Volley",
+        "id": "d824d43f-e4f7-4c32-9d0c-fbe0d72adb9d",
+        "name": "AZS Warszawa",
         "group": "A",
         "logo": null
       },
       "teamB": {
-        "id": "e4c1a40d-cc1c-4174-aab0-118d6b07707e",
-        "name": "Siatkarska Pasja",
+        "id": "000c54bd-46d6-430e-a347-3a4be4e875a1",
+        "name": "Volley Team Kraków",
         "group": "A",
         "logo": null
       },
       "group": "A",
       "sets": [
         {
-          "a": "1",
-          "b": "111"
+          "a": "",
+          "b": ""
         },
         {
-          "a": "77",
-          "b": "7"
+          "a": "",
+          "b": ""
         },
         {
-          "a": "11",
-          "b": "111"
+          "a": "",
+          "b": ""
         }
       ],
-      "finished": true,
+      "finished": false,
       "round": 1,
       "order": 1,
       "court": "A"
@@ -78,33 +108,33 @@
       "id": 2,
       "type": "group",
       "teamA": {
-        "id": "9f2a8c4a-ec28-4190-8c0e-883bac6d3cb4",
-        "name": "Power Volley",
-        "group": "A",
+        "id": "6f7c8e0b-432b-4af2-973c-c284ed7ef50a",
+        "name": "Latające Orły",
+        "group": "B",
         "logo": null
       },
       "teamB": {
-        "id": "01034779-b5e4-4ed8-bec8-50bba7c01cd4",
-        "name": "Volley Team Kraków",
-        "group": "A",
+        "id": "16d78843-0ec2-4711-b867-892777d7dbe8",
+        "name": "Blokersi",
+        "group": "B",
         "logo": null
       },
-      "group": "A",
+      "group": "B",
       "sets": [
         {
-          "a": "11",
-          "b": "1"
+          "a": "",
+          "b": ""
         },
         {
-          "a": "11",
-          "b": "1"
+          "a": "",
+          "b": ""
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": true,
+      "finished": false,
       "round": 1,
       "order": 2,
       "court": "B"
@@ -113,33 +143,33 @@
       "id": 3,
       "type": "group",
       "teamA": {
-        "id": "e4c1a40d-cc1c-4174-aab0-118d6b07707e",
-        "name": "Siatkarska Pasja",
+        "id": "d824d43f-e4f7-4c32-9d0c-fbe0d72adb9d",
+        "name": "AZS Warszawa",
         "group": "A",
         "logo": null
       },
       "teamB": {
-        "id": "01034779-b5e4-4ed8-bec8-50bba7c01cd4",
-        "name": "Volley Team Kraków",
+        "id": "8d122466-20e1-40b9-a168-286e70d93cc2",
+        "name": "Siatkarska Pasja",
         "group": "A",
         "logo": null
       },
       "group": "A",
       "sets": [
         {
-          "a": "11",
-          "b": "1"
+          "a": "",
+          "b": ""
         },
         {
-          "a": "11",
-          "b": "1"
+          "a": "",
+          "b": ""
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": true,
+      "finished": false,
       "round": 2,
       "order": 3,
       "court": "A"
@@ -148,13 +178,83 @@
       "id": 4,
       "type": "group",
       "teamA": {
-        "id": "80a20a0e-306c-45d5-aef8-96d5588f965d",
-        "name": "Złota Siatka",
+        "id": "6f7c8e0b-432b-4af2-973c-c284ed7ef50a",
+        "name": "Latające Orły",
         "group": "B",
         "logo": null
       },
       "teamB": {
-        "id": "819dfd34-8768-4ce9-ba50-6f0bda738edb",
+        "id": "8b99fe0f-19b7-4666-813e-9f7b51bcc2b9",
+        "name": "Siatkarskie Wilki",
+        "group": "B",
+        "logo": null
+      },
+      "group": "B",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 2,
+      "order": 4,
+      "court": "B"
+    },
+    {
+      "id": 5,
+      "type": "group",
+      "teamA": {
+        "id": "d824d43f-e4f7-4c32-9d0c-fbe0d72adb9d",
+        "name": "AZS Warszawa",
+        "group": "A",
+        "logo": null
+      },
+      "teamB": {
+        "id": "71db6adc-41a4-45cb-8e04-ba5c4966167e",
+        "name": "Mocny Serwis",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 3,
+      "order": 5,
+      "court": "A"
+    },
+    {
+      "id": 6,
+      "type": "group",
+      "teamA": {
+        "id": "6f7c8e0b-432b-4af2-973c-c284ed7ef50a",
+        "name": "Latające Orły",
+        "group": "B",
+        "logo": null
+      },
+      "teamB": {
+        "id": "56cfb107-7a0d-47f8-ae9f-924d196b3aa7",
         "name": "Atakujący",
         "group": "B",
         "logo": null
@@ -162,152 +262,40 @@
       "group": "B",
       "sets": [
         {
-          "a": "11",
-          "b": "1"
+          "a": "",
+          "b": ""
         },
         {
-          "a": "11",
-          "b": "1"
+          "a": "",
+          "b": ""
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": true,
-      "round": 2,
-      "order": 4,
+      "finished": false,
+      "round": 3,
+      "order": 6,
       "court": "B"
     },
     {
-      "id": "45ddd50f-1885-4664-b9e7-643e65d4fbed",
-      "type": "semifinal",
-      "order": 5,
-      "court": "A",
+      "id": 7,
+      "type": "group",
       "teamA": {
-        "id": "9f2a8c4a-ec28-4190-8c0e-883bac6d3cb4",
-        "name": "Power Volley",
-        "played": 2,
-        "won": 2,
-        "lost": 0,
-        "points": 6,
-        "setsWon": 4,
-        "setsLost": 0,
-        "smallPointsWon": 144,
-        "smallPointsLost": 4
+        "id": "d824d43f-e4f7-4c32-9d0c-fbe0d72adb9d",
+        "name": "AZS Warszawa",
+        "group": "A",
+        "logo": null
       },
       "teamB": {
-        "id": "819dfd34-8768-4ce9-ba50-6f0bda738edb",
-        "name": "Atakujący",
-        "played": 1,
-        "won": 0,
-        "lost": 1,
-        "points": 1,
-        "setsWon": 0,
-        "setsLost": 2,
-        "smallPointsWon": 2,
-        "smallPointsLost": 22
+        "id": "60ea8f85-d51d-4878-a8fa-5165109ff084",
+        "name": "Team Smash",
+        "group": "A",
+        "logo": null
       },
+      "group": "A",
       "sets": [
-        {
-          "a": "22",
-          "b": "2"
-        },
-        {
-          "a": "22",
-          "b": "2"
-        },
-        {
-          "a": "",
-          "b": ""
-        }
-      ],
-      "finished": true
-    },
-    {
-      "id": "79600915-77d1-4837-8cf2-5b115549e3dc",
-      "type": "semifinal",
-      "order": 6,
-      "court": "B",
-      "teamA": {
-        "id": "80a20a0e-306c-45d5-aef8-96d5588f965d",
-        "name": "Złota Siatka",
-        "played": 1,
-        "won": 1,
-        "lost": 0,
-        "points": 3,
-        "setsWon": 2,
-        "setsLost": 0,
-        "smallPointsWon": 22,
-        "smallPointsLost": 2
-      },
-      "teamB": {
-        "id": "e4c1a40d-cc1c-4174-aab0-118d6b07707e",
-        "name": "Siatkarska Pasja",
-        "played": 2,
-        "won": 1,
-        "lost": 1,
-        "points": 4,
-        "setsWon": 2,
-        "setsLost": 2,
-        "smallPointsWon": 24,
-        "smallPointsLost": 124
-      },
-      "sets": [
-        {
-          "a": "22",
-          "b": "2"
-        },
-        {
-          "a": "22",
-          "b": "2"
-        },
-        {
-          "a": "",
-          "b": ""
-        }
-      ],
-      "finished": true
-    },
-    {
-      "id": "395c347f-5616-45be-8267-3f2bf68beca1",
-      "type": "thirdPlace",
-      "order": 8,
-      "court": "B",
-      "label": "Mecz o 3 miejsce",
-      "teamA": {
-        "id": "819dfd34-8768-4ce9-ba50-6f0bda738edb",
-        "name": "Atakujący",
-        "played": 1,
-        "won": 0,
-        "lost": 1,
-        "points": 1,
-        "setsWon": 0,
-        "setsLost": 2,
-        "smallPointsWon": 2,
-        "smallPointsLost": 22
-      },
-      "teamB": {
-        "id": "e4c1a40d-cc1c-4174-aab0-118d6b07707e",
-        "name": "Siatkarska Pasja",
-        "played": 2,
-        "won": 1,
-        "lost": 1,
-        "points": 4,
-        "setsWon": 2,
-        "setsLost": 2,
-        "smallPointsWon": 24,
-        "smallPointsLost": 124
-      },
-      "sets": [
-        {
-          "a": "22",
-          "b": "2"
-        },
-        {
-          "a": "22",
-          "b": "2"
-        },
         {
           "a": "",
           "b": ""
@@ -321,50 +309,31 @@
           "b": ""
         }
       ],
-      "finished": true
-    },
-    {
-      "id": "13dbc2a4-b5ea-42b2-bf58-a9906239e755",
-      "type": "final",
+      "finished": false,
+      "round": 4,
       "order": 7,
-      "court": "A",
-      "label": "Finał",
+      "court": "A"
+    },
+    {
+      "id": 8,
+      "type": "group",
       "teamA": {
-        "id": "9f2a8c4a-ec28-4190-8c0e-883bac6d3cb4",
-        "name": "Power Volley",
-        "played": 2,
-        "won": 2,
-        "lost": 0,
-        "points": 6,
-        "setsWon": 4,
-        "setsLost": 0,
-        "smallPointsWon": 144,
-        "smallPointsLost": 4
+        "id": "6f7c8e0b-432b-4af2-973c-c284ed7ef50a",
+        "name": "Latające Orły",
+        "group": "B",
+        "logo": null
       },
       "teamB": {
-        "id": "80a20a0e-306c-45d5-aef8-96d5588f965d",
-        "name": "Złota Siatka",
-        "played": 1,
-        "won": 1,
-        "lost": 0,
-        "points": 3,
-        "setsWon": 2,
-        "setsLost": 0,
-        "smallPointsWon": 22,
-        "smallPointsLost": 2
+        "id": "6e6ebcd2-b10b-4cf3-b051-8d36fd9a2c89",
+        "name": "Power Volley",
+        "group": "B",
+        "logo": null
       },
+      "group": "B",
       "sets": [
         {
-          "a": "22",
-          "b": "2"
-        },
-        {
-          "a": "22",
-          "b": "2"
-        },
-        {
-          "a": "22",
-          "b": "2"
+          "a": "",
+          "b": ""
         },
         {
           "a": "",
@@ -375,7 +344,430 @@
           "b": ""
         }
       ],
-      "finished": true
+      "finished": false,
+      "round": 4,
+      "order": 8,
+      "court": "B"
+    },
+    {
+      "id": 9,
+      "type": "group",
+      "teamA": {
+        "id": "000c54bd-46d6-430e-a347-3a4be4e875a1",
+        "name": "Volley Team Kraków",
+        "group": "A",
+        "logo": null
+      },
+      "teamB": {
+        "id": "8d122466-20e1-40b9-a168-286e70d93cc2",
+        "name": "Siatkarska Pasja",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 5,
+      "order": 9,
+      "court": "A"
+    },
+    {
+      "id": 10,
+      "type": "group",
+      "teamA": {
+        "id": "16d78843-0ec2-4711-b867-892777d7dbe8",
+        "name": "Blokersi",
+        "group": "B",
+        "logo": null
+      },
+      "teamB": {
+        "id": "8b99fe0f-19b7-4666-813e-9f7b51bcc2b9",
+        "name": "Siatkarskie Wilki",
+        "group": "B",
+        "logo": null
+      },
+      "group": "B",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 5,
+      "order": 10,
+      "court": "B"
+    },
+    {
+      "id": 11,
+      "type": "group",
+      "teamA": {
+        "id": "000c54bd-46d6-430e-a347-3a4be4e875a1",
+        "name": "Volley Team Kraków",
+        "group": "A",
+        "logo": null
+      },
+      "teamB": {
+        "id": "71db6adc-41a4-45cb-8e04-ba5c4966167e",
+        "name": "Mocny Serwis",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 6,
+      "order": 11,
+      "court": "A"
+    },
+    {
+      "id": 12,
+      "type": "group",
+      "teamA": {
+        "id": "16d78843-0ec2-4711-b867-892777d7dbe8",
+        "name": "Blokersi",
+        "group": "B",
+        "logo": null
+      },
+      "teamB": {
+        "id": "56cfb107-7a0d-47f8-ae9f-924d196b3aa7",
+        "name": "Atakujący",
+        "group": "B",
+        "logo": null
+      },
+      "group": "B",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 6,
+      "order": 12,
+      "court": "B"
+    },
+    {
+      "id": 13,
+      "type": "group",
+      "teamA": {
+        "id": "000c54bd-46d6-430e-a347-3a4be4e875a1",
+        "name": "Volley Team Kraków",
+        "group": "A",
+        "logo": null
+      },
+      "teamB": {
+        "id": "60ea8f85-d51d-4878-a8fa-5165109ff084",
+        "name": "Team Smash",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 7,
+      "order": 13,
+      "court": "A"
+    },
+    {
+      "id": 14,
+      "type": "group",
+      "teamA": {
+        "id": "16d78843-0ec2-4711-b867-892777d7dbe8",
+        "name": "Blokersi",
+        "group": "B",
+        "logo": null
+      },
+      "teamB": {
+        "id": "6e6ebcd2-b10b-4cf3-b051-8d36fd9a2c89",
+        "name": "Power Volley",
+        "group": "B",
+        "logo": null
+      },
+      "group": "B",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 7,
+      "order": 14,
+      "court": "B"
+    },
+    {
+      "id": 15,
+      "type": "group",
+      "teamA": {
+        "id": "8d122466-20e1-40b9-a168-286e70d93cc2",
+        "name": "Siatkarska Pasja",
+        "group": "A",
+        "logo": null
+      },
+      "teamB": {
+        "id": "71db6adc-41a4-45cb-8e04-ba5c4966167e",
+        "name": "Mocny Serwis",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 8,
+      "order": 15,
+      "court": "A"
+    },
+    {
+      "id": 16,
+      "type": "group",
+      "teamA": {
+        "id": "8b99fe0f-19b7-4666-813e-9f7b51bcc2b9",
+        "name": "Siatkarskie Wilki",
+        "group": "B",
+        "logo": null
+      },
+      "teamB": {
+        "id": "56cfb107-7a0d-47f8-ae9f-924d196b3aa7",
+        "name": "Atakujący",
+        "group": "B",
+        "logo": null
+      },
+      "group": "B",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 8,
+      "order": 16,
+      "court": "B"
+    },
+    {
+      "id": 17,
+      "type": "group",
+      "teamA": {
+        "id": "8d122466-20e1-40b9-a168-286e70d93cc2",
+        "name": "Siatkarska Pasja",
+        "group": "A",
+        "logo": null
+      },
+      "teamB": {
+        "id": "60ea8f85-d51d-4878-a8fa-5165109ff084",
+        "name": "Team Smash",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 9,
+      "order": 17,
+      "court": "A"
+    },
+    {
+      "id": 18,
+      "type": "group",
+      "teamA": {
+        "id": "8b99fe0f-19b7-4666-813e-9f7b51bcc2b9",
+        "name": "Siatkarskie Wilki",
+        "group": "B",
+        "logo": null
+      },
+      "teamB": {
+        "id": "6e6ebcd2-b10b-4cf3-b051-8d36fd9a2c89",
+        "name": "Power Volley",
+        "group": "B",
+        "logo": null
+      },
+      "group": "B",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 9,
+      "order": 18,
+      "court": "B"
+    },
+    {
+      "id": 19,
+      "type": "group",
+      "teamA": {
+        "id": "71db6adc-41a4-45cb-8e04-ba5c4966167e",
+        "name": "Mocny Serwis",
+        "group": "A",
+        "logo": null
+      },
+      "teamB": {
+        "id": "60ea8f85-d51d-4878-a8fa-5165109ff084",
+        "name": "Team Smash",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 10,
+      "order": 19,
+      "court": "A"
+    },
+    {
+      "id": 20,
+      "type": "group",
+      "teamA": {
+        "id": "56cfb107-7a0d-47f8-ae9f-924d196b3aa7",
+        "name": "Atakujący",
+        "group": "B",
+        "logo": null
+      },
+      "teamB": {
+        "id": "6e6ebcd2-b10b-4cf3-b051-8d36fd9a2c89",
+        "name": "Power Volley",
+        "group": "B",
+        "logo": null
+      },
+      "group": "B",
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "round": 10,
+      "order": 20,
+      "court": "B"
     }
   ]
 }

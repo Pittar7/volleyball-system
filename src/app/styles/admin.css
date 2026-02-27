@@ -242,10 +242,13 @@
 
 .admin-match-card {
   background: #f8fafc;
-  padding: 20px;
+  padding: 25px;
   border-radius: 14px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 25px;
+  width: 100%;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
 /* ============================= */
 /* TABELKI */
@@ -346,4 +349,180 @@
   display: flex;
   justify-content: center;
   margin-top: 15px;
+}
+.bracket-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.placement-options {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.placement-options label {
+  font-size: 14px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.bracket-top,
+.placement-section {
+  margin-bottom: 30px;
+}
+
+.placement-options {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 15px 0;
+  flex-wrap: wrap;
+}
+
+.placement-btn {
+  display: flex;
+  justify-content: center;
+}
+
+.match-badge {
+  text-align: center;
+  font-size: 23px;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 8px;
+}
+/* ============================= */
+/* UKŁAD DWUKOLUMNOWY DRABINKI */
+/* ============================= */
+
+.bracket-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+  margin-top: 30px;
+}
+
+.bracket-column {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+@media (max-width: 1000px) {
+  .bracket-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.column-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 🔥 to centrowanie */
+  gap: 15px;
+  margin-bottom: 25px;
+}
+/* ============================= */
+/* PLACE CHIP (ładne checkboxy) */
+/* ============================= */
+
+.place-chip {
+  position: relative;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 2px solid #cbd5e1;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.place-chip input {
+  display: none; /* ukrywamy systemowy checkbox */
+}
+
+.place-chip:hover {
+  border-color: #5b95f1;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.place-chip.active {
+  background: #5b95f1;
+  color: white;
+  border-color: #5b95f1;
+}
+/* ============================= */
+/* FAZA GRUPOWA — 2 KOLUMNY */
+/* ============================= */
+
+.groups-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.group-column {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  background: rgba(34, 197, 94, 0.05);
+  padding: 20px;
+  border-radius: 16px;
+}
+
+@media (max-width: 1000px) {
+  .groups-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* ============================= */
+/* TERMINARZ ADMIN */
+/* ============================= */
+
+.schedule-list {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.schedule-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e9b5eb;
+  padding: 15px 20px;
+  border-radius: 12px;
+}
+
+.schedule-controls button {
+  margin-left: 10px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.schedule-controls button:hover {
+  background: #c21ba6;
+}
+/* ============================= */
+/* TERMINARZ - SEKCJE */
+/* ============================= */
+
+.schedule-section {
+  margin-bottom: 35px;
+}
+
+.schedule-section-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #444;
 }

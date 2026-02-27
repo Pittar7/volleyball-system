@@ -47,29 +47,45 @@ export function splitIntoGroups(teams) {
 // ==========================
 export function generateGroupMatches(teams) {
   const matches = [];
+  const teamList = [...teams];
 
-  for (let i = 0; i < teams.length; i++) {
-    for (let j = i + 1; j < teams.length; j++) {
-      matches.push({
-        teamA: teams[i],
-        teamB: teams[j],
-        group: teams[i].group,
-        sets: [
-          { a: "", b: "" },
-          { a: "", b: "" },
-          { a: "", b: "" },
-        ],
-        finished: false,
-      });
+  // Jeśli nieparzysta liczba drużyn → bye
+  if (teamList.length % 2 !== 0) {
+    teamList.push(null);
+  }
+
+  const totalRounds = teamList.length - 1;
+  const half = teamList.length / 2;
+
+  for (let round = 0; round < totalRounds; round++) {
+    for (let i = 0; i < half; i++) {
+      const teamA = teamList[i];
+      const teamB = teamList[teamList.length - 1 - i];
+
+      if (teamA && teamB) {
+        matches.push({
+          teamA,
+          teamB,
+          group: teamA.group,
+          round: round + 1,
+          sets: [
+            { a: "", b: "" },
+            { a: "", b: "" },
+            { a: "", b: "" },
+          ],
+          finished: false,
+        });
+      }
     }
+
+    // Rotacja drużyn (algorytm kołowy)
+    teamList.splice(1, 0, teamList.pop());
   }
 
   return matches;
 }
 
 export function generateSchedule(matchesA, matchesB) {
-  const allMatches = [...matchesA, ...matchesB];
-
   const scheduledMatches = [];
 
   let round = 1;
@@ -77,22 +93,37 @@ export function generateSchedule(matchesA, matchesB) {
   let globalMatchId = 1;
   let order = 1;
 
-  allMatches.forEach((match) => {
-    scheduledMatches.push({
-      id: globalMatchId++,
-      type: "group",
-      ...match,
-      round,
-      order: order++, // 🔥 NOWE
-      court: courtToggle ? "A" : "B",
-    });
+  const maxLength = Math.max(matchesA.length, matchesB.length);
 
-    if (!courtToggle) {
-      round++;
+  for (let i = 0; i < maxLength; i++) {
+    if (matchesA[i]) {
+      scheduledMatches.push({
+        id: globalMatchId++,
+        type: "group",
+        ...matchesA[i],
+        round,
+        order: order++,
+        court: courtToggle ? "A" : "B",
+      });
+
+      courtToggle = !courtToggle;
     }
 
-    courtToggle = !courtToggle;
-  });
+    if (matchesB[i]) {
+      scheduledMatches.push({
+        id: globalMatchId++,
+        type: "group",
+        ...matchesB[i],
+        round,
+        order: order++,
+        court: courtToggle ? "A" : "B",
+      });
+
+      courtToggle = !courtToggle;
+    }
+
+    round++;
+  }
 
   return scheduledMatches;
 }
