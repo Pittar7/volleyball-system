@@ -320,4 +320,144 @@
 .summary-theme {
   background-color: rgba(234, 179, 8, 0.08);
 }
+/* ============================= */
+/* TERMINARZ - ULEPSZENIE UX */
+/* ============================= */
 
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.schedule-table th {
+  background: #f3f4f6;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.schedule-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.match-live-row {
+  background: #f0fdf4;
+}
+
+.match-finished-row {
+  opacity: 0.85;
+}
+
+.court-cell {
+  font-weight: 600;
+}
+
+.score-cell {
+  text-align: center;
+  font-weight: 600;
+}
+
+.score-final {
+  font-size: 16px;
+}
+
+.score-live {
+  color: #16a34a;
+  font-weight: 700;
+}
+
+.score-pending {
+  color: #9ca3af;
+}
+
+.status-cell {
+  text-align: center;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-badge.live {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.finished {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.status-badge.planned {
+  background: #fef3c7;
+  color: #92400e;
+}
+/* ============================= */
+/* MACIERZ MECZÓW */
+/* ============================= */
+
+.match-matrix {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.match-matrix th,
+.match-matrix td {
+  border: 1px solid #e5e7eb;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.match-matrix th {
+  background: #f3f4f6;
+  font-weight: 600;
+}
+
+.match-matrix td:first-child {
+  text-align: left;
+  font-weight: 500;
+  background: #fafafa;
+}
+
+.match-matrix td {
+  min-width: 50px;
+}
+
+/* przekątna */
+.match-matrix td.diagonal {
+  background: #f9fafb;
+  color: #9ca3af;
+}
+
+/* rozegrany mecz */
+.match-matrix td.played {
+  background: #ecfdf5;
+  font-weight: 600;
+}
+
+/* hover */
+.match-matrix tbody tr:hover {
+  background: #f9fafb;
+}
+.matrix-score {
+  font-size: 15px;
+}
+
+.matrix-score .winner {
+  font-weight: 700;
+}
+.matrix-sets {
+  font-size: 12px;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.winner {
+  font-weight: 700;
+}

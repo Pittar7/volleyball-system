@@ -304,101 +304,120 @@ export default function AdminPage() {
   // ==============================
   // RENDER MECZU
   // ==============================
-  const renderMatch = (match) => (
-    <div key={match.id} className="admin-match-card results-section">
-      {match.label && <div className="match-badge">{match.label}</div>}
+  const renderMatch = (match) => {
+    const isCurrent = currentMatches.some((m) => m.id === match.id);
 
-      <div className="match-title">
+    return (
+      <div key={match.id} className="admin-match-card results-section">
+        {match.label && <div className="match-badge">{match.label}</div>}
+
+        {/* <div className="match-title">
         {match.teamA.name} vs {match.teamB.name}
-      </div>
-
-      <div className="results-section">
-        <table className="results-table">
-          <thead>
-            <tr>
-              <th>Set</th>
-              <th>{match.teamA.name}</th>
-              <th>{match.teamB.name}</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {match.sets.map((set, i) => (
-              <tr key={i}>
-                <td>#{i + 1}</td>
-
-                <td>
-                  <input
-                    type="number"
-                    placeholder="Wpisz wynik"
-                    value={set.a}
-                    onChange={(e) => {
-                      const updated = schedule.map((m) =>
-                        m.id === match.id
-                          ? {
-                              ...m,
-                              sets: m.sets.map((s, idx) =>
-                                idx === i ? { ...s, a: e.target.value } : s,
-                              ),
-                            }
-                          : m,
-                      );
-                      setSchedule(updated);
-                    }}
-                  />
-                </td>
-
-                <td>
-                  <input
-                    type="number"
-                    placeholder="Wpisz wynik"
-                    value={set.b}
-                    onChange={(e) => {
-                      const updated = schedule.map((m) =>
-                        m.id === match.id
-                          ? {
-                              ...m,
-                              sets: m.sets.map((s, idx) =>
-                                idx === i ? { ...s, b: e.target.value } : s,
-                              ),
-                            }
-                          : m,
-                      );
-                      setSchedule(updated);
-                    }}
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div className="match-actions">
-        <button
-          onClick={() => {
-            const error = validateMatch(match);
-            if (error) return alert(error);
-
-            setSchedule(
-              schedule.map((m) =>
-                m.id === match.id ? { ...m, finished: true } : m,
-              ),
-            );
-          }}
-          className="admin-btn admin-btn-primary"
-        >
-          Zapisz wynik
-        </button>
-      </div>
-
-      {match.finished && (
-        <div className="text-green-600 mt-2 font-semibold">
-          ✅ Mecz zakończony
+      </div> */}
+        <div className="match-header">
+          {match.label && <span className="match-label">{match.label}</span>}
+          {match.teamA.name} vs {match.teamB.name}
+          <span
+            className={`match-status ${
+              match.finished ? "finished" : isCurrent ? "live" : "planned"
+            }`}
+          >
+            {match.finished
+              ? "Zakończony"
+              : isCurrent
+                ? "W trakcie"
+                : "Zaplanowany"}
+          </span>
         </div>
-      )}
-    </div>
-  );
+
+        <div className="results-section">
+          <table className="results-table">
+            <thead>
+              <tr>
+                <th>Set</th>
+                <th>{match.teamA.name}</th>
+                <th>{match.teamB.name}</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {match.sets.map((set, i) => (
+                <tr key={i}>
+                  <td>#{i + 1}</td>
+
+                  <td>
+                    <input
+                      type="number"
+                      placeholder="Wpisz wynik"
+                      value={set.a}
+                      onChange={(e) => {
+                        const updated = schedule.map((m) =>
+                          m.id === match.id
+                            ? {
+                                ...m,
+                                sets: m.sets.map((s, idx) =>
+                                  idx === i ? { ...s, a: e.target.value } : s,
+                                ),
+                              }
+                            : m,
+                        );
+                        setSchedule(updated);
+                      }}
+                    />
+                  </td>
+
+                  <td>
+                    <input
+                      type="number"
+                      placeholder="Wpisz wynik"
+                      value={set.b}
+                      onChange={(e) => {
+                        const updated = schedule.map((m) =>
+                          m.id === match.id
+                            ? {
+                                ...m,
+                                sets: m.sets.map((s, idx) =>
+                                  idx === i ? { ...s, b: e.target.value } : s,
+                                ),
+                              }
+                            : m,
+                        );
+                        setSchedule(updated);
+                      }}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="match-actions">
+          <button
+            onClick={() => {
+              const error = validateMatch(match);
+              if (error) return alert(error);
+
+              setSchedule(
+                schedule.map((m) =>
+                  m.id === match.id ? { ...m, finished: true } : m,
+                ),
+              );
+            }}
+            className="admin-btn admin-btn-primary"
+          >
+            Zapisz wynik
+          </button>
+        </div>
+
+        {match.finished && (
+          <div className="text-green-600 mt-2 font-semibold">
+            ✅ Mecz zakończony
+          </div>
+        )}
+      </div>
+    );
+  };
 
   //funkcja pomocnicza do renderowania sekcji meczów
   const renderScheduleSection = (title, type) => {
@@ -418,6 +437,26 @@ export default function AdminPage() {
             <div key={match.id} className="schedule-row">
               <div className="schedule-info">
                 #{match.order} — {match.teamA.name} vs {match.teamB.name}
+                {match.type === "group" && (
+                  <span className="schedule-group-tag">
+                    (Grupa {match.group})
+                  </span>
+                )}
+                <span
+                  className={`schedule-status ${
+                    match.finished
+                      ? "finished"
+                      : currentMatches.some((m) => m.id === match.id)
+                        ? "live"
+                        : "planned"
+                  }`}
+                >
+                  {match.finished
+                    ? "Zakończony"
+                    : currentMatches.some((m) => m.id === match.id)
+                      ? "W trakcie"
+                      : "Zaplanowany"}
+                </span>
               </div>
 
               <div className="schedule-controls">
@@ -435,12 +474,80 @@ export default function AdminPage() {
                   ↓
                 </button>
               </div>
+              <select
+                value={match.court}
+                onChange={(e) => {
+                  const updated = schedule.map((m) =>
+                    m.id === match.id ? { ...m, court: e.target.value } : m,
+                  );
+                  setSchedule(updated);
+                }}
+                className="court-select"
+              >
+                <option value="A">Boisko A</option>
+                <option value="B">Boisko B</option>
+              </select>
             </div>
           );
         })}
       </div>
     );
   };
+  const renderGroupTable = (teams, groupName) => {
+    const table = calculateTable(
+      teams,
+      schedule.filter((m) => m.type === "group" && m.group === groupName),
+    );
+
+    return (
+      <table className="admin-table">
+        <thead>
+          <tr>
+            <th>Drużyna</th>
+            <th>M</th>
+            <th>Pkt</th>
+            <th>Sety</th>
+          </tr>
+        </thead>
+        <tbody>
+          {table.map((team, index) => {
+            const isLive = currentMatches.some(
+              (m) => m.teamA.id === team.id || m.teamB.id === team.id,
+            );
+
+            return (
+              <tr
+                key={team.id}
+                className={`
+          ${index < 2 ? "top-team" : ""}
+          ${isLive ? " team-live" : ""}
+        `}
+              >
+                <td>{team.name}</td>
+                <td>{team.played}</td>
+                <td>{team.points}</td>
+                <td>
+                  {team.setsWon}:{team.setsLost}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    );
+  };
+  // ==============================
+  // AKTUALNE MECZE (2 BOISKA)
+  // ==============================
+  const getCurrentMatches = () => {
+    const unfinished = sortedSchedule
+      .filter((m) => !m.finished)
+      .sort((a, b) => a.order - b.order);
+
+    return unfinished.slice(0, 2);
+  };
+
+  const currentMatches = getCurrentMatches();
   return (
     <main className={`admin-page ${adminView}-theme`}>
       {/* ===== GÓRNY PASEK ===== */}
@@ -696,23 +803,34 @@ export default function AdminPage() {
       {/* ===== TERMINARZ ===== */}
       {adminView === "schedule" && (
         <>
-          <h4 className="results-title text-center">TERMINARZ</h4>
+          <div className="schedule-layout">
+            {/* LEWA STRONA — TERMINARZ */}
+            <div className="schedule-main">
+              <h4 className="results-title text-center">TERMINARZ</h4>
 
-          <div className="schedule-list">
-            {/* FAZA GRUPOWA */}
-            {renderScheduleSection("Faza grupowa", "group")}
+              <div className="schedule-list">
+                {renderScheduleSection("Faza grupowa", "group")}
+                {renderScheduleSection("Półfinały", "semifinal")}
+                {renderScheduleSection("Mecze o miejsca", "placement")}
+                {renderScheduleSection("Mecz o 3 miejsce", "thirdPlace")}
+                {renderScheduleSection("Finał", "final")}
+              </div>
+            </div>
 
-            {/* PÓŁFINAŁY */}
-            {renderScheduleSection("Półfinały", "semifinal")}
+            {/* PRAWA STRONA — TABELE GRUP */}
+            <div className="schedule-side">
+              <h4 className="results-title text-center">TABELE GRUP</h4>
 
-            {/* MECZE O MIEJSCA */}
-            {renderScheduleSection("Mecze o miejsca", "placement")}
+              <div className="group-preview">
+                <h5>Grupa A</h5>
+                {renderGroupTable(groupA, "A")}
+              </div>
 
-            {/* MECZ O 3 MIEJSCE */}
-            {renderScheduleSection("Mecz o 3 miejsce", "thirdPlace")}
-
-            {/* FINAŁ */}
-            {renderScheduleSection("Finał", "final")}
+              <div className="group-preview">
+                <h5>Grupa B</h5>
+                {renderGroupTable(groupB, "B")}
+              </div>
+            </div>
           </div>
         </>
       )}

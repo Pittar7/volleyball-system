@@ -36,12 +36,12 @@ export default function MatchMatrix({
 
   return (
     <div className="overflow-auto">
-      <table className="border-collapse w-full text-center">
+      <table className="match-matrix">
         <thead>
           <tr>
-            <th className="border p-2 bg-gray-200"> </th>
+            <th className="matrix-corner"></th>
             {teams.map((team) => (
-              <th key={team.id} className="border p-2 bg-gray-100">
+              <th key={team.id} className="matrix-header">
                 {team.name}
               </th>
             ))}
@@ -51,14 +51,12 @@ export default function MatchMatrix({
         <tbody>
           {teams.map((rowTeam) => (
             <tr key={rowTeam.id}>
-              <td className="border p-2 bg-gray-100 font-semibold">
-                {rowTeam.name}
-              </td>
+              <td className="matrix-row-header">{rowTeam.name}</td>
 
               {teams.map((colTeam) => {
                 if (rowTeam.id === colTeam.id) {
                   return (
-                    <td key={colTeam.id} className="border p-2 bg-gray-50">
+                    <td key={colTeam.id} className="matrix-diagonal">
                       —
                     </td>
                   );
@@ -68,7 +66,7 @@ export default function MatchMatrix({
 
                 if (!match || !match.finished) {
                   return (
-                    <td key={colTeam.id} className="border p-2 text-gray-400">
+                    <td key={colTeam.id} className="matrix-empty">
                       -
                     </td>
                   );
@@ -87,41 +85,87 @@ export default function MatchMatrix({
                 return (
                   <td
                     key={colTeam.id}
-                    className="border p-2 cursor-pointer hover:bg-gray-100"
+                    className="matrix-score-cell"
                     onClick={() =>
                       mode === "mobile" &&
                       setExpandedCell(expandedCell === cellKey ? null : cellKey)
                     }
                   >
-                    <div className="font-semibold">{score}</div>
+                    <div className="matrix-score">
+                      {isReversed ? (
+                        <>
+                          <span className={setsB > setsA ? "winner" : ""}>
+                            {setsB}
+                          </span>
+                          :
+                          <span className={setsA > setsB ? "winner" : ""}>
+                            {setsA}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span className={setsA > setsB ? "winner" : ""}>
+                            {setsA}
+                          </span>
+                          :
+                          <span className={setsB > setsA ? "winner" : ""}>
+                            {setsB}
+                          </span>
+                        </>
+                      )}
+                    </div>
 
                     {/* SCREEN MODE → zawsze pokazuj sety */}
                     {mode === "screen" && (
-                      <div className="text-xs mt-1 space-y-1">
-                        {match.sets.map((set, index) =>
-                          set.a && set.b ? (
+                      <div className="matrix-sets">
+                        {match.sets.map((set, index) => {
+                          if (!set.a || !set.b) return null;
+
+                          const a = parseInt(set.a);
+                          const b = parseInt(set.b);
+
+                          const left = isReversed ? b : a;
+                          const right = isReversed ? a : b;
+
+                          return (
                             <div key={index}>
-                              {isReversed
-                                ? `${set.b}:${set.a}`
-                                : `${set.a}:${set.b}`}
+                              <span className={left > right ? "winner" : ""}>
+                                {left}
+                              </span>
+                              :
+                              <span className={right > left ? "winner" : ""}>
+                                {right}
+                              </span>
                             </div>
-                          ) : null,
-                        )}
+                          );
+                        })}
                       </div>
                     )}
 
                     {/* MOBILE MODE → klik rozwija */}
                     {mode === "mobile" && expandedCell === cellKey && (
-                      <div className="text-xs mt-1 space-y-1">
-                        {match.sets.map((set, index) =>
-                          set.a && set.b ? (
+                      <div className="matrix-sets">
+                        {match.sets.map((set, index) => {
+                          if (!set.a || !set.b) return null;
+
+                          const a = parseInt(set.a);
+                          const b = parseInt(set.b);
+
+                          const left = isReversed ? b : a;
+                          const right = isReversed ? a : b;
+
+                          return (
                             <div key={index}>
-                              {isReversed
-                                ? `${set.b}:${set.a}`
-                                : `${set.a}:${set.b}`}
+                              <span className={left > right ? "winner" : ""}>
+                                {left}
+                              </span>
+                              :
+                              <span className={right > left ? "winner" : ""}>
+                                {right}
+                              </span>
                             </div>
-                          ) : null,
-                        )}
+                          );
+                        })}
                       </div>
                     )}
                   </td>

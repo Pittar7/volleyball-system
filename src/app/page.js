@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import MatchMatrix from "@/components/MatchMatrix";
 import "./styles/player.css";
+import { calculateTable } from "@/lib/tournamentLogic";
 
 export default function HomePage() {
   const [data, setData] = useState(null);
@@ -58,83 +59,52 @@ export default function HomePage() {
     return setsA > setsB ? match.teamA : match.teamB;
   };
 
-  const calculateGroupTable = (teams, matches) => {
-    const table = teams.map((team) => ({
-      id: team.id,
-      name: team.name,
-      logo: team.logo,
-      played: 0,
-      points: 0,
-      setsWon: 0,
-      setsLost: 0,
-      smallPointsWon: 0,
-      smallPointsLost: 0,
-    }));
-
-    matches.forEach((match) => {
-      if (!match.finished) return;
-
-      const teamA = table.find((t) => t.id === match.teamA.id);
-      const teamB = table.find((t) => t.id === match.teamB.id);
-
-      let setsA = 0;
-      let setsB = 0;
-
-      match.sets.forEach((set) => {
-        const a = parseInt(set.a);
-        const b = parseInt(set.b);
-
-        if (!isNaN(a) && !isNaN(b)) {
-          teamA.smallPointsWon += a;
-          teamA.smallPointsLost += b;
-          teamB.smallPointsWon += b;
-          teamB.smallPointsLost += a;
-
-          if (a > b) setsA++;
-          if (b > a) setsB++;
-        }
-      });
-
-      teamA.played++;
-      teamB.played++;
-
-      teamA.setsWon += setsA;
-      teamA.setsLost += setsB;
-      teamB.setsWon += setsB;
-      teamB.setsLost += setsA;
-
-      if (setsA > setsB) {
-        teamA.points += 3;
-        teamB.points += 1;
-      } else {
-        teamB.points += 3;
-        teamA.points += 1;
-      }
-    });
-
-    return table.sort((a, b) => b.points - a.points);
-  };
-
-  const tableA = calculateGroupTable(
+  const tableA = calculateTable(
     groupA,
     schedule.filter(
       (m) => m.type === "group" && groupA.some((t) => t.id === m.teamA.id),
     ),
   );
 
-  const tableB = calculateGroupTable(
+  const tableB = calculateTable(
     groupB,
     schedule.filter(
       (m) => m.type === "group" && groupB.some((t) => t.id === m.teamA.id),
     ),
   );
-
+  const finalMatchFinished = schedule.some(
+    (m) => m.type === "final" && m.finished,
+  );
   const generateFinalRanking = () => {
     let ranking = [];
+    if (!finalMatchFinished) {
+      // ranking tymczasowy na podstawie tabel grupowych
 
-    // ===== 1–2 miejsce (Finał) =====
+      const combined = [...tableA, ...tableB]
+        .map((team) => ({
+          ...team,
+          setRatio:
+            team.setsLost === 0 ? team.setsWon : team.setsWon / team.setsLost,
+          smallPointRatio:
+            team.smallPointsLost === 0
+              ? team.smallPointsWon
+              : team.smallPointsWon / team.smallPointsLost,
+        }))
+        .sort((a, b) => {
+          if (b.points !== a.points) return b.points - a.points;
+          if (b.setRatio !== a.setRatio) return b.setRatio - a.setRatio;
+          return b.smallPointRatio - a.smallPointRatio;
+        });
+
+      return combined.map((team, index) => ({
+        place: index + 1,
+        team,
+        played: team.played,
+      }));
+    }
     const finalMatch = schedule.find((m) => m.type === "final" && m.finished);
 
+    // 🔹 JEŚLI FINAŁ ROZEGRANY → normalna klasyfikacja
     if (finalMatch) {
       const winner = getMatchWinner(finalMatch);
       const loser =
@@ -142,43 +112,47 @@ export default function HomePage() {
 
       ranking.push({ place: 1, team: winner });
       ranking.push({ place: 2, team: loser });
+
+      const thirdPlaceMatch = schedule.find(
+        (m) => m.type === "thirdPlace" && m.finished,
+      );
+
+      if (thirdPlaceMatch) {
+        const winner = getMatchWinner(thirdPlaceMatch);
+        const loser =
+          winner.id === thirdPlaceMatch.teamA.id
+            ? thirdPlaceMatch.teamB
+            : thirdPlaceMatch.teamA;
+
+        ranking.push({ place: 3, team: winner });
+        ranking.push({ place: 4, team: loser });
+      }
+
+      const placementMatches = schedule.filter(
+        (m) => m.type === "placement" && m.finished,
+      );
+
+      placementMatches.forEach((match) => {
+        const winner = getMatchWinner(match);
+        const loser = winner.id === match.teamA.id ? match.teamB : match.teamA;
+
+        const placeNumber = parseInt(match.label.match(/\d+/)[0]);
+
+        ranking.push({ place: placeNumber, team: winner });
+        ranking.push({ place: placeNumber + 1, team: loser });
+      });
+
+      return ranking.sort((a, b) => a.place - b.place);
     }
 
-    // ===== 3–4 miejsce =====
-    const thirdPlaceMatch = schedule.find(
-      (m) => m.type === "thirdPlace" && m.finished,
-    );
+    // 🔹 JEŚLI TURNIEJ W TRAKCIE → ranking tymczasowy z tabel grup
+    const combined = [...tableA, ...tableB];
 
-    if (thirdPlaceMatch) {
-      const winner = getMatchWinner(thirdPlaceMatch);
-      const loser =
-        winner.id === thirdPlaceMatch.teamA.id
-          ? thirdPlaceMatch.teamB
-          : thirdPlaceMatch.teamA;
-
-      ranking.push({ place: 3, team: winner });
-      ranking.push({ place: 4, team: loser });
-    }
-
-    // ===== MECZE O MIEJSCA =====
-    const placementMatches = schedule.filter(
-      (m) => m.type === "placement" && m.finished,
-    );
-
-    placementMatches.forEach((match) => {
-      const winner = getMatchWinner(match);
-      const loser = winner.id === match.teamA.id ? match.teamB : match.teamA;
-
-      const placeNumber = parseInt(match.label.match(/\d+/)[0]);
-
-      ranking.push({ place: placeNumber, team: winner });
-      ranking.push({ place: placeNumber + 1, team: loser });
-    });
-
-    // ===== SORTOWANIE =====
-    ranking = ranking.sort((a, b) => a.place - b.place);
-
-    return ranking;
+    return combined.map((team, index) => ({
+      place: index + 1,
+      team,
+      provisional: true,
+    }));
   };
 
   const ranking = generateFinalRanking();
@@ -194,14 +168,17 @@ export default function HomePage() {
     const isCurrent = currentMatches.some((m) => m.id === match.id);
     const isFinished = match.finished;
 
+    const hasStarted = match.sets.some((s) => s.a !== "" || s.b !== "");
+
     return (
       <tr
         key={match.id}
-        className={
-          isCurrent ? "match-live" : isFinished ? "match-finished" : ""
-        }
+        className={`
+        ${isCurrent ? "match-live-row" : ""}
+        ${isFinished ? "match-finished-row" : ""}
+      `}
       >
-        <td>{match.court}</td>
+        <td className="court-cell">{match.court}</td>
 
         <td className="team-cell">
           {getTeamById(match.teamA.id)?.logo && (
@@ -214,7 +191,19 @@ export default function HomePage() {
           <span>{match.teamA.name}</span>
         </td>
 
-        <td>{isFinished ? `${setsA} : ${setsB}` : "—"}</td>
+        <td className="score-cell">
+          {isFinished ? (
+            <span className="score-final">
+              {setsA} : {setsB}
+            </span>
+          ) : hasStarted ? (
+            <span className="score-live">
+              {setsA} : {setsB}
+            </span>
+          ) : (
+            <span className="score-pending">— : —</span>
+          )}
+        </td>
 
         <td className="team-cell">
           {getTeamById(match.teamB.id)?.logo && (
@@ -227,10 +216,14 @@ export default function HomePage() {
           <span>{match.teamB.name}</span>
         </td>
 
-        <td>
-          {isCurrent && <span className="status-live">W TRAKCIE</span>}
-          {isFinished && <span className="status-finished">Zakończony</span>}
-          {!isFinished && !isCurrent && <span>Zaplanowany</span>}
+        <td className="status-cell">
+          {isFinished ? (
+            <span className="status-badge finished">Zakończony</span>
+          ) : isCurrent ? (
+            <span className="status-badge live">W trakcie</span>
+          ) : (
+            <span className="status-badge planned">Zaplanowany</span>
+          )}
         </td>
       </tr>
     );
@@ -453,6 +446,7 @@ export default function HomePage() {
                     <tr>
                       <th>Miejsce</th>
                       <th>Drużyna</th>
+                      {!finalMatchFinished && <th>M</th>}
                       <th></th>
                     </tr>
                   </thead>
@@ -462,13 +456,15 @@ export default function HomePage() {
                       <tr
                         key={row.place}
                         className={
-                          row.place === 1
-                            ? "rank-gold"
-                            : row.place === 2
-                              ? "rank-silver"
-                              : row.place === 3
-                                ? "rank-bronze"
-                                : ""
+                          finalMatchFinished
+                            ? row.place === 1
+                              ? "rank-gold"
+                              : row.place === 2
+                                ? "rank-silver"
+                                : row.place === 3
+                                  ? "rank-bronze"
+                                  : ""
+                            : ""
                         }
                       >
                         <td className="rank-place">{row.place}.</td>
@@ -500,11 +496,13 @@ export default function HomePage() {
                             {getTeamById(row.team.id)?.name}
                           </span>
                         </td>
-
+                        {!finalMatchFinished && (
+                          <td className="ranking-played">{row.played}</td>
+                        )}
                         <td className="rank-medal">
-                          {row.place === 1 && "🥇"}
-                          {row.place === 2 && "🥈"}
-                          {row.place === 3 && "🥉"}
+                          {finalMatchFinished && row.place === 1 && "🥇"}
+                          {finalMatchFinished && row.place === 2 && "🥈"}
+                          {finalMatchFinished && row.place === 3 && "🥉"}
                         </td>
                       </tr>
                     ))}

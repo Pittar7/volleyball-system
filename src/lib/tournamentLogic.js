@@ -89,7 +89,7 @@ export function generateSchedule(matchesA, matchesB) {
   const scheduledMatches = [];
 
   let round = 1;
-  let courtToggle = true;
+
   let globalMatchId = 1;
   let order = 1;
 
@@ -103,10 +103,8 @@ export function generateSchedule(matchesA, matchesB) {
         ...matchesA[i],
         round,
         order: order++,
-        court: courtToggle ? "A" : "B",
+        court: "A", // 🔥 grupa A zawsze A
       });
-
-      courtToggle = !courtToggle;
     }
 
     if (matchesB[i]) {
@@ -116,10 +114,8 @@ export function generateSchedule(matchesA, matchesB) {
         ...matchesB[i],
         round,
         order: order++,
-        court: courtToggle ? "A" : "B",
+        court: "B", // 🔥 grupa B zawsze B
       });
-
-      courtToggle = !courtToggle;
     }
 
     round++;
@@ -156,10 +152,12 @@ export function calculateTable(teams, matches) {
     let setsB = 0;
 
     match.sets.forEach((set) => {
-      const a = Number(set.a);
-      const b = Number(set.b);
+      if (set.a === "" || set.b === "") return;
 
-      if (!a && !b) return;
+      const a = parseInt(set.a);
+      const b = parseInt(set.b);
+
+      if (isNaN(a) || isNaN(b)) return;
 
       teamA.smallPointsWon += a;
       teamA.smallPointsLost += b;
@@ -181,25 +179,63 @@ export function calculateTable(teams, matches) {
     teamB.setsLost += setsA;
 
     if (setsA > setsB) {
-      teamA.won++;
-      teamB.lost++;
-      teamA.points += 3;
-      teamB.points += 1;
-    } else if (setsB > setsA) {
-      teamB.won++;
-      teamA.lost++;
-      teamB.points += 3;
-      teamA.points += 1;
+      if (setsB === 0) {
+        teamA.points += 3; // 2:0
+      } else {
+        teamA.points += 2; // 2:1
+        teamB.points += 1; // 1:2
+      }
+    } else {
+      if (setsA === 0) {
+        teamB.points += 3; // 0:2
+      } else {
+        teamB.points += 2; // 2:1
+        teamA.points += 1; // 1:2
+      }
     }
   });
 
   return table.sort((a, b) => {
-    if (b.points !== a.points) return b.points - a.points;
+    // 1️⃣ Punkty
+    if (b.points !== a.points) {
+      return b.points - a.points;
+    }
 
-    const diffSmallA = a.smallPointsWon - a.smallPointsLost;
-    const diffSmallB = b.smallPointsWon - b.smallPointsLost;
+    // 2️⃣ Różnica setów
+    const setsDiffA = a.setsWon - a.setsLost;
+    const setsDiffB = b.setsWon - b.setsLost;
 
-    return diffSmallB - diffSmallA;
+    if (setsDiffB !== setsDiffA) {
+      return setsDiffB - setsDiffA;
+    }
+
+    // 3️⃣ Różnica małych punktów
+    const smallDiffA = a.smallPointsWon - a.smallPointsLost;
+    const smallDiffB = b.smallPointsWon - b.smallPointsLost;
+
+    if (smallDiffB !== smallDiffA) {
+      return smallDiffB - smallDiffA;
+    }
+
+    // 4️⃣ Bezpośredni mecz
+    const directMatch = matches.find(
+      (m) =>
+        m.finished &&
+        ((m.teamA.id === a.id && m.teamB.id === b.id) ||
+          (m.teamA.id === b.id && m.teamB.id === a.id)),
+    );
+
+    if (directMatch) {
+      const { setsA, setsB } = calculateSetsScore(directMatch);
+
+      if (directMatch.teamA.id === a.id) {
+        return setsB - setsA; // jeśli A wygrał → ma być wyżej
+      } else {
+        return setsA - setsB;
+      }
+    }
+
+    return 0;
   });
 }
 

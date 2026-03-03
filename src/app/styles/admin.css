@@ -41,6 +41,10 @@
   background: #9333ea;
 }
 
+.bracket-theme .admin-tabs button.active {
+  background: #f129bf;
+}
+
 .summary-theme .admin-tabs button.active {
   background: #eab308;
 }
@@ -494,9 +498,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #e9b5eb;
+  background: #f7bcf7;
+
   padding: 15px 20px;
   border-radius: 12px;
+  border-style: groove;
+  border-color: #000000;
 }
 
 .schedule-controls button {
@@ -508,7 +515,8 @@
 }
 
 .schedule-controls button:hover {
-  background: #c21ba6;
+  background: #d650c0;
+  border-color: #000000;
 }
 /* ============================= */
 /* TERMINARZ - SEKCJE */
@@ -525,4 +533,108 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #444;
+}
+.schedule-group-tag {
+  margin-left: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+}
+.court-select {
+  margin-left: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 13px;
+}
+/* ============================= */
+/* TERMINARZ + TABELE */
+/* ============================= */
+
+.schedule-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.schedule-side {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 16px;
+}
+
+.group-preview {
+  margin-bottom: 30px;
+}
+@media (max-width: 1200px) {
+  .schedule-layout {
+    grid-template-columns: 1fr;
+  }
+}
+/* ============================= */
+/* STATUS MECZU */
+/* ============================= */
+
+.match-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.match-status {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.match-status.live {
+  background: #dcfce7;
+  color: #114224;
+}
+
+.match-status.finished {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.match-status.planned {
+  background: #fef3c7;
+  color: #92400e;
+}
+/* ============================= */
+/* DRUŻYNA GRA */
+/* ============================= */
+
+.team-live {
+  background: #ecfdf5;
+  font-weight: 600;
+}
+/* ============================= */
+/* STATUS W TERMINARZU */
+/* ============================= */
+
+.schedule-status {
+  margin-left: 10px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.schedule-status.live {
+  background: #dcfce7;
+  color: #225e39;
+}
+
+.schedule-status.finished {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.schedule-status.planned {
+  background: #fef3c7;
+  color: #92400e;
 }
