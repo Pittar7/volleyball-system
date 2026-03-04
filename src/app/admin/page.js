@@ -593,13 +593,45 @@ export default function AdminPage() {
           Terminarz
         </button>
         <button
+          onClick={() => setAdminView("announcements")}
+          className={adminView === "announcements" ? "active" : ""}
+        >
+          Harmonogram
+        </button>
+        <button
           onClick={() => setAdminView("summary")}
           className={adminView === "summary" ? "active" : ""}
         >
           Podsumowanie
         </button>
       </div>
+      {/*harmonogram */}
+      {adminView === "announcements" && (
+        <div className="admin-card">
+          <h3 className="section-title">Komunikaty organizatora</h3>
 
+          <textarea
+            className="announcement-editor"
+            value={tournament.announcements || ""}
+            onChange={(e) =>
+              setTournament({
+                ...tournament,
+                announcements: e.target.value,
+              })
+            }
+            placeholder={`Np.
+
+21.06 – Faza grupowa
+Mecze od 9:00
+
+22.06 – Półfinały
+14:00
+
+23.06 – Finał
+16:00`}
+          />
+        </div>
+      )}
       {/* ===== SETUP ===== */}
       {adminView === "setup" && (
         <div className="admin-card team-selector">

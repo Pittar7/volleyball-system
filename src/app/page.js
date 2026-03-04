@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import MatchMatrix from "@/components/MatchMatrix";
 import "./styles/player.css";
 import { calculateTable } from "@/lib/tournamentLogic";
+import ReactMarkdown from "react-markdown";
 
 export default function HomePage() {
   const [data, setData] = useState(null);
@@ -72,6 +73,19 @@ export default function HomePage() {
       (m) => m.type === "group" && groupB.some((t) => t.id === m.teamA.id),
     ),
   );
+  const bracketGenerated = schedule.some((m) =>
+    ["semifinal", "placement", "thirdPlace", "final"].includes(m.type),
+  );
+
+  const liveBracket = {
+    semifinals: [
+      { teamA: tableA[0], teamB: tableB[1] },
+      { teamA: tableB[0], teamB: tableA[1] },
+    ],
+    place5: { teamA: tableA[2], teamB: tableB[2] },
+    place7: { teamA: tableA[3], teamB: tableB[3] },
+    place9: { teamA: tableA[4], teamB: tableB[4] },
+  };
   const finalMatchFinished = schedule.some(
     (m) => m.type === "final" && m.finished,
   );
@@ -252,7 +266,26 @@ export default function HomePage() {
         >
           Terminarz
         </button>
+        <button
+          onClick={() => setActiveTab("announcements")}
+          className={`tab-button ${activeTab === "announcements" ? "active" : ""}`}
+        >
+          Harmonogram
+        </button>
       </div>
+
+      {/*harmonogram*/}
+      {activeTab === "announcements" && (
+        <div className="player-card">
+          <h2 className="section-title text-center">Harmonogram turnieju</h2>
+
+          <div className="announcement-board">
+            <ReactMarkdown>
+              {tournament.announcements || "Brak komunikatów"}
+            </ReactMarkdown>
+          </div>
+        </div>
+      )}
       {activeTab === "table" && (
         <div className="player-card">
           <h2 className="section-title text-center">Tabela turnieju</h2>
@@ -552,7 +585,57 @@ export default function HomePage() {
               </tbody>
             </table>
           )}
+          {!bracketGenerated && scheduleView === "bracket" && (
+            <div className="bracket-preview">
+              <div className="live-bracket-note">
+                🔴 Prognoza na podstawie aktualnej tabeli
+              </div>
 
+              {/* PÓŁFINAŁY */}
+              <div className="live-bracket-section">
+                <h4>Półfinały</h4>
+
+                {liveBracket.semifinals.map((match, i) => (
+                  <div key={i} className="live-bracket-match">
+                    {match.teamA?.name || "—"} vs {match.teamB?.name || "—"}
+                  </div>
+                ))}
+              </div>
+
+              {/* MECZ O 5 */}
+              {liveBracket.place5?.teamA && liveBracket.place5?.teamB && (
+                <div className="live-bracket-section">
+                  <h4>Mecz o 5 miejsce</h4>
+                  <div className="live-bracket-match">
+                    {liveBracket.place5.teamA.name} vs{" "}
+                    {liveBracket.place5.teamB.name}
+                  </div>
+                </div>
+              )}
+
+              {/* MECZ O 7 */}
+              {liveBracket.place7?.teamA && liveBracket.place7?.teamB && (
+                <div className="live-bracket-section">
+                  <h4>Mecz o 7 miejsce</h4>
+                  <div className="live-bracket-match">
+                    {liveBracket.place7.teamA.name} vs{" "}
+                    {liveBracket.place7.teamB.name}
+                  </div>
+                </div>
+              )}
+
+              {/* MECZ O 9 */}
+              {liveBracket.place9?.teamA && liveBracket.place9?.teamB && (
+                <div className="live-bracket-section">
+                  <h4>Mecz o 9 miejsce</h4>
+                  <div className="live-bracket-match">
+                    {liveBracket.place9.teamA.name} vs{" "}
+                    {liveBracket.place9.teamB.name}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
           {scheduleView === "bracket" && (
             <>
               {["placement", "semifinal", "thirdPlace", "final"].map((type) => {

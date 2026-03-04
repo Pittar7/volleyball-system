@@ -66,7 +66,8 @@
     "settings": {
       "numberOfTeams": 8,
       "teamsFromGroup": 2
-    }
+    },
+    "announcements": "       ## 25.03.\n\n# mecze grupowe\n\n~~potem się zobaczy~~\n\n*obiad o 12:00*\n\nmarkdown **pogrubienie**"
   },
   "schedule": [
     {
@@ -280,41 +281,6 @@
       "court": "B"
     },
     {
-      "id": 7,
-      "type": "group",
-      "teamA": {
-        "id": "000c54bd-46d6-430e-a347-3a4be4e875a1",
-        "name": "Volley Team Kraków",
-        "group": "A",
-        "logo": null
-      },
-      "teamB": {
-        "id": "8d122466-20e1-40b9-a168-286e70d93cc2",
-        "name": "Siatkarska Pasja",
-        "group": "A",
-        "logo": null
-      },
-      "group": "A",
-      "round": 4,
-      "sets": [
-        {
-          "a": "",
-          "b": ""
-        },
-        {
-          "a": "",
-          "b": ""
-        },
-        {
-          "a": "",
-          "b": ""
-        }
-      ],
-      "finished": false,
-      "order": 8,
-      "court": "A"
-    },
-    {
       "id": 8,
       "type": "group",
       "teamA": {
@@ -346,8 +312,43 @@
         }
       ],
       "finished": false,
-      "order": 7,
+      "order": 8,
       "court": "B"
+    },
+    {
+      "id": 7,
+      "type": "group",
+      "teamA": {
+        "id": "000c54bd-46d6-430e-a347-3a4be4e875a1",
+        "name": "Volley Team Kraków",
+        "group": "A",
+        "logo": null
+      },
+      "teamB": {
+        "id": "8d122466-20e1-40b9-a168-286e70d93cc2",
+        "name": "Siatkarska Pasja",
+        "group": "A",
+        "logo": null
+      },
+      "group": "A",
+      "round": 4,
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "order": 7,
+      "court": "A"
     },
     {
       "id": 9,

@@ -1,214 +1,260 @@
 "use client";
 
-// ==========================
-// TRYB TELEBIM - /screen
-// Wersja 1: Tabele + Harmonogram
-// ==========================
-
 import { useEffect, useState } from "react";
+import MatchMatrix from "@/components/MatchMatrix";
+import { calculateTable } from "@/lib/tournamentLogic";
+import "../styles/screen.css";
+import ReactMarkdown from "react-markdown";
 
+function GroupTable({ table }) {
+  return (
+    <table className="screen-group-table">
+      <thead>
+        <tr>
+          <th>Drużyna</th>
+          <th>M</th>
+          <th>Pkt</th>
+          <th>Sety</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {table.map((team) => (
+          <tr key={team.id}>
+            <td>{team.name}</td>
+            <td>{team.played}</td>
+            <td>{team.points}</td>
+            <td>
+              {team.setsWon}:{team.setsLost}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+function LiveRanking({ tournament, schedule }) {
+  const groupA = tournament.teams.filter((t) => t.group === "A");
+  const groupB = tournament.teams.filter((t) => t.group === "B");
+
+  const tableA = calculateTable(
+    groupA,
+    schedule.filter((m) => m.type === "group" && m.group === "A"),
+  );
+
+  const tableB = calculateTable(
+    groupB,
+    schedule.filter((m) => m.type === "group" && m.group === "B"),
+  );
+
+  const combined = [...tableA, ...tableB]
+    .map((team) => ({
+      ...team,
+      setRatio:
+        team.setsLost === 0 ? team.setsWon : team.setsWon / team.setsLost,
+      smallPointRatio:
+        team.smallPointsLost === 0
+          ? team.smallPointsWon
+          : team.smallPointsWon / team.smallPointsLost,
+    }))
+    .sort((a, b) => {
+      if (b.points !== a.points) return b.points - a.points;
+      if (b.setRatio !== a.setRatio) return b.setRatio - a.setRatio;
+      return b.smallPointRatio - a.smallPointRatio;
+    });
+
+  return (
+    <table className="screen-ranking">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Drużyna</th>
+          <th>Pkt</th>
+          <th>M</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {combined.map((team, index) => (
+          <tr key={team.id}>
+            <td>{index + 1}</td>
+            <td>{team.name}</td>
+            <td>{team.points}</td>
+            <td>{team.played}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
 export default function ScreenPage() {
   const [data, setData] = useState(null);
+  const [leftView, setLeftView] = useState(0);
+  const [rightView, setRightView] = useState(0);
 
-  // ===== POBIERANIE DANYCH =====
-  const fetchData = async () => {
-    try {
+  // ===== HELPER =====
+
+  const getLiveMatches = (schedule) => {
+    const unfinished = schedule
+      .filter((m) => !m.finished)
+      .sort((a, b) => a.order - b.order);
+
+    return unfinished.slice(0, 2);
+  };
+
+  // ===== FETCH =====
+
+  useEffect(() => {
+    const fetchData = async () => {
       const res = await fetch("/api/tournament");
       const json = await res.json();
       setData(json);
-    } catch (err) {
-      console.error("Błąd pobierania danych:", err);
-    }
-  };
-
-  // ===== PIERWSZE ŁADOWANIE + AUTO REFRESH =====
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const res = await fetch("/api/tournament");
-        const json = await res.json();
-        setData(json);
-      } catch (err) {
-        console.error("Błąd pobierania danych:", err);
-      }
     };
 
-    loadData();
-
-    const interval = setInterval(loadData, 30000);
+    fetchData();
+    const interval = setInterval(fetchData, 15000);
 
     return () => clearInterval(interval);
   }, []);
 
-  if (!data) return <div className="p-10 text-2xl">Ładowanie...</div>;
+  // ===== ROTACJA TELEBIMU =====
 
-  const { tournament, schedule } = data;
+  useEffect(() => {
+    const leftRotation = setInterval(() => {
+      setLeftView((v) => (v + 1) % 4);
+    }, 10000);
 
-  const groupA = tournament?.teams?.filter((t) => t.group === "A") || [];
-  const groupB = tournament?.teams?.filter((t) => t.group === "B") || [];
+    const rightRotation = setInterval(() => {
+      setRightView((v) => (v + 1) % 2);
+    }, 12000);
+
+    return () => {
+      clearInterval(leftRotation);
+      clearInterval(rightRotation);
+    };
+  }, []);
+
+  if (!data) return null;
+
+  // ===== DANE =====
+
+  const { tournament, schedule = [] } = data;
+
+  const liveMatches = getLiveMatches(schedule);
+
+  const groupA = tournament.teams.filter((t) => t.group === "A");
+  const groupB = tournament.teams.filter((t) => t.group === "B");
+
+  const tableA = calculateTable(
+    groupA,
+    schedule.filter((m) => m.type === "group" && m.group === "A"),
+  );
+
+  const tableB = calculateTable(
+    groupB,
+    schedule.filter((m) => m.type === "group" && m.group === "B"),
+  );
+
+  const sortedSchedule = [...schedule].sort((a, b) => a.order - b.order);
+
+  const visibleMatches = sortedSchedule.slice(0, 10);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
-      <h1 className="text-4xl font-bold mb-10 text-center">
-        {tournament?.name || "Turniej"}
-      </h1>
+    <>
+      <div className="screen-live-bar">
+        {liveMatches.map((match, i) => {
+          return (
+            <div key={match.id} className="live-match">
+              <span className="live-court">Boisko {match.court}</span>
 
-      {/* ===== TABELE GRUP ===== */}
-      <div className="grid grid-cols-2 gap-10 mb-16">
-        <div>
-          <h2 className="text-2xl font-bold mb-4 text-center">Grupa A</h2>
-          <ul className="bg-white rounded-xl shadow p-6 space-y-3 list-none">
-            {groupA.map((team) => (
-              <li
-                key={team.id}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 16,
-                  fontSize: 20,
-                }}
-              >
-                {team.logo && (
-                  <div
-                    style={{
-                      width: 40,
-                      height: 40,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <img
-                      src={team.logo}
-                      alt={team.name}
-                      style={{
-                        maxWidth: "100%",
-                        maxHeight: "100%",
-                        objectFit: "contain",
-                      }}
-                    />
-                  </div>
-                )}
+              <span className="live-team">{match.teamA.name}</span>
 
-                <span>{team.name}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+              <span className="live-vs">vs</span>
 
-        <div>
-          <h2 className="text-2xl font-bold mb-4 text-center">Grupa B</h2>
-          <ul className="bg-white rounded-xl shadow p-6 space-y-3 list-none">
-            {groupB.map((team) => (
-              <li
-                key={team.id}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 16,
-                  fontSize: 20,
-                }}
-              >
-                {team.logo && (
-                  <div
-                    style={{
-                      width: 40,
-                      height: 40,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <img
-                      src={team.logo}
-                      alt={team.name}
-                      style={{
-                        maxWidth: "100%",
-                        maxHeight: "100%",
-                        objectFit: "contain",
-                      }}
-                    />
-                  </div>
-                )}
+              <span className="live-team">{match.teamB.name}</span>
 
-                <span>{team.name}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      {/* ===== HARMONOGRAM ===== */}
-      <div>
-        <h2 className="text-2xl font-bold mb-6 text-center">Harmonogram</h2>
-
-        <div className="bg-white rounded-xl shadow p-6 space-y-4">
-          {schedule?.map((match, index) => (
-            <div
-              key={index}
-              className={`flex justify-between items-center text-xl ${
-                match.finished ? "opacity-40" : ""
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                {match.team1?.logo && (
-                  <div
-                    style={{
-                      width: 32,
-                      height: 32,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <img
-                      src={match.team1.logo}
-                      alt=""
-                      style={{
-                        maxWidth: "100%",
-                        maxHeight: "100%",
-                        objectFit: "contain",
-                      }}
-                    />
-                  </div>
-                )}
-                {match.team1?.name}
-              </div>
-
-              <div className="font-bold">
-                {match.score
-                  ? `${match.score.team1Sets} : ${match.score.team2Sets}`
-                  : "-"}
-              </div>
-
-              <div className="flex items-center gap-3">
-                {match.team1?.logo && (
-                  <div
-                    style={{
-                      width: 32,
-                      height: 32,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <img
-                      src={match.team1.logo}
-                      alt=""
-                      style={{
-                        maxWidth: "100%",
-                        maxHeight: "100%",
-                        objectFit: "contain",
-                      }}
-                    />
-                  </div>
-                )}
-                {match.team2?.name}
-              </div>
+              {i === 0 && <span className="live-separator">|</span>}
             </div>
-          ))}
+          );
+        })}
+      </div>
+      <div className="screen-container">
+        <div className="screen-layout">
+          {/* LEWA STRONA */}
+
+          <div className="screen-left">
+            {leftView === 0 && (
+              <>
+                <h2>Grupa A</h2>
+                <GroupTable table={tableA} />
+              </>
+            )}
+
+            {leftView === 1 && (
+              <>
+                <h2>Grupa B</h2>
+                <GroupTable table={tableB} />
+              </>
+            )}
+
+            {leftView === 2 && (
+              <>
+                <h2>Mecze grupowe</h2>
+                <MatchMatrix
+                  teams={groupA}
+                  matches={schedule.filter((m) => m.group === "A")}
+                  mode="screen"
+                />
+              </>
+            )}
+
+            {leftView === 3 && (
+              <>
+                <h2>Klasyfikacja</h2>
+                <LiveRanking schedule={schedule} tournament={tournament} />
+              </>
+            )}
+          </div>
+
+          {/* PRAWA STRONA */}
+
+          <div className="screen-right">
+            {rightView === 0 && (
+              <>
+                <h2>Terminarz</h2>
+
+                <table className="screen-schedule">
+                  <tbody>
+                    {visibleMatches.map((match) => (
+                      <tr key={match.id}>
+                        <td>{match.court}</td>
+
+                        <td>{match.teamA.name}</td>
+
+                        <td>vs</td>
+
+                        <td>{match.teamB.name}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
+            )}
+
+            {rightView === 1 && (
+              <>
+                <h2>Harmonogram</h2>
+
+                <div className="screen-announcements">
+                  <ReactMarkdown>
+                    {tournament.announcements || "Brak komunikatów"}
+                  </ReactMarkdown>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

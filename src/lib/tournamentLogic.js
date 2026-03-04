@@ -6,6 +6,7 @@ export function createEmptyTournament() {
       numberOfTeams: 8,
       teamsFromGroup: 2,
     },
+    announcements: "",
   };
 }
 

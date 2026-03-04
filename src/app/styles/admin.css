@@ -638,3 +638,13 @@
   background: #fef3c7;
   color: #92400e;
 }
+.announcement-editor {
+  width: 90%;
+  min-height: 300px;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  font-family: monospace;
+  resize: vertical;
+}
