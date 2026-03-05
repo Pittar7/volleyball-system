@@ -29,18 +29,16 @@ export default function AdminPage() {
 
   // lista drużyn
   const TEAM_POOL = [
-    "AZS Warszawa",
-    "Volley Team Kraków",
-    "Siatkarska Pasja",
-    "Mocny Serwis",
-    "Blokersi",
-    "Team Smash",
-    "Latające Orły",
-    "Atakujący",
-    "Siatkarskie Wilki",
-    "Power Volley",
-    "Asy Serwisowe",
-    "Złota Siatka",
+    "DKWOC",
+    "CWSD SZ i JDC „A”",
+    "RCI KRAKÓW",
+    "RCI OLSZTYN",
+    "RCI GDYNIA",
+    "RCI WROCŁAW",
+    "RCI WARSZAWA",
+    "JDC „C”",
+    "JWD",
+    "RCI BYDGOSZCZ",
   ];
 
   // dodawanie drużyn
@@ -88,7 +86,7 @@ export default function AdminPage() {
       id: crypto.randomUUID(),
       name,
       group: "",
-      logo: null,
+      logos: [],
     }));
 
     setTournament({
@@ -146,6 +144,7 @@ export default function AdminPage() {
         type: "semifinal",
         order: maxOrder + 1,
         court: "A",
+        status: "planned",
         teamA: tableA[0],
         teamB: tableB[1],
         sets: [
@@ -160,6 +159,7 @@ export default function AdminPage() {
         type: "semifinal",
         order: maxOrder + 2,
         court: "B",
+        status: "planned",
         teamA: tableB[0],
         teamB: tableA[1],
         sets: [
@@ -207,6 +207,7 @@ export default function AdminPage() {
       type: "final",
       order: maxOrder + 1,
       court: "A",
+      status: "planned",
       label: "Finał",
       teamA: winner1,
       teamB: winner2,
@@ -219,6 +220,7 @@ export default function AdminPage() {
       type: "thirdPlace",
       order: maxOrder + 2,
       court: "B",
+      status: "planned",
       label: "Mecz o 3 miejsce",
       teamA: loser1,
       teamB: loser2,
@@ -264,9 +266,11 @@ export default function AdminPage() {
       updated.push({
         id: crypto.randomUUID(),
         type: "placement",
+        status: "planned",
         label,
         order: nextOrder++,
         court: "A",
+
         teamA: tableA[index],
         teamB: tableB[index],
         sets: Array(3).fill({ a: "", b: "" }),
@@ -311,9 +315,6 @@ export default function AdminPage() {
       <div key={match.id} className="admin-match-card results-section">
         {match.label && <div className="match-badge">{match.label}</div>}
 
-        {/* <div className="match-title">
-        {match.teamA.name} vs {match.teamB.name}
-      </div> */}
         <div className="match-header">
           {match.label && <span className="match-label">{match.label}</span>}
           {match.teamA.name} vs {match.teamB.name}
@@ -400,7 +401,9 @@ export default function AdminPage() {
 
               setSchedule(
                 schedule.map((m) =>
-                  m.id === match.id ? { ...m, finished: true } : m,
+                  m.id === match.id
+                    ? { ...m, finished: true, status: "finished" }
+                    : m,
                 ),
               );
             }}
@@ -443,18 +446,12 @@ export default function AdminPage() {
                   </span>
                 )}
                 <span
-                  className={`schedule-status ${
-                    match.finished
-                      ? "finished"
-                      : currentMatches.some((m) => m.id === match.id)
-                        ? "live"
-                        : "planned"
-                  }`}
+                  className={`schedule-status ${match.status || "planned"}`}
                 >
-                  {match.finished
-                    ? "Zakończony"
-                    : currentMatches.some((m) => m.id === match.id)
-                      ? "W trakcie"
+                  {match.status === "live"
+                    ? "W trakcie"
+                    : match.status === "finished"
+                      ? "Zakończony"
                       : "Zaplanowany"}
                 </span>
               </div>
@@ -486,6 +483,20 @@ export default function AdminPage() {
               >
                 <option value="A">Boisko A</option>
                 <option value="B">Boisko B</option>
+              </select>
+              <select
+                value={match.status || "planned"}
+                onChange={(e) => {
+                  const updated = schedule.map((m) =>
+                    m.id === match.id ? { ...m, status: e.target.value } : m,
+                  );
+                  setSchedule(updated);
+                }}
+                className="status-select"
+              >
+                <option value="planned">Zaplanowany</option>
+                <option value="live">W trakcie</option>
+                <option value="finished">Zakończony</option>
               </select>
             </div>
           );
@@ -688,7 +699,87 @@ Mecze od 9:00
                     }}
                     className="admin-input"
                   />
+                  <select
+                    value={team.logos?.[0] || ""}
+                    onChange={(e) => {
+                      const updated = tournament.teams.map((t) =>
+                        t.id === team.id
+                          ? {
+                              ...t,
+                              logos: [e.target.value, t.logos?.[1] || ""],
+                            }
+                          : t,
+                      );
 
+                      setTournament({ ...tournament, teams: updated });
+                    }}
+                    className="admin-select"
+                  >
+                    <option value="">Logo 1</option>
+                    <option value="/logos/CWSD.png">CSWD</option>
+                    <option value="/logos/CZC SZ.png">CZC SZ</option>
+                    <option value="/logos/DKWOC.png">DKWOC</option>
+                    <option value="/logos/JDC A.png">JDC A</option>
+                    <option value="/logos/JDC B.png">JDC B</option>
+                    <option value="/logos/JDC C.png">JDC C</option>
+                    <option value="/logos/JWD.png">JWD</option>
+                    <option value="/logos/RCI Bydgoszcz.png">
+                      RCI Bydgoszcz
+                    </option>
+                    <option value="/logos/RCI Gdynia.png">RCI Gdynia</option>
+                    <option value="/logos/RCI Krakow.png">RCI Kraków</option>
+                    <option value="/logos/RCI Olsztyn.png">RCI Olsztyn</option>
+                    <option value="/logos/RCI Warszawa.png">
+                      RCI Warszawa
+                    </option>
+                    <option value="/logos/RCI Wroclaw.png">RCI Wrocław</option>
+                  </select>
+                  <select
+                    value={team.logos?.[1] || ""}
+                    onChange={(e) => {
+                      const updated = tournament.teams.map((t) =>
+                        t.id === team.id
+                          ? {
+                              ...t,
+                              logos: [t.logos?.[0] || "", e.target.value],
+                            }
+                          : t,
+                      );
+
+                      setTournament({ ...tournament, teams: updated });
+                    }}
+                    className="admin-select"
+                  >
+                    <option value="">Logo 2</option>
+                    <option value="/logos/CWSD.png">CSWD</option>
+                    <option value="/logos/CZC SZ.png">CZC SZ</option>
+                    <option value="/logos/DKWOC.png">DKWOC</option>
+                    <option value="/logos/JDC A.png">JDC A</option>
+                    <option value="/logos/JDC B.png">JDC B</option>
+                    <option value="/logos/JDC C.png">JDC C</option>
+                    <option value="/logos/JWD.png">JWD</option>
+                    <option value="/logos/RCI Bydgoszcz.png">
+                      RCI Bydgoszcz
+                    </option>
+                    <option value="/logos/RCI Gdynia.png">RCI Gdynia</option>
+                    <option value="/logos/RCI Krakow.png">RCI Kraków</option>
+                    <option value="/logos/RCI Olsztyn.png">RCI Olsztyn</option>
+                    <option value="/logos/RCI Warszawa.png">
+                      RCI Warszawa
+                    </option>
+                    <option value="/logos/RCI Wroclaw.png">RCI Wrocław</option>
+                  </select>
+                  <div className="team-logo-preview">
+                    {team.logos?.map((logo, i) =>
+                      logo ? (
+                        <img
+                          key={i}
+                          src={logo}
+                          className="admin-logo-preview"
+                        />
+                      ) : null,
+                    )}
+                  </div>
                   <select
                     value={team.group || ""}
                     onChange={(e) => {

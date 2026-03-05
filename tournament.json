@@ -2,64 +2,94 @@
   "tournament": {
     "teams": [
       {
-        "id": "d824d43f-e4f7-4c32-9d0c-fbe0d72adb9d",
-        "name": "AZS Warszawa",
+        "id": "903a8eeb-5442-4d6c-8a95-9c479efbf9f8",
+        "name": "DKWOC",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/DKWOC.png",
+          ""
+        ]
       },
       {
-        "id": "000c54bd-46d6-430e-a347-3a4be4e875a1",
-        "name": "Volley Team Kraków",
+        "id": "f0a2e807-ab34-4777-8947-e30f5856b804",
+        "name": "RCI KRAKÓW",
+        "group": "B",
+        "logos": [
+          "/logos/RCI Krakow.png",
+          ""
+        ]
+      },
+      {
+        "id": "24258ba6-fcc2-4042-a379-5decb57f48be",
+        "name": "CWSD SZ i JDC „A”",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/CWSD.png",
+          "/logos/JDC A.png"
+        ]
       },
       {
-        "id": "8d122466-20e1-40b9-a168-286e70d93cc2",
-        "name": "Siatkarska Pasja",
+        "id": "59ddc970-a6bc-422a-8b7e-a7d72120403a",
+        "name": "RCI GDYNIA",
+        "group": "B",
+        "logos": [
+          "/logos/RCI Gdynia.png",
+          ""
+        ]
+      },
+      {
+        "id": "8989769c-ffe3-41f3-bfea-105e96872082",
+        "name": "RCI OLSZTYN",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/RCI Olsztyn.png",
+          ""
+        ]
       },
       {
-        "id": "71db6adc-41a4-45cb-8e04-ba5c4966167e",
-        "name": "Mocny Serwis",
+        "id": "634feb96-7080-45b8-ad8f-539633628df5",
+        "name": "RCI WROCŁAW",
+        "group": "B",
+        "logos": [
+          "/logos/RCI Wroclaw.png",
+          ""
+        ]
+      },
+      {
+        "id": "b58271d8-1fe9-4c3a-8ea7-c32fcdfca1a6",
+        "name": "RCI WARSZAWA",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/RCI Warszawa.png",
+          ""
+        ]
       },
       {
-        "id": "60ea8f85-d51d-4878-a8fa-5165109ff084",
-        "name": "Team Smash",
+        "id": "a3b57b79-8809-4aa6-b59f-e63746c9c10a",
+        "name": "JDC „C”",
+        "group": "B",
+        "logos": [
+          "/logos/JDC C.png",
+          ""
+        ]
+      },
+      {
+        "id": "3f9a389c-7f81-49bb-bf2d-0f9cee268351",
+        "name": "JWD",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/JWD.png",
+          ""
+        ]
       },
       {
-        "id": "6f7c8e0b-432b-4af2-973c-c284ed7ef50a",
-        "name": "Latające Orły",
+        "id": "3689bdb9-c9e5-452f-82d7-3c86a93179d8",
+        "name": "RCI BYDGOSZCZ",
         "group": "B",
-        "logo": null
-      },
-      {
-        "id": "16d78843-0ec2-4711-b867-892777d7dbe8",
-        "name": "Blokersi",
-        "group": "B",
-        "logo": null
-      },
-      {
-        "id": "8b99fe0f-19b7-4666-813e-9f7b51bcc2b9",
-        "name": "Siatkarskie Wilki",
-        "group": "B",
-        "logo": null
-      },
-      {
-        "id": "56cfb107-7a0d-47f8-ae9f-924d196b3aa7",
-        "name": "Atakujący",
-        "group": "B",
-        "logo": null
-      },
-      {
-        "id": "6e6ebcd2-b10b-4cf3-b051-8d36fd9a2c89",
-        "name": "Power Volley",
-        "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/RCI Bydgoszcz.png",
+          ""
+        ]
       }
     ],
     "matches": [],
@@ -67,65 +97,288 @@
       "numberOfTeams": 8,
       "teamsFromGroup": 2
     },
-    "announcements": "       ## 25.03.\n\n# mecze grupowe\n\n~~potem się zobaczy~~\n\n*obiad o 12:00*\n\nmarkdown **pogrubienie**"
+    "announcements": "# ogłoszenia\n **obiad** w godzinach 12:00-13:30\n\n## Harmonogram\n11.03.2026 r.\nmecze grupy A\n\n12.03.2026 r.\nmecze grupy B\n"
   },
   "schedule": [
+    {
+      "id": 1,
+      "type": "group",
+      "teamA": {
+        "id": "24258ba6-fcc2-4042-a379-5decb57f48be",
+        "name": "CWSD SZ i JDC „A”",
+        "group": "A",
+        "logos": [
+          "/logos/CWSD.png",
+          "/logos/JDC A.png"
+        ]
+      },
+      "teamB": {
+        "id": "3f9a389c-7f81-49bb-bf2d-0f9cee268351",
+        "name": "JWD",
+        "group": "A",
+        "logos": [
+          "/logos/JWD.png",
+          ""
+        ]
+      },
+      "group": "A",
+      "round": 1,
+      "sets": [
+        {
+          "a": "25",
+          "b": "12"
+        },
+        {
+          "a": "25",
+          "b": "22"
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": true,
+      "order": 1,
+      "court": "A",
+      "status": "finished"
+    },
+    {
+      "id": 2,
+      "type": "group",
+      "teamA": {
+        "id": "59ddc970-a6bc-422a-8b7e-a7d72120403a",
+        "name": "RCI GDYNIA",
+        "group": "B",
+        "logos": [
+          "/logos/RCI Gdynia.png",
+          ""
+        ]
+      },
+      "teamB": {
+        "id": "3689bdb9-c9e5-452f-82d7-3c86a93179d8",
+        "name": "RCI BYDGOSZCZ",
+        "group": "B",
+        "logos": [
+          "/logos/RCI Bydgoszcz.png",
+          ""
+        ]
+      },
+      "group": "B",
+      "round": 1,
+      "sets": [
+        {
+          "a": "22",
+          "b": "25"
+        },
+        {
+          "a": "12",
+          "b": "25"
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": true,
+      "order": 2,
+      "court": "B",
+      "status": "finished"
+    },
     {
       "id": 3,
       "type": "group",
       "teamA": {
-        "id": "8d122466-20e1-40b9-a168-286e70d93cc2",
-        "name": "Siatkarska Pasja",
+        "id": "8989769c-ffe3-41f3-bfea-105e96872082",
+        "name": "RCI OLSZTYN",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/RCI Olsztyn.png",
+          ""
+        ]
       },
       "teamB": {
-        "id": "71db6adc-41a4-45cb-8e04-ba5c4966167e",
-        "name": "Mocny Serwis",
+        "id": "b58271d8-1fe9-4c3a-8ea7-c32fcdfca1a6",
+        "name": "RCI WARSZAWA",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/RCI Warszawa.png",
+          ""
+        ]
       },
       "group": "A",
       "round": 2,
       "sets": [
         {
-          "a": "22",
-          "b": "1"
+          "a": "25",
+          "b": "12"
         },
         {
-          "a": "2",
-          "b": "22"
+          "a": "12",
+          "b": "25"
         },
         {
-          "a": "22",
-          "b": "2"
+          "a": "12",
+          "b": "15"
         }
       ],
       "finished": true,
-      "order": 1,
-      "court": "A"
+      "order": 3,
+      "court": "A",
+      "status": "finished"
     },
     {
       "id": 4,
       "type": "group",
       "teamA": {
-        "id": "8b99fe0f-19b7-4666-813e-9f7b51bcc2b9",
-        "name": "Siatkarskie Wilki",
+        "id": "634feb96-7080-45b8-ad8f-539633628df5",
+        "name": "RCI WROCŁAW",
         "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/RCI Wroclaw.png",
+          ""
+        ]
       },
       "teamB": {
-        "id": "56cfb107-7a0d-47f8-ae9f-924d196b3aa7",
-        "name": "Atakujący",
+        "id": "a3b57b79-8809-4aa6-b59f-e63746c9c10a",
+        "name": "JDC „C”",
         "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/JDC C.png",
+          ""
+        ]
       },
       "group": "B",
       "round": 2,
       "sets": [
         {
           "a": "25",
-          "b": "3"
+          "b": "22"
+        },
+        {
+          "a": "15",
+          "b": "25"
+        },
+        {
+          "a": "15",
+          "b": "10"
+        }
+      ],
+      "finished": true,
+      "order": 4,
+      "court": "B",
+      "status": "finished"
+    },
+    {
+      "id": 5,
+      "type": "group",
+      "teamA": {
+        "id": "903a8eeb-5442-4d6c-8a95-9c479efbf9f8",
+        "name": "DKWOC",
+        "group": "A",
+        "logos": [
+          "/logos/DKWOC.png",
+          ""
+        ]
+      },
+      "teamB": {
+        "id": "3f9a389c-7f81-49bb-bf2d-0f9cee268351",
+        "name": "JWD",
+        "group": "A",
+        "logos": [
+          "/logos/JWD.png",
+          ""
+        ]
+      },
+      "group": "A",
+      "round": 3,
+      "sets": [
+        {
+          "a": "25",
+          "b": "22"
+        },
+        {
+          "a": "25",
+          "b": "14"
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": true,
+      "order": 5,
+      "court": "A",
+      "status": "finished"
+    },
+    {
+      "id": 6,
+      "type": "group",
+      "teamA": {
+        "id": "f0a2e807-ab34-4777-8947-e30f5856b804",
+        "name": "RCI KRAKÓW",
+        "group": "B",
+        "logos": [
+          "/logos/RCI Krakow.png",
+          ""
+        ]
+      },
+      "teamB": {
+        "id": "3689bdb9-c9e5-452f-82d7-3c86a93179d8",
+        "name": "RCI BYDGOSZCZ",
+        "group": "B",
+        "logos": [
+          "/logos/RCI Bydgoszcz.png",
+          ""
+        ]
+      },
+      "group": "B",
+      "round": 3,
+      "sets": [
+        {
+          "a": "25",
+          "b": "23"
+        },
+        {
+          "a": "25",
+          "b": "23"
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": true,
+      "order": 6,
+      "court": "B",
+      "status": "finished"
+    },
+    {
+      "id": 7,
+      "type": "group",
+      "teamA": {
+        "id": "24258ba6-fcc2-4042-a379-5decb57f48be",
+        "name": "CWSD SZ i JDC „A”",
+        "group": "A",
+        "logos": [
+          "/logos/CWSD.png",
+          "/logos/JDC A.png"
+        ]
+      },
+      "teamB": {
+        "id": "8989769c-ffe3-41f3-bfea-105e96872082",
+        "name": "RCI OLSZTYN",
+        "group": "A",
+        "logos": [
+          "/logos/RCI Olsztyn.png",
+          ""
+        ]
+      },
+      "group": "A",
+      "round": 4,
+      "sets": [
+        {
+          "a": "25",
+          "b": "23"
         },
         {
           "a": "25",
@@ -137,163 +390,30 @@
         }
       ],
       "finished": true,
-      "order": 2,
-      "court": "B"
-    },
-    {
-      "id": 1,
-      "type": "group",
-      "teamA": {
-        "id": "000c54bd-46d6-430e-a347-3a4be4e875a1",
-        "name": "Volley Team Kraków",
-        "group": "A",
-        "logo": null
-      },
-      "teamB": {
-        "id": "60ea8f85-d51d-4878-a8fa-5165109ff084",
-        "name": "Team Smash",
-        "group": "A",
-        "logo": null
-      },
-      "group": "A",
-      "round": 1,
-      "sets": [
-        {
-          "a": "22",
-          "b": "2"
-        },
-        {
-          "a": "22",
-          "b": "2"
-        },
-        {
-          "a": "",
-          "b": ""
-        }
-      ],
-      "finished": true,
-      "order": 3,
-      "court": "A"
-    },
-    {
-      "id": 2,
-      "type": "group",
-      "teamA": {
-        "id": "16d78843-0ec2-4711-b867-892777d7dbe8",
-        "name": "Blokersi",
-        "group": "B",
-        "logo": null
-      },
-      "teamB": {
-        "id": "6e6ebcd2-b10b-4cf3-b051-8d36fd9a2c89",
-        "name": "Power Volley",
-        "group": "B",
-        "logo": null
-      },
-      "group": "B",
-      "round": 1,
-      "sets": [
-        {
-          "a": "13",
-          "b": "25"
-        },
-        {
-          "a": "13",
-          "b": "25"
-        },
-        {
-          "a": "",
-          "b": ""
-        }
-      ],
-      "finished": true,
-      "order": 4,
-      "court": "B"
-    },
-    {
-      "id": 5,
-      "type": "group",
-      "teamA": {
-        "id": "d824d43f-e4f7-4c32-9d0c-fbe0d72adb9d",
-        "name": "AZS Warszawa",
-        "group": "A",
-        "logo": null
-      },
-      "teamB": {
-        "id": "60ea8f85-d51d-4878-a8fa-5165109ff084",
-        "name": "Team Smash",
-        "group": "A",
-        "logo": null
-      },
-      "group": "A",
-      "round": 3,
-      "sets": [
-        {
-          "a": "1",
-          "b": "22"
-        },
-        {
-          "a": "22",
-          "b": "1"
-        },
-        {
-          "a": "12",
-          "b": "2"
-        }
-      ],
-      "finished": true,
-      "order": 5,
-      "court": "A"
-    },
-    {
-      "id": 6,
-      "type": "group",
-      "teamA": {
-        "id": "6f7c8e0b-432b-4af2-973c-c284ed7ef50a",
-        "name": "Latające Orły",
-        "group": "B",
-        "logo": null
-      },
-      "teamB": {
-        "id": "6e6ebcd2-b10b-4cf3-b051-8d36fd9a2c89",
-        "name": "Power Volley",
-        "group": "B",
-        "logo": null
-      },
-      "group": "B",
-      "round": 3,
-      "sets": [
-        {
-          "a": "",
-          "b": ""
-        },
-        {
-          "a": "",
-          "b": ""
-        },
-        {
-          "a": "",
-          "b": ""
-        }
-      ],
-      "finished": false,
-      "order": 6,
-      "court": "B"
+      "order": 7,
+      "court": "A",
+      "status": "finished"
     },
     {
       "id": 8,
       "type": "group",
       "teamA": {
-        "id": "16d78843-0ec2-4711-b867-892777d7dbe8",
-        "name": "Blokersi",
+        "id": "59ddc970-a6bc-422a-8b7e-a7d72120403a",
+        "name": "RCI GDYNIA",
         "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/RCI Gdynia.png",
+          ""
+        ]
       },
       "teamB": {
-        "id": "8b99fe0f-19b7-4666-813e-9f7b51bcc2b9",
-        "name": "Siatkarskie Wilki",
+        "id": "634feb96-7080-45b8-ad8f-539633628df5",
+        "name": "RCI WROCŁAW",
         "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/RCI Wroclaw.png",
+          ""
+        ]
       },
       "group": "B",
       "round": 4,
@@ -313,57 +433,29 @@
       ],
       "finished": false,
       "order": 8,
-      "court": "B"
-    },
-    {
-      "id": 7,
-      "type": "group",
-      "teamA": {
-        "id": "000c54bd-46d6-430e-a347-3a4be4e875a1",
-        "name": "Volley Team Kraków",
-        "group": "A",
-        "logo": null
-      },
-      "teamB": {
-        "id": "8d122466-20e1-40b9-a168-286e70d93cc2",
-        "name": "Siatkarska Pasja",
-        "group": "A",
-        "logo": null
-      },
-      "group": "A",
-      "round": 4,
-      "sets": [
-        {
-          "a": "",
-          "b": ""
-        },
-        {
-          "a": "",
-          "b": ""
-        },
-        {
-          "a": "",
-          "b": ""
-        }
-      ],
-      "finished": false,
-      "order": 7,
-      "court": "A"
+      "court": "B",
+      "status": "live"
     },
     {
       "id": 9,
       "type": "group",
       "teamA": {
-        "id": "d824d43f-e4f7-4c32-9d0c-fbe0d72adb9d",
-        "name": "AZS Warszawa",
+        "id": "903a8eeb-5442-4d6c-8a95-9c479efbf9f8",
+        "name": "DKWOC",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/DKWOC.png",
+          ""
+        ]
       },
       "teamB": {
-        "id": "71db6adc-41a4-45cb-8e04-ba5c4966167e",
-        "name": "Mocny Serwis",
+        "id": "b58271d8-1fe9-4c3a-8ea7-c32fcdfca1a6",
+        "name": "RCI WARSZAWA",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/RCI Warszawa.png",
+          ""
+        ]
       },
       "group": "A",
       "round": 5,
@@ -383,22 +475,29 @@
       ],
       "finished": false,
       "order": 9,
-      "court": "A"
+      "court": "A",
+      "status": "planned"
     },
     {
       "id": 10,
       "type": "group",
       "teamA": {
-        "id": "6f7c8e0b-432b-4af2-973c-c284ed7ef50a",
-        "name": "Latające Orły",
+        "id": "f0a2e807-ab34-4777-8947-e30f5856b804",
+        "name": "RCI KRAKÓW",
         "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/RCI Krakow.png",
+          ""
+        ]
       },
       "teamB": {
-        "id": "56cfb107-7a0d-47f8-ae9f-924d196b3aa7",
-        "name": "Atakujący",
+        "id": "a3b57b79-8809-4aa6-b59f-e63746c9c10a",
+        "name": "JDC „C”",
         "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/JDC C.png",
+          ""
+        ]
       },
       "group": "B",
       "round": 5,
@@ -424,16 +523,22 @@
       "id": 11,
       "type": "group",
       "teamA": {
-        "id": "60ea8f85-d51d-4878-a8fa-5165109ff084",
-        "name": "Team Smash",
+        "id": "3f9a389c-7f81-49bb-bf2d-0f9cee268351",
+        "name": "JWD",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/JWD.png",
+          ""
+        ]
       },
       "teamB": {
-        "id": "8d122466-20e1-40b9-a168-286e70d93cc2",
-        "name": "Siatkarska Pasja",
+        "id": "8989769c-ffe3-41f3-bfea-105e96872082",
+        "name": "RCI OLSZTYN",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/RCI Olsztyn.png",
+          ""
+        ]
       },
       "group": "A",
       "round": 6,
@@ -459,16 +564,22 @@
       "id": 12,
       "type": "group",
       "teamA": {
-        "id": "6e6ebcd2-b10b-4cf3-b051-8d36fd9a2c89",
-        "name": "Power Volley",
+        "id": "3689bdb9-c9e5-452f-82d7-3c86a93179d8",
+        "name": "RCI BYDGOSZCZ",
         "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/RCI Bydgoszcz.png",
+          ""
+        ]
       },
       "teamB": {
-        "id": "8b99fe0f-19b7-4666-813e-9f7b51bcc2b9",
-        "name": "Siatkarskie Wilki",
+        "id": "634feb96-7080-45b8-ad8f-539633628df5",
+        "name": "RCI WROCŁAW",
         "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/RCI Wroclaw.png",
+          ""
+        ]
       },
       "group": "B",
       "round": 6,
@@ -494,16 +605,22 @@
       "id": 13,
       "type": "group",
       "teamA": {
-        "id": "d824d43f-e4f7-4c32-9d0c-fbe0d72adb9d",
-        "name": "AZS Warszawa",
+        "id": "903a8eeb-5442-4d6c-8a95-9c479efbf9f8",
+        "name": "DKWOC",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/DKWOC.png",
+          ""
+        ]
       },
       "teamB": {
-        "id": "8d122466-20e1-40b9-a168-286e70d93cc2",
-        "name": "Siatkarska Pasja",
+        "id": "8989769c-ffe3-41f3-bfea-105e96872082",
+        "name": "RCI OLSZTYN",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/RCI Olsztyn.png",
+          ""
+        ]
       },
       "group": "A",
       "round": 7,
@@ -529,16 +646,22 @@
       "id": 14,
       "type": "group",
       "teamA": {
-        "id": "6f7c8e0b-432b-4af2-973c-c284ed7ef50a",
-        "name": "Latające Orły",
+        "id": "f0a2e807-ab34-4777-8947-e30f5856b804",
+        "name": "RCI KRAKÓW",
         "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/RCI Krakow.png",
+          ""
+        ]
       },
       "teamB": {
-        "id": "8b99fe0f-19b7-4666-813e-9f7b51bcc2b9",
-        "name": "Siatkarskie Wilki",
+        "id": "634feb96-7080-45b8-ad8f-539633628df5",
+        "name": "RCI WROCŁAW",
         "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/RCI Wroclaw.png",
+          ""
+        ]
       },
       "group": "B",
       "round": 7,
@@ -564,16 +687,22 @@
       "id": 15,
       "type": "group",
       "teamA": {
-        "id": "71db6adc-41a4-45cb-8e04-ba5c4966167e",
-        "name": "Mocny Serwis",
+        "id": "b58271d8-1fe9-4c3a-8ea7-c32fcdfca1a6",
+        "name": "RCI WARSZAWA",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/RCI Warszawa.png",
+          ""
+        ]
       },
       "teamB": {
-        "id": "000c54bd-46d6-430e-a347-3a4be4e875a1",
-        "name": "Volley Team Kraków",
+        "id": "24258ba6-fcc2-4042-a379-5decb57f48be",
+        "name": "CWSD SZ i JDC „A”",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/CWSD.png",
+          "/logos/JDC A.png"
+        ]
       },
       "group": "A",
       "round": 8,
@@ -599,16 +728,22 @@
       "id": 16,
       "type": "group",
       "teamA": {
-        "id": "56cfb107-7a0d-47f8-ae9f-924d196b3aa7",
-        "name": "Atakujący",
+        "id": "a3b57b79-8809-4aa6-b59f-e63746c9c10a",
+        "name": "JDC „C”",
         "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/JDC C.png",
+          ""
+        ]
       },
       "teamB": {
-        "id": "16d78843-0ec2-4711-b867-892777d7dbe8",
-        "name": "Blokersi",
+        "id": "59ddc970-a6bc-422a-8b7e-a7d72120403a",
+        "name": "RCI GDYNIA",
         "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/RCI Gdynia.png",
+          ""
+        ]
       },
       "group": "B",
       "round": 8,
@@ -634,16 +769,22 @@
       "id": 17,
       "type": "group",
       "teamA": {
-        "id": "d824d43f-e4f7-4c32-9d0c-fbe0d72adb9d",
-        "name": "AZS Warszawa",
+        "id": "903a8eeb-5442-4d6c-8a95-9c479efbf9f8",
+        "name": "DKWOC",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/DKWOC.png",
+          ""
+        ]
       },
       "teamB": {
-        "id": "000c54bd-46d6-430e-a347-3a4be4e875a1",
-        "name": "Volley Team Kraków",
+        "id": "24258ba6-fcc2-4042-a379-5decb57f48be",
+        "name": "CWSD SZ i JDC „A”",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/CWSD.png",
+          "/logos/JDC A.png"
+        ]
       },
       "group": "A",
       "round": 9,
@@ -669,16 +810,22 @@
       "id": 18,
       "type": "group",
       "teamA": {
-        "id": "6f7c8e0b-432b-4af2-973c-c284ed7ef50a",
-        "name": "Latające Orły",
+        "id": "f0a2e807-ab34-4777-8947-e30f5856b804",
+        "name": "RCI KRAKÓW",
         "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/RCI Krakow.png",
+          ""
+        ]
       },
       "teamB": {
-        "id": "16d78843-0ec2-4711-b867-892777d7dbe8",
-        "name": "Blokersi",
+        "id": "59ddc970-a6bc-422a-8b7e-a7d72120403a",
+        "name": "RCI GDYNIA",
         "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/RCI Gdynia.png",
+          ""
+        ]
       },
       "group": "B",
       "round": 9,
@@ -704,16 +851,22 @@
       "id": 19,
       "type": "group",
       "teamA": {
-        "id": "71db6adc-41a4-45cb-8e04-ba5c4966167e",
-        "name": "Mocny Serwis",
+        "id": "b58271d8-1fe9-4c3a-8ea7-c32fcdfca1a6",
+        "name": "RCI WARSZAWA",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/RCI Warszawa.png",
+          ""
+        ]
       },
       "teamB": {
-        "id": "60ea8f85-d51d-4878-a8fa-5165109ff084",
-        "name": "Team Smash",
+        "id": "3f9a389c-7f81-49bb-bf2d-0f9cee268351",
+        "name": "JWD",
         "group": "A",
-        "logo": null
+        "logos": [
+          "/logos/JWD.png",
+          ""
+        ]
       },
       "group": "A",
       "round": 10,
@@ -739,16 +892,22 @@
       "id": 20,
       "type": "group",
       "teamA": {
-        "id": "56cfb107-7a0d-47f8-ae9f-924d196b3aa7",
-        "name": "Atakujący",
+        "id": "a3b57b79-8809-4aa6-b59f-e63746c9c10a",
+        "name": "JDC „C”",
         "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/JDC C.png",
+          ""
+        ]
       },
       "teamB": {
-        "id": "6e6ebcd2-b10b-4cf3-b051-8d36fd9a2c89",
-        "name": "Power Volley",
+        "id": "3689bdb9-c9e5-452f-82d7-3c86a93179d8",
+        "name": "RCI BYDGOSZCZ",
         "group": "B",
-        "logo": null
+        "logos": [
+          "/logos/RCI Bydgoszcz.png",
+          ""
+        ]
       },
       "group": "B",
       "round": 10,
@@ -769,52 +928,6 @@
       "finished": false,
       "order": 20,
       "court": "B"
-    },
-    {
-      "id": "a02ad00d-3ca3-4d41-8426-369f22206d83",
-      "type": "placement",
-      "label": "Mecz o 5 miejsce",
-      "order": 21,
-      "court": "A",
-      "teamA": {
-        "id": "d824d43f-e4f7-4c32-9d0c-fbe0d72adb9d",
-        "name": "AZS Warszawa",
-        "played": 1,
-        "won": 0,
-        "lost": 0,
-        "points": 2,
-        "setsWon": 2,
-        "setsLost": 1,
-        "smallPointsWon": 35,
-        "smallPointsLost": 25
-      },
-      "teamB": {
-        "id": "6f7c8e0b-432b-4af2-973c-c284ed7ef50a",
-        "name": "Latające Orły",
-        "played": 0,
-        "won": 0,
-        "lost": 0,
-        "points": 0,
-        "setsWon": 0,
-        "setsLost": 0,
-        "smallPointsWon": 0,
-        "smallPointsLost": 0
-      },
-      "sets": [
-        {
-          "a": "",
-          "b": ""
-        },
-        {
-          "a": "",
-          "b": ""
-        },
-        {
-          "a": "",
-          "b": ""
-        }
-      ],
-      "finished": false
     }
   ]
 }

@@ -21,7 +21,19 @@ function GroupTable({ table }) {
       <tbody>
         {table.map((team) => (
           <tr key={team.id}>
-            <td>{team.name}</td>
+            <td>
+              <div className="team-with-logo">
+                <div className="team-logos">
+                  {team.logos?.map((logo, i) =>
+                    logo ? (
+                      <img key={i} src={logo} className="team-logo" />
+                    ) : null,
+                  )}
+                </div>
+
+                <span>{team.name}</span>
+              </div>
+            </td>
             <td>{team.played}</td>
             <td>{team.points}</td>
             <td>
@@ -67,10 +79,10 @@ function LiveRanking({ tournament, schedule }) {
     <table className="screen-ranking">
       <thead>
         <tr>
-          <th>#</th>
+          <th>Miejsce</th>
           <th>Drużyna</th>
           <th>Pkt</th>
-          <th>M</th>
+          <th>Liczba Meczów</th>
         </tr>
       </thead>
 
@@ -78,7 +90,19 @@ function LiveRanking({ tournament, schedule }) {
         {combined.map((team, index) => (
           <tr key={team.id}>
             <td>{index + 1}</td>
-            <td>{team.name}</td>
+            <td>
+              <div className="team-with-logo">
+                <div className="team-logos">
+                  {team.logos?.map((logo, i) =>
+                    logo ? (
+                      <img key={i} src={logo} className="team-logo" />
+                    ) : null,
+                  )}
+                </div>
+
+                <span>{team.name}</span>
+              </div>
+            </td>
             <td>{team.points}</td>
             <td>{team.played}</td>
           </tr>
@@ -121,7 +145,7 @@ export default function ScreenPage() {
 
   useEffect(() => {
     const leftRotation = setInterval(() => {
-      setLeftView((v) => (v + 1) % 4);
+      setLeftView((v) => (v + 1) % 2);
     }, 10000);
 
     const rightRotation = setInterval(() => {
@@ -140,7 +164,12 @@ export default function ScreenPage() {
 
   const { tournament, schedule = [] } = data;
 
-  const liveMatches = getLiveMatches(schedule);
+  const sortedSchedule = [...schedule].sort((a, b) => a.order - b.order);
+
+  // const liveMatches = sortedSchedule.filter((m) => m.status === "live");
+  // const plannedMatches = sortedSchedule.filter(
+  //   (m) => m.status === "planned" || !m.status,
+  // );
 
   const groupA = tournament.teams.filter((t) => t.group === "A");
   const groupB = tournament.teams.filter((t) => t.group === "B");
@@ -155,16 +184,50 @@ export default function ScreenPage() {
     schedule.filter((m) => m.type === "group" && m.group === "B"),
   );
 
-  const sortedSchedule = [...schedule].sort((a, b) => a.order - b.order);
+  // const visibleMatches = sortedSchedule.slice(0, 10);
+  const getTeamById = (id) => tournament.teams.find((t) => t.id === id);
 
-  const visibleMatches = sortedSchedule.slice(0, 10);
+  const finishedMatches = sortedSchedule
+    .filter((m) => m.status === "finished" || m.finished)
+    .sort((a, b) => b.order - a.order)
+    .slice(0, 4);
+
+  const liveMatches = schedule.filter((m) => m.status === "live");
+
+  const plannedMatches = schedule
+    .filter((m) => m.status === "planned" || !m.status)
+    .sort((a, b) => a.order - b.order)
+    .slice(0, 4);
+  let topBarMatches = [...liveMatches];
+
+  if (topBarMatches.length < 2) {
+    const remaining = 2 - topBarMatches.length;
+
+    const nextPlanned = plannedMatches
+      .filter((m) => !liveMatches.some((l) => l.id === m.id))
+      .slice(0, remaining);
+
+    topBarMatches = [...topBarMatches, ...nextPlanned];
+  }
+  const visibleMatches = [
+    ...finishedMatches.reverse(),
+    ...liveMatches,
+    ...plannedMatches,
+  ].slice(0, 10);
 
   return (
     <>
       <div className="screen-live-bar">
-        {liveMatches.map((match, i) => {
+        {topBarMatches.map((match, i) => {
           return (
             <div key={match.id} className="live-match">
+              <span
+                className={`live-status ${
+                  match.status === "live" ? "live" : "planned"
+                }`}
+              >
+                {match.status === "live" ? "TRWA" : "ZAPLANOWANY"}
+              </span>
               <span className="live-court">Boisko {match.court}</span>
 
               <span className="live-team">{match.teamA.name}</span>
@@ -187,28 +250,13 @@ export default function ScreenPage() {
               <>
                 <h2>Grupa A</h2>
                 <GroupTable table={tableA} />
-              </>
-            )}
 
-            {leftView === 1 && (
-              <>
                 <h2>Grupa B</h2>
                 <GroupTable table={tableB} />
               </>
             )}
 
-            {leftView === 2 && (
-              <>
-                <h2>Mecze grupowe</h2>
-                <MatchMatrix
-                  teams={groupA}
-                  matches={schedule.filter((m) => m.group === "A")}
-                  mode="screen"
-                />
-              </>
-            )}
-
-            {leftView === 3 && (
+            {leftView === 1 && (
               <>
                 <h2>Klasyfikacja</h2>
                 <LiveRanking schedule={schedule} tournament={tournament} />
@@ -224,18 +272,75 @@ export default function ScreenPage() {
                 <h2>Terminarz</h2>
 
                 <table className="screen-schedule">
+                  <thead>
+                    <tr className="schedule-head-main">
+                      <th rowSpan="2">Status</th>
+                      <th rowSpan="2">Boisko</th>
+                      {/* <th colSpan="3">Mecz</th> */}
+                      <th>Drużyna</th>
+                      <th></th>
+                      <th>Drużyna</th>
+                    </tr>
+
+                    {/* <tr className="schedule-head-sub">
+                      <th>Drużyna</th>
+                      <th></th>
+                      <th>Drużyna</th>
+                    </tr> */}
+                  </thead>
+
                   <tbody>
-                    {visibleMatches.map((match) => (
-                      <tr key={match.id}>
-                        <td>{match.court}</td>
+                    {visibleMatches.map((match) => {
+                      const status =
+                        match.status ||
+                        (match.finished ? "finished" : "planned");
 
-                        <td>{match.teamA.name}</td>
+                      return (
+                        <tr key={match.id}>
+                          <td className={`schedule-status ${status}`}>
+                            {status === "live"
+                              ? "Trwa"
+                              : status === "finished"
+                                ? "Zakończony"
+                                : "Zaplanowany"}
+                          </td>
 
-                        <td>vs</td>
+                          <td>{match.court}</td>
 
-                        <td>{match.teamB.name}</td>
-                      </tr>
-                    ))}
+                          <td className="screen-team">
+                            {getTeamById(match.teamA.id)?.logos?.map(
+                              (logo, i) =>
+                                logo ? (
+                                  <img
+                                    key={i}
+                                    src={logo}
+                                    className="screen-team-logo"
+                                  />
+                                ) : null,
+                            )}
+
+                            <span>{match.teamA.name}</span>
+                          </td>
+
+                          <td>vs</td>
+
+                          <td className="screen-team">
+                            {getTeamById(match.teamB.id)?.logos?.map(
+                              (logo, i) =>
+                                logo ? (
+                                  <img
+                                    key={i}
+                                    src={logo}
+                                    className="screen-team-logo"
+                                  />
+                                ) : null,
+                            )}
+
+                            <span>{match.teamB.name}</span>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </>
@@ -243,7 +348,7 @@ export default function ScreenPage() {
 
             {rightView === 1 && (
               <>
-                <h2>Harmonogram</h2>
+                <h2>Tablica ogłoszeń</h2>
 
                 <div className="screen-announcements">
                   <ReactMarkdown>

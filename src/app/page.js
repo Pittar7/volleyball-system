@@ -195,13 +195,11 @@ export default function HomePage() {
         <td className="court-cell">{match.court}</td>
 
         <td className="team-cell">
-          {getTeamById(match.teamA.id)?.logo && (
-            <img
-              src={getTeamById(match.teamA.id).logo}
-              alt={match.teamA.name}
-              className="team-logo"
-            />
-          )}
+          <div className="team-logos">
+            {getTeamById(match.teamA.id)?.logos?.map((logo, i) =>
+              logo ? <img key={i} src={logo} className="team-logo" /> : null,
+            )}
+          </div>
           <span>{match.teamA.name}</span>
         </td>
 
@@ -220,22 +218,24 @@ export default function HomePage() {
         </td>
 
         <td className="team-cell">
-          {getTeamById(match.teamB.id)?.logo && (
-            <img
-              src={getTeamById(match.teamB.id).logo}
-              alt={match.teamB.name}
-              className="team-logo"
-            />
-          )}
+          <div className="team-logos">
+            {getTeamById(match.teamB.id)?.logos?.map((logo, i) =>
+              logo ? <img key={i} src={logo} className="team-logo" /> : null,
+            )}
+          </div>
           <span>{match.teamB.name}</span>
         </td>
 
         <td className="status-cell">
-          {isFinished ? (
+          {match.status === "live" && (
+            <span className="status-badge live">🔴 W trakcie</span>
+          )}
+
+          {match.status === "finished" && (
             <span className="status-badge finished">Zakończony</span>
-          ) : isCurrent ? (
-            <span className="status-badge live">W trakcie</span>
-          ) : (
+          )}
+
+          {(match.status === "planned" || !match.status) && (
             <span className="status-badge planned">Zaplanowany</span>
           )}
         </td>
@@ -338,14 +338,25 @@ export default function HomePage() {
                       return (
                         <tr key={team.id}>
                           <td className="team-cell">
-                            {team.logo && (
-                              <img
-                                src={team.logo}
-                                alt={team.name}
-                                className="team-logo"
-                              />
-                            )}
-                            <span>{team.name}</span>
+                            <div className="team-with-logo">
+                              <div className="team-logos">
+                                {getTeamById(team.id)?.logos?.length ? (
+                                  getTeamById(team.id).logos.map((logo, i) =>
+                                    logo ? (
+                                      <img
+                                        key={i}
+                                        src={logo}
+                                        className="team-logo"
+                                      />
+                                    ) : null,
+                                  )
+                                ) : (
+                                  <div className="team-logo-placeholder">?</div>
+                                )}
+                              </div>
+
+                              <span className="team-name">{team.name}</span>
+                            </div>
                           </td>
                           <td>{team.played}</td>
                           <td>{team.points}</td>
@@ -396,14 +407,25 @@ export default function HomePage() {
                       return (
                         <tr key={team.id}>
                           <td className="team-cell">
-                            {team.logo && (
-                              <img
-                                src={team.logo}
-                                alt={team.name}
-                                className="team-logo"
-                              />
-                            )}
-                            <span>{team.name}</span>
+                            <div className="team-with-logo">
+                              <div className="team-logos">
+                                {getTeamById(team.id)?.logos?.length ? (
+                                  getTeamById(team.id).logos.map((logo, i) =>
+                                    logo ? (
+                                      <img
+                                        key={i}
+                                        src={logo}
+                                        className="team-logo"
+                                      />
+                                    ) : null,
+                                  )
+                                ) : (
+                                  <div className="team-logo-placeholder">?</div>
+                                )}
+                              </div>
+
+                              <span className="team-name">{team.name}</span>
+                            </div>
                           </td>
                           <td>{team.played}</td>
                           <td>{team.points}</td>
@@ -506,28 +528,42 @@ export default function HomePage() {
                           {(() => {
                             const fullTeam = getTeamById(row.team.id);
 
-                            if (fullTeam?.logo) {
+                            if (!fullTeam?.logos?.length) {
                               return (
-                                <img
-                                  src={fullTeam.logo}
-                                  alt={fullTeam.name}
-                                  className={
-                                    row.place <= 3
-                                      ? "ranking-logo-big"
-                                      : "ranking-logo"
-                                  }
-                                />
+                                <div className="ranking-logo-placeholder">
+                                  ?
+                                </div>
                               );
                             }
 
                             return (
-                              <div className="ranking-logo-placeholder">?</div>
+                              <div className="ranking-team">
+                                <div className="team-logos">
+                                  {fullTeam.logos.map((logo, i) =>
+                                    logo ? (
+                                      <img
+                                        key={i}
+                                        src={logo}
+                                        className={
+                                          row.place <= 3
+                                            ? "ranking-logo-big"
+                                            : "ranking-logo"
+                                        }
+                                      />
+                                    ) : null,
+                                  )}
+                                </div>
+
+                                <span className="ranking-team-name">
+                                  {fullTeam.name}
+                                </span>
+                              </div>
                             );
                           })()}
 
-                          <span className="ranking-team-name">
+                          {/* <span className="ranking-team-name">
                             {getTeamById(row.team.id)?.name}
-                          </span>
+                          </span> */}
                         </td>
                         {!finalMatchFinished && (
                           <td className="ranking-played">{row.played}</td>

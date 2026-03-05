@@ -1,14 +1,14 @@
 .screen-layout {
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 10fr 8fr;
 
   height: calc(100vh - clamp(60px, 5vh, 90px));
 
   background: #ffffff;
   color: #111827;
 
-  padding: 1.2vw;
+  /* padding: 1.2vw; */
   gap: 1.2vw;
 }
 
@@ -16,18 +16,18 @@
 .screen-ranking,
 .screen-schedule {
   width: auto;
-  max-width: 100%;
-  max-height: 70vh;
+  max-width: 90%;
+  max-height: 90vh;
 }
 .screen-left,
 .screen-right {
   display: flex;
   flex-direction: column;
 
-  justify-content: center; /* wyśrodkowanie pionowe */
+  /*justify-content: center;*/ /* wyśrodkowanie pionowe */
   align-items: center; /* wyśrodkowanie poziome */
 
-  text-align: center;
+  /* text-align: center; */
 }
 .screen-left {
   padding-right: 10px 16px;
@@ -50,15 +50,29 @@
   padding: 10px 16px;
   font-size: clamp(16px, 1.2vw, 26px);
   border-bottom: 2px solid #e5e7eb;
+  font-weight: 600;
+}
+.screen-schedule td {
+  vertical-align: middle;
 }
 
+.screen-team {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+}
+
+.screen-team span {
+  white-space: nowrap;
+}
 .screen-announcements {
   font-size: clamp(20px, 2vw, 36px);
-  line-height: 1.8;
+  line-height: 1.2;
   color: #1e293b;
 }
 .screen-group-table {
-  width: 100%;
+  width: 90%;
   border-collapse: collapse;
   font-size: clamp(16px, 1.2vw, 26px);
 }
@@ -81,7 +95,7 @@
 }
 
 .screen-ranking {
-  width: 100%;
+  width: 90%;
   border-collapse: collapse;
   font-size: clamp(16px, 1.2vw, 26px);
 }
@@ -167,4 +181,145 @@ table {
   width: 100%;
   border-collapse: collapse;
   table-layout: auto;
+}
+/* ============================= */
+/* MACIERZ MECZÓW */
+/* ============================= */
+
+.match-matrix {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.match-matrix th,
+.match-matrix td {
+  border: 1px solid #e5e7eb;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.match-matrix th {
+  background: #f3f4f6;
+  font-weight: 600;
+}
+
+.match-matrix td:first-child {
+  text-align: left;
+  font-weight: 500;
+  background: #fafafa;
+}
+
+.match-matrix td {
+  min-width: 50px;
+}
+
+/* przekątna */
+.match-matrix td.diagonal {
+  background: #f9fafb;
+  color: #9ca3af;
+}
+
+/* rozegrany mecz */
+.match-matrix td.played {
+  background: #ecfdf5;
+  font-weight: 600;
+}
+
+/* hover */
+.match-matrix tbody tr:hover {
+  background: #f9fafb;
+}
+.matrix-score {
+  font-size: 15px;
+}
+
+.matrix-score .winner {
+  font-weight: 700;
+}
+.matrix-sets {
+  font-size: 12px;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+.live-status {
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 20px;
+}
+
+.live-status.live {
+  background: #ef4444;
+  color: white;
+}
+
+.live-status.planned {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+.schedule-status {
+  font-weight: 700;
+}
+
+.schedule-status.live {
+  color: #ef4444;
+}
+
+.schedule-status.finished {
+  color: #16a34a;
+}
+
+.schedule-status.planned {
+  color: #64748b;
+}
+.screen-schedule thead {
+  border-bottom: 3px solid #cbd5e1;
+}
+
+.schedule-head-main th {
+  font-size: 20px;
+  font-weight: 700;
+  padding: 8px;
+  color: #334155;
+}
+
+.schedule-head-sub th {
+  font-size: 18px;
+  font-weight: 600;
+  padding: 6px;
+  color: #64748b;
+}
+
+.screen-schedule th {
+  text-align: center;
+}
+.team-with-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.team-logos {
+  display: flex;
+  gap: 4px;
+}
+
+.team-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+.screen-team {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.screen-team-logo {
+  height: 28px;
+  width: auto;
+  max-width: 40px;
+  object-fit: contain;
 }
