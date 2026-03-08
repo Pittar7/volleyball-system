@@ -1,16 +1,18 @@
-// ==========================
-// API – ZAPIS I ODCZYT TURNIEJU
-// ==========================
-export const runtime = "nodejs";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
-const filePath = path.join(process.cwd(), "tournament.json");
+export const runtime = "nodejs";
+
+// folder danych
+const dataDir = path.join(process.cwd(), "data");
+const filePath = path.join(dataDir, "tournament.json");
 
 // ==========================
-// GET – wczytanie danych
+// GET – wczytanie turnieju
 // ==========================
+
 export async function GET() {
   try {
     if (!fs.existsSync(filePath)) {
@@ -18,22 +20,49 @@ export async function GET() {
     }
 
     const data = fs.readFileSync(filePath, "utf-8");
+
     return NextResponse.json(JSON.parse(data));
   } catch (error) {
+    console.error("READ ERROR:", error);
+
     return NextResponse.json({ error: "Błąd odczytu pliku" }, { status: 500 });
   }
 }
 
 // ==========================
-// POST – zapis danych
+// POST – zapis turnieju
 // ==========================
-export async function POST(request) {
+
+export async function POST(req) {
+  const cookieStore = await cookies();
+  const auth = cookieStore.get("admin-auth");
+
+  if (!auth) {
+    return NextResponse.json({ error: "Brak autoryzacji" }, { status: 401 });
+  }
+
   try {
-    const body = await request.json();
+    const body = await req.json();
+
+    // utwórz folder data jeśli nie istnieje
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+
+    // 🔵 BACKUP STAREGO TURNIEJU
+    if (fs.existsSync(filePath)) {
+      fs.copyFileSync(filePath, filePath + ".bak");
+    }
+
+    // zapis nowego turnieju
     fs.writeFileSync(filePath, JSON.stringify(body, null, 2));
+
+    console.log("Tournament saved");
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error("SAVE ERROR:", error);
+
     return NextResponse.json({ error: "Błąd zapisu pliku" }, { status: 500 });
   }
 }

@@ -57,11 +57,24 @@ export default function AdminPage() {
   // ZAPIS / WCZYTANIE
   // ==============================
   const saveTournament = async () => {
-    await fetch("/api/tournament", {
+    console.log("SAVE DATA:", { tournament, schedule });
+
+    const res = await fetch("/api/tournament", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ tournament, schedule }),
     });
+
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("SAVE ERROR:", text);
+      alert("Błąd zapisu");
+      return;
+    }
+
+    const json = await res.json();
+    console.log("SAVE RESPONSE:", json);
+
     alert("Turniej zapisany");
   };
 
@@ -69,8 +82,18 @@ export default function AdminPage() {
     const res = await fetch("/api/tournament");
     const data = await res.json();
     if (!data) return alert("Brak danych");
-    setTournament(data.tournament);
+    setTournament({
+      ...data.tournament,
+      teams: data.tournament.teams.map((team, i) => ({
+        ...team,
+        seed: team.seed ?? i + 1,
+      })),
+    });
     setSchedule(data.schedule || []);
+  };
+  const logout = async () => {
+    await fetch("/api/admin-logout", { method: "POST" });
+    window.location = "/admin/login";
   };
 
   // ==============================
@@ -87,6 +110,7 @@ export default function AdminPage() {
       name,
       group: "",
       logos: [],
+      seed: index + 1,
     }));
 
     setTournament({
@@ -104,9 +128,42 @@ export default function AdminPage() {
       return;
     }
 
-    const groupAMatches = generateGroupMatches(groupA);
-    const groupBMatches = generateGroupMatches(groupB);
+    // const sortedA = [...groupA].sort((a, b) => a.seed - b.seed);
+    // const sortedB = [...groupB].sort((a, b) => a.seed - b.seed);
+
+    const sortedA = [...groupA]
+      .sort((a, b) => a.seed - b.seed)
+      .map((t, i) => ({ ...t, seed: i + 1 }));
+
+    const sortedB = [...groupB]
+      .sort((a, b) => a.seed - b.seed)
+      .map((t, i) => ({ ...t, seed: i + 1 }));
+
+    console.log(
+      "GROUP A INPUT",
+      sortedA.map((t) => ({
+        name: t.name,
+        seed: t.seed,
+      })),
+    );
+
+    console.log(
+      "GROUP B INPUT",
+      sortedB.map((t) => ({
+        name: t.name,
+        seed: t.seed,
+      })),
+    );
+
+    // sortedA.forEach((t, i) => (t.seed = i + 1));
+    // sortedB.forEach((t, i) => (t.seed = i + 1));
+
+    const groupAMatches = generateGroupMatches(sortedA, "A");
+    const groupBMatches = generateGroupMatches(sortedB, "B");
+
     const scheduled = generateSchedule(groupAMatches, groupBMatches);
+
+    // ❗ usuwamy stare mecze grupowe
 
     setSchedule(scheduled);
     setAdminView("groups");
@@ -426,6 +483,7 @@ export default function AdminPage() {
   const renderScheduleSection = (title, type) => {
     const matches = sortedSchedule.filter((m) => m.type === type);
     if (!matches.length) return null;
+    // W schedule-list, DODAJ między group a placement:
 
     return (
       <div className="schedule-section">
@@ -505,15 +563,24 @@ export default function AdminPage() {
     );
   };
   const renderGroupTable = (teams, groupName) => {
-    const table = calculateTable(
-      teams,
-      schedule.filter((m) => m.type === "group" && m.group === groupName),
+    const matches = schedule.filter(
+      (m) => m.type === "group" && m.group === groupName,
     );
+
+    let table = calculateTable(teams, matches);
+
+    // jeśli brak wyników → sortuj po seed
+    const hasResults = matches.some((m) => m.finished);
+
+    if (!hasResults) {
+      table = [...teams].sort((a, b) => a.seed - b.seed);
+    }
 
     return (
       <table className="admin-table">
         <thead>
           <tr>
+            <th>#</th>
             <th>Drużyna</th>
             <th>M</th>
             <th>Pkt</th>
@@ -534,6 +601,7 @@ export default function AdminPage() {
           ${isLive ? " team-live" : ""}
         `}
               >
+                <td>{index + 1}</td>
                 <td>{team.name}</td>
                 <td>{team.played}</td>
                 <td>{team.points}</td>
@@ -571,6 +639,9 @@ export default function AdminPage() {
 
           <button onClick={loadTournament} className="admin-load">
             📂 Wczytaj
+          </button>
+          <button onClick={logout} className="admin-logout">
+            🚪 Wyloguj
           </button>
         </div>
       </div>
@@ -796,18 +867,122 @@ Mecze od 9:00
                   </select>
                 </div>
               ))}
-
-              <button
-                onClick={confirmGroups}
-                className="admin-btn admin-btn-primary"
-              >
-                Zatwierdź grupy
+              <button className="admin-btn admin-btn-secondary">
+                Zatwierdź drużyny
               </button>
             </div>
           )}
         </div>
       )}
+      {adminView === "setup" && groupA.length > 0 && (
+        <div className="seed-section">
+          <h3 className="section-title">Kolejność w grupach</h3>
 
+          <div className="groups-grid">
+            {/* GRUPA A */}
+            <div>
+              <h4>Grupa A</h4>
+
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Drużyna</th>
+                    <th>Kolejność</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {[...groupA]
+                    .sort((a, b) => a.seed - b.seed)
+                    .map((team) => (
+                      <tr key={team.id}>
+                        <td>{team.seed}</td>
+
+                        <td>{team.name}</td>
+
+                        <td>
+                          <input
+                            type="number"
+                            value={team.seed ?? ""}
+                            min="1"
+                            onChange={(e) => {
+                              const updated = tournament.teams.map((t) =>
+                                t.id === team.id
+                                  ? { ...t, seed: Number(e.target.value) }
+                                  : t,
+                              );
+
+                              setTournament({
+                                ...tournament,
+                                teams: updated,
+                              });
+                            }}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* GRUPA B */}
+            <div>
+              <h4>Grupa B</h4>
+
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Drużyna</th>
+                    <th>Kolejność</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {groupB
+                    .sort((a, b) => a.seed - b.seed)
+                    .map((team) => (
+                      <tr key={team.id}>
+                        <td>{team.seed}</td>
+
+                        <td>{team.name}</td>
+
+                        <td>
+                          <input
+                            type="number"
+                            value={team.seed ?? ""}
+                            min="1"
+                            onChange={(e) => {
+                              const updated = tournament.teams.map((t) =>
+                                t.id === team.id
+                                  ? { ...t, seed: Number(e.target.value) }
+                                  : t,
+                              );
+
+                              setTournament({
+                                ...tournament,
+                                teams: updated,
+                              });
+                            }}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="seed-actions">
+            <button
+              onClick={confirmGroups}
+              className="admin-btn admin-btn-primary"
+            >
+              Generuj mecze fazy grupowej
+            </button>
+          </div>
+        </div>
+      )}
       {adminView === "groups" && (
         <>
           <div className="groups-grid">
@@ -933,6 +1108,7 @@ Mecze od 9:00
 
               <div className="schedule-list">
                 {renderScheduleSection("Faza grupowa", "group")}
+
                 {renderScheduleSection("Półfinały", "semifinal")}
                 {renderScheduleSection("Mecze o miejsca", "placement")}
                 {renderScheduleSection("Mecz o 3 miejsce", "thirdPlace")}

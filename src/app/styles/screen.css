@@ -121,46 +121,121 @@
   flex-direction: column;
 }
 
+/* ============================= */
+/* LIVE BAR TELEBIM */
+/* ============================= */
+
 .screen-live-bar {
   background: #ec7505;
   color: white;
 
+  overflow: hidden;
+
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 50px;
 
   height: clamp(60px, 5vh, 90px);
+}
 
-  font-size: clamp(20px, 1.8vw, 36px);
+/* tor przesuwania */
+
+.screen-live-track {
+  display: flex;
+  width: 200%;
+
+  animation: screenTicker 30s linear infinite;
+}
+
+/* pojedynczy mecz */
+
+.live-match {
+  width: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 18px;
+
+  font-size: clamp(22px, 1.8vw, 36px);
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+/* separator */
+
+.live-match:not(:last-child) {
+  border-right: 5px solid rgba(0, 0, 0, 1);
+  padding: 10px;
+}
+
+/* logo */
+
+.live-logo {
+  height: 34px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* animacja */
+
+@keyframes screenTicker {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+.live-court {
+  color: #000000;
+  font-weight: 700;
 }
 
 .live-match {
+  flex: 0 0 30%;
+
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 16px;
+
+  gap: 18px;
+
+  font-size: clamp(22px, 1.8vw, 36px);
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+.live-status {
+  flex: 0 0 auto;
 }
 
 .live-court {
-  color: #60a5fa;
-  font-weight: 700;
+  flex: 0 0 auto;
 }
 
 .live-team {
-  font-weight: 700;
+  flex: 1 1 0; /* drużyny dzielą miejsce */
+  text-align: center;
+  white-space: nowrap;
 }
 
 .live-vs {
   font-size: 28px;
   font-weight: 700;
-  color: #9ca3af;
+  color: #000000;
+  flex: 0 0 auto;
 }
 
-.live-separator {
-  margin-left: 30px;
-  font-size: 38px;
-  color: #6b7280;
-}
+/* .live-separator {
+  margin-left: 20px;
+  font-size: 40px;
+  color: #000000;
+  flex-shrink: 0;
+  flex: 0 0 auto;
+} */
 table {
   width: 100%;
   table-layout: fixed;

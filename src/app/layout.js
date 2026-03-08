@@ -2,6 +2,7 @@ export const metadata = {
   title: "System Turniejowy",
   description: "Aplikacja do zarządzania turniejem siatkówki",
 };
+<meta name="robots" content="noindex,nofollow" />;
 
 export default function RootLayout({ children }) {
   return (

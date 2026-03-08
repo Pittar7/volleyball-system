@@ -1,0 +1,844 @@
+{
+  "tournament": {
+    "teams": [
+      {
+        "id": "9b14bb3b-0e92-439b-9eec-01db0558eeeb",
+        "name": "DKWOC",
+        "group": "A",
+        "logos": [],
+        "seed": 1
+      },
+      {
+        "id": "f66868ea-3117-4b96-8957-bd1bb1062203",
+        "name": "CWSD SZ i JDC „A”",
+        "group": "A",
+        "logos": [],
+        "seed": 2
+      },
+      {
+        "id": "ca8ae2fb-82cb-4c9f-8872-1aa446ac80ca",
+        "name": "RCI OLSZTYN",
+        "group": "A",
+        "logos": [],
+        "seed": 3
+      },
+      {
+        "id": "5c5f6ca9-892d-4214-83e5-96ccc0d3df91",
+        "name": "RCI KRAKÓW",
+        "group": "A",
+        "logos": [],
+        "seed": 4
+      },
+      {
+        "id": "e7b79fa3-92f5-4379-b7b5-bc6ea8b22334",
+        "name": "RCI GDYNIA",
+        "group": "A",
+        "logos": [],
+        "seed": 5
+      },
+      {
+        "id": "d780a40c-7df3-49ef-9ea2-9d2133db7f71",
+        "name": "RCI WROCŁAW",
+        "group": "B",
+        "logos": [],
+        "seed": 6
+      },
+      {
+        "id": "95a46a90-9d4a-4602-be00-f550a92e7624",
+        "name": "RCI WARSZAWA",
+        "group": "B",
+        "logos": [],
+        "seed": 7
+      },
+      {
+        "id": "5704d34b-4b60-4cbc-ad3c-1db642cfe072",
+        "name": "JDC „C”",
+        "group": "B",
+        "logos": [],
+        "seed": 8
+      },
+      {
+        "id": "db070fe7-780b-4df6-97b1-9f2e867a08b7",
+        "name": "JWD",
+        "group": "B",
+        "logos": [],
+        "seed": 9
+      },
+      {
+        "id": "36e31529-3ff0-44a8-aac3-19a48bc78fe8",
+        "name": "RCI BYDGOSZCZ",
+        "group": "B",
+        "logos": [],
+        "seed": 10
+      }
+    ],
+    "matches": [],
+    "settings": {
+      "numberOfTeams": 8,
+      "teamsFromGroup": 2
+    },
+    "announcements": ""
+  },
+  "schedule": [
+    {
+      "id": "846c766d-0249-44a2-9458-766c544569fa",
+      "type": "group",
+      "group": "A",
+      "round": 1,
+      "teamA": {
+        "id": "9b14bb3b-0e92-439b-9eec-01db0558eeeb",
+        "name": "DKWOC",
+        "group": "A",
+        "logos": [],
+        "seed": 1
+      },
+      "teamB": {
+        "id": "e7b79fa3-92f5-4379-b7b5-bc6ea8b22334",
+        "name": "RCI GDYNIA",
+        "group": "A",
+        "logos": [],
+        "seed": 5
+      },
+      "sets": [
+        {
+          "a": "25",
+          "b": "22"
+        },
+        {
+          "a": "25",
+          "b": "22"
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": true,
+      "status": "finished",
+      "order": 1,
+      "court": "A"
+    },
+    {
+      "id": "6cadf517-5b8a-400c-89b2-1480a1c9b26e",
+      "type": "group",
+      "group": "B",
+      "round": 1,
+      "teamA": {
+        "id": "d780a40c-7df3-49ef-9ea2-9d2133db7f71",
+        "name": "RCI WROCŁAW",
+        "group": "B",
+        "logos": [],
+        "seed": 1
+      },
+      "teamB": {
+        "id": "36e31529-3ff0-44a8-aac3-19a48bc78fe8",
+        "name": "RCI BYDGOSZCZ",
+        "group": "B",
+        "logos": [],
+        "seed": 5
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 2,
+      "court": "B"
+    },
+    {
+      "id": "4aac1c78-d5cf-4591-aaa4-9303d4ff1757",
+      "type": "group",
+      "group": "A",
+      "round": 1,
+      "teamA": {
+        "id": "f66868ea-3117-4b96-8957-bd1bb1062203",
+        "name": "CWSD SZ i JDC „A”",
+        "group": "A",
+        "logos": [],
+        "seed": 2
+      },
+      "teamB": {
+        "id": "5c5f6ca9-892d-4214-83e5-96ccc0d3df91",
+        "name": "RCI KRAKÓW",
+        "group": "A",
+        "logos": [],
+        "seed": 4
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 3,
+      "court": "A"
+    },
+    {
+      "id": "e1c428e2-8936-47f9-8e0f-24c526c1290e",
+      "type": "group",
+      "group": "B",
+      "round": 1,
+      "teamA": {
+        "id": "95a46a90-9d4a-4602-be00-f550a92e7624",
+        "name": "RCI WARSZAWA",
+        "group": "B",
+        "logos": [],
+        "seed": 2
+      },
+      "teamB": {
+        "id": "db070fe7-780b-4df6-97b1-9f2e867a08b7",
+        "name": "JWD",
+        "group": "B",
+        "logos": [],
+        "seed": 4
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 4,
+      "court": "B"
+    },
+    {
+      "id": "183e5342-5be1-4d3f-84a0-c8469c64a3bb",
+      "type": "group",
+      "group": "A",
+      "round": 2,
+      "teamA": {
+        "id": "9b14bb3b-0e92-439b-9eec-01db0558eeeb",
+        "name": "DKWOC",
+        "group": "A",
+        "logos": [],
+        "seed": 1
+      },
+      "teamB": {
+        "id": "ca8ae2fb-82cb-4c9f-8872-1aa446ac80ca",
+        "name": "RCI OLSZTYN",
+        "group": "A",
+        "logos": [],
+        "seed": 3
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 5,
+      "court": "A"
+    },
+    {
+      "id": "45c2a121-560e-4289-9bbd-1b65e4ca10ee",
+      "type": "group",
+      "group": "B",
+      "round": 2,
+      "teamA": {
+        "id": "d780a40c-7df3-49ef-9ea2-9d2133db7f71",
+        "name": "RCI WROCŁAW",
+        "group": "B",
+        "logos": [],
+        "seed": 1
+      },
+      "teamB": {
+        "id": "5704d34b-4b60-4cbc-ad3c-1db642cfe072",
+        "name": "JDC „C”",
+        "group": "B",
+        "logos": [],
+        "seed": 3
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 6,
+      "court": "B"
+    },
+    {
+      "id": "6f0756b0-fe09-4e80-84f3-d53926835d53",
+      "type": "group",
+      "group": "A",
+      "round": 2,
+      "teamA": {
+        "id": "f66868ea-3117-4b96-8957-bd1bb1062203",
+        "name": "CWSD SZ i JDC „A”",
+        "group": "A",
+        "logos": [],
+        "seed": 2
+      },
+      "teamB": {
+        "id": "e7b79fa3-92f5-4379-b7b5-bc6ea8b22334",
+        "name": "RCI GDYNIA",
+        "group": "A",
+        "logos": [],
+        "seed": 5
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 7,
+      "court": "A"
+    },
+    {
+      "id": "38728833-f73d-452d-8c13-46babd9d7741",
+      "type": "group",
+      "group": "B",
+      "round": 2,
+      "teamA": {
+        "id": "95a46a90-9d4a-4602-be00-f550a92e7624",
+        "name": "RCI WARSZAWA",
+        "group": "B",
+        "logos": [],
+        "seed": 2
+      },
+      "teamB": {
+        "id": "36e31529-3ff0-44a8-aac3-19a48bc78fe8",
+        "name": "RCI BYDGOSZCZ",
+        "group": "B",
+        "logos": [],
+        "seed": 5
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 8,
+      "court": "B"
+    },
+    {
+      "id": "412b5ba2-90bf-438f-a514-deb2ce1e73a2",
+      "type": "group",
+      "group": "A",
+      "round": 3,
+      "teamA": {
+        "id": "ca8ae2fb-82cb-4c9f-8872-1aa446ac80ca",
+        "name": "RCI OLSZTYN",
+        "group": "A",
+        "logos": [],
+        "seed": 3
+      },
+      "teamB": {
+        "id": "5c5f6ca9-892d-4214-83e5-96ccc0d3df91",
+        "name": "RCI KRAKÓW",
+        "group": "A",
+        "logos": [],
+        "seed": 4
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 9,
+      "court": "A"
+    },
+    {
+      "id": "c463db4e-ca24-4c21-b2a7-9196df1afee9",
+      "type": "group",
+      "group": "B",
+      "round": 3,
+      "teamA": {
+        "id": "5704d34b-4b60-4cbc-ad3c-1db642cfe072",
+        "name": "JDC „C”",
+        "group": "B",
+        "logos": [],
+        "seed": 3
+      },
+      "teamB": {
+        "id": "db070fe7-780b-4df6-97b1-9f2e867a08b7",
+        "name": "JWD",
+        "group": "B",
+        "logos": [],
+        "seed": 4
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 10,
+      "court": "B"
+    },
+    {
+      "id": "a415d235-a4a3-4ad0-b4b0-f41161cb5d0c",
+      "type": "group",
+      "group": "A",
+      "round": 3,
+      "teamA": {
+        "id": "9b14bb3b-0e92-439b-9eec-01db0558eeeb",
+        "name": "DKWOC",
+        "group": "A",
+        "logos": [],
+        "seed": 1
+      },
+      "teamB": {
+        "id": "f66868ea-3117-4b96-8957-bd1bb1062203",
+        "name": "CWSD SZ i JDC „A”",
+        "group": "A",
+        "logos": [],
+        "seed": 2
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 11,
+      "court": "A"
+    },
+    {
+      "id": "7c6257ce-6cff-4a7a-9ca5-e733ca8eb432",
+      "type": "group",
+      "group": "B",
+      "round": 3,
+      "teamA": {
+        "id": "d780a40c-7df3-49ef-9ea2-9d2133db7f71",
+        "name": "RCI WROCŁAW",
+        "group": "B",
+        "logos": [],
+        "seed": 1
+      },
+      "teamB": {
+        "id": "95a46a90-9d4a-4602-be00-f550a92e7624",
+        "name": "RCI WARSZAWA",
+        "group": "B",
+        "logos": [],
+        "seed": 2
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 12,
+      "court": "B"
+    },
+    {
+      "id": "813b9aec-d6c8-4f60-a55c-899008ef0196",
+      "type": "group",
+      "group": "A",
+      "round": 4,
+      "teamA": {
+        "id": "ca8ae2fb-82cb-4c9f-8872-1aa446ac80ca",
+        "name": "RCI OLSZTYN",
+        "group": "A",
+        "logos": [],
+        "seed": 3
+      },
+      "teamB": {
+        "id": "e7b79fa3-92f5-4379-b7b5-bc6ea8b22334",
+        "name": "RCI GDYNIA",
+        "group": "A",
+        "logos": [],
+        "seed": 5
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 13,
+      "court": "A"
+    },
+    {
+      "id": "15af7e3e-3ec7-4522-9f05-a09b8682f11c",
+      "type": "group",
+      "group": "B",
+      "round": 4,
+      "teamA": {
+        "id": "5704d34b-4b60-4cbc-ad3c-1db642cfe072",
+        "name": "JDC „C”",
+        "group": "B",
+        "logos": [],
+        "seed": 3
+      },
+      "teamB": {
+        "id": "36e31529-3ff0-44a8-aac3-19a48bc78fe8",
+        "name": "RCI BYDGOSZCZ",
+        "group": "B",
+        "logos": [],
+        "seed": 5
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 14,
+      "court": "B"
+    },
+    {
+      "id": "176341f4-069b-478b-ac7d-34c0ff80462c",
+      "type": "group",
+      "group": "A",
+      "round": 4,
+      "teamA": {
+        "id": "9b14bb3b-0e92-439b-9eec-01db0558eeeb",
+        "name": "DKWOC",
+        "group": "A",
+        "logos": [],
+        "seed": 1
+      },
+      "teamB": {
+        "id": "5c5f6ca9-892d-4214-83e5-96ccc0d3df91",
+        "name": "RCI KRAKÓW",
+        "group": "A",
+        "logos": [],
+        "seed": 4
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 15,
+      "court": "A"
+    },
+    {
+      "id": "eb6d4690-b481-40cc-a205-b4932ac26b2d",
+      "type": "group",
+      "group": "B",
+      "round": 4,
+      "teamA": {
+        "id": "d780a40c-7df3-49ef-9ea2-9d2133db7f71",
+        "name": "RCI WROCŁAW",
+        "group": "B",
+        "logos": [],
+        "seed": 1
+      },
+      "teamB": {
+        "id": "db070fe7-780b-4df6-97b1-9f2e867a08b7",
+        "name": "JWD",
+        "group": "B",
+        "logos": [],
+        "seed": 4
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 16,
+      "court": "B"
+    },
+    {
+      "id": "81b492fc-de32-4e04-b2d1-e99e6fde23ac",
+      "type": "group",
+      "group": "A",
+      "round": 5,
+      "teamA": {
+        "id": "f66868ea-3117-4b96-8957-bd1bb1062203",
+        "name": "CWSD SZ i JDC „A”",
+        "group": "A",
+        "logos": [],
+        "seed": 2
+      },
+      "teamB": {
+        "id": "ca8ae2fb-82cb-4c9f-8872-1aa446ac80ca",
+        "name": "RCI OLSZTYN",
+        "group": "A",
+        "logos": [],
+        "seed": 3
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 17,
+      "court": "A"
+    },
+    {
+      "id": "5332cd3d-6a16-4d8f-bd7b-7f28b9345033",
+      "type": "group",
+      "group": "B",
+      "round": 5,
+      "teamA": {
+        "id": "95a46a90-9d4a-4602-be00-f550a92e7624",
+        "name": "RCI WARSZAWA",
+        "group": "B",
+        "logos": [],
+        "seed": 2
+      },
+      "teamB": {
+        "id": "5704d34b-4b60-4cbc-ad3c-1db642cfe072",
+        "name": "JDC „C”",
+        "group": "B",
+        "logos": [],
+        "seed": 3
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 18,
+      "court": "B"
+    },
+    {
+      "id": "0c5acd44-1bda-4369-89b1-4fa65696a4a2",
+      "type": "group",
+      "group": "A",
+      "round": 5,
+      "teamA": {
+        "id": "5c5f6ca9-892d-4214-83e5-96ccc0d3df91",
+        "name": "RCI KRAKÓW",
+        "group": "A",
+        "logos": [],
+        "seed": 4
+      },
+      "teamB": {
+        "id": "e7b79fa3-92f5-4379-b7b5-bc6ea8b22334",
+        "name": "RCI GDYNIA",
+        "group": "A",
+        "logos": [],
+        "seed": 5
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 19,
+      "court": "A"
+    },
+    {
+      "id": "1f5bfb6b-8a19-4317-9902-9387ecde9108",
+      "type": "group",
+      "group": "B",
+      "round": 5,
+      "teamA": {
+        "id": "db070fe7-780b-4df6-97b1-9f2e867a08b7",
+        "name": "JWD",
+        "group": "B",
+        "logos": [],
+        "seed": 4
+      },
+      "teamB": {
+        "id": "36e31529-3ff0-44a8-aac3-19a48bc78fe8",
+        "name": "RCI BYDGOSZCZ",
+        "group": "B",
+        "logos": [],
+        "seed": 5
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false,
+      "status": "planned",
+      "order": 20,
+      "court": "B"
+    }
+  ]
+}

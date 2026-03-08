@@ -12,6 +12,18 @@ export default function HomePage() {
   const [scheduleView, setScheduleView] = useState("groups");
   const [tableView, setTableView] = useState("groups");
   // groups | matches | main
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreen = () => {
+      setIsMobile(window.innerWidth <= 900);
+    };
+
+    checkScreen();
+    window.addEventListener("resize", checkScreen);
+
+    return () => window.removeEventListener("resize", checkScreen);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,7 +43,8 @@ export default function HomePage() {
 
   if (!data) return <div className="player-page">Ładowanie...</div>;
 
-  const { tournament, schedule = [] } = data;
+  const tournament = data?.tournament || { teams: [] };
+  const schedule = data?.schedule || [];
 
   const groupA = tournament.teams.filter((t) => t.group === "A");
   const groupB = tournament.teams.filter((t) => t.group === "B");
@@ -242,13 +255,66 @@ export default function HomePage() {
       </tr>
     );
   };
+  const sortedSchedule = [...schedule].sort((a, b) => a.order - b.order);
+
+  const liveMatches = sortedSchedule.filter((m) => m.status === "live");
+
+  const plannedMatches = sortedSchedule.filter(
+    (m) => m.status === "planned" || !m.status,
+  );
+
+  let tickerMatches = [...liveMatches];
+
+  if (tickerMatches.length < 2) {
+    const remaining = 2 - tickerMatches.length;
+
+    const nextPlanned = plannedMatches
+      .filter((m) => !liveMatches.some((l) => l.id === m.id))
+      .slice(0, remaining);
+
+    tickerMatches = [...tickerMatches, ...nextPlanned];
+  }
 
   return (
     <main className="player-page">
+      <div className="live-ticker">
+        <div className="live-ticker">
+          <div className="live-ticker-track">
+            {(isMobile
+              ? [...tickerMatches, ...tickerMatches]
+              : tickerMatches
+            ).map((match, i) => (
+              <div key={i} className="ticker-match">
+                <span className="ticker-court">Boisko {match.court}</span>
+
+                <div className="ticker-team">
+                  {getTeamById(match.teamA.id)?.logos?.map((logo, i) =>
+                    logo ? (
+                      <img key={i} src={logo} className="ticker-logo" />
+                    ) : null,
+                  )}
+                  <span>{match.teamA.name}</span>
+                </div>
+
+                <span className="ticker-vs">vs</span>
+
+                <div className="ticker-team">
+                  {getTeamById(match.teamB.id)?.logos?.map((logo, i) =>
+                    logo ? (
+                      <img key={i} src={logo} className="ticker-logo" />
+                    ) : null,
+                  )}
+                  <span>{match.teamB.name}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
       <div
         className="background-logo"
         style={{
-          backgroundImage: "url('/logos/logo-turnieju.png')",
+          backgroundImage: "url('./logos/logo-turnieju.jpg')",
         }}
       />
 
@@ -340,19 +406,20 @@ export default function HomePage() {
                           <td className="team-cell">
                             <div className="team-with-logo">
                               <div className="team-logos">
-                                {getTeamById(team.id)?.logos?.length ? (
-                                  getTeamById(team.id).logos.map((logo, i) =>
-                                    logo ? (
-                                      <img
-                                        key={i}
-                                        src={logo}
-                                        className="team-logo"
-                                      />
-                                    ) : null,
+                                {(getTeamById(team.id)?.logos || [])
+                                  .filter(
+                                    (logo) =>
+                                      typeof logo === "string" &&
+                                      logo.trim() !== "",
                                   )
-                                ) : (
-                                  <div className="team-logo-placeholder">?</div>
-                                )}
+                                  .map((logo, i) => (
+                                    <img
+                                      key={i}
+                                      src={logo}
+                                      className="team-logo"
+                                      alt="logo"
+                                    />
+                                  ))}
                               </div>
 
                               <span className="team-name">{team.name}</span>
@@ -409,19 +476,20 @@ export default function HomePage() {
                           <td className="team-cell">
                             <div className="team-with-logo">
                               <div className="team-logos">
-                                {getTeamById(team.id)?.logos?.length ? (
-                                  getTeamById(team.id).logos.map((logo, i) =>
-                                    logo ? (
-                                      <img
-                                        key={i}
-                                        src={logo}
-                                        className="team-logo"
-                                      />
-                                    ) : null,
+                                {(getTeamById(team.id)?.logos || [])
+                                  .filter(
+                                    (logo) =>
+                                      typeof logo === "string" &&
+                                      logo.trim() !== "",
                                   )
-                                ) : (
-                                  <div className="team-logo-placeholder">?</div>
-                                )}
+                                  .map((logo, i) => (
+                                    <img
+                                      key={i}
+                                      src={logo}
+                                      className="team-logo"
+                                      alt="logo"
+                                    />
+                                  ))}
                               </div>
 
                               <span className="team-name">{team.name}</span>
@@ -528,19 +596,12 @@ export default function HomePage() {
                           {(() => {
                             const fullTeam = getTeamById(row.team.id);
 
-                            if (!fullTeam?.logos?.length) {
-                              return (
-                                <div className="ranking-logo-placeholder">
-                                  ?
-                                </div>
-                              );
-                            }
-
                             return (
                               <div className="ranking-team">
                                 <div className="team-logos">
-                                  {fullTeam.logos.map((logo, i) =>
-                                    logo ? (
+                                  {fullTeam?.logos
+                                    ?.filter((logo) => logo)
+                                    .map((logo, i) => (
                                       <img
                                         key={i}
                                         src={logo}
@@ -550,12 +611,11 @@ export default function HomePage() {
                                             : "ranking-logo"
                                         }
                                       />
-                                    ) : null,
-                                  )}
+                                    ))}
                                 </div>
 
                                 <span className="ranking-team-name">
-                                  {fullTeam.name}
+                                  {fullTeam?.name || row.team.name}
                                 </span>
                               </div>
                             );
@@ -632,8 +692,30 @@ export default function HomePage() {
                 <h4>Półfinały</h4>
 
                 {liveBracket.semifinals.map((match, i) => (
-                  <div key={i} className="live-bracket-match">
-                    {match.teamA?.name || "—"} vs {match.teamB?.name || "—"}
+                  <div className="live-bracket-match">
+                    <div className="team-with-logo">
+                      <div className="team-logos">
+                        {getTeamById(match.teamA?.id)?.logos?.map((logo, i) =>
+                          logo ? (
+                            <img key={i} src={logo} className="team-logo" />
+                          ) : null,
+                        )}
+                      </div>
+                      <span>{match.teamA?.name || "—"}</span>
+                    </div>
+
+                    <span className="live-vs">vs</span>
+
+                    <div className="team-with-logo">
+                      <div className="team-logos">
+                        {getTeamById(match.teamB?.id)?.logos?.map((logo, i) =>
+                          logo ? (
+                            <img key={i} src={logo} className="team-logo" />
+                          ) : null,
+                        )}
+                      </div>
+                      <span>{match.teamB?.name || "—"}</span>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -643,8 +725,33 @@ export default function HomePage() {
                 <div className="live-bracket-section">
                   <h4>Mecz o 5 miejsce</h4>
                   <div className="live-bracket-match">
-                    {liveBracket.place5.teamA.name} vs{" "}
-                    {liveBracket.place5.teamB.name}
+                    <div className="team-with-logo">
+                      <div className="team-logos">
+                        {getTeamById(liveBracket.place5.teamA?.id)?.logos?.map(
+                          (logo, i) =>
+                            logo ? (
+                              <img key={i} src={logo} className="team-logo" />
+                            ) : null,
+                        )}
+                      </div>
+
+                      <span>{liveBracket.place5.teamA?.name}</span>
+                    </div>
+
+                    <span className="live-vs">vs</span>
+
+                    <div className="team-with-logo">
+                      <div className="team-logos">
+                        {getTeamById(liveBracket.place5.teamB?.id)?.logos?.map(
+                          (logo, i) =>
+                            logo ? (
+                              <img key={i} src={logo} className="team-logo" />
+                            ) : null,
+                        )}
+                      </div>
+
+                      <span>{liveBracket.place5.teamB?.name}</span>
+                    </div>
                   </div>
                 </div>
               )}
@@ -654,8 +761,33 @@ export default function HomePage() {
                 <div className="live-bracket-section">
                   <h4>Mecz o 7 miejsce</h4>
                   <div className="live-bracket-match">
-                    {liveBracket.place7.teamA.name} vs{" "}
-                    {liveBracket.place7.teamB.name}
+                    <div className="team-with-logo">
+                      <div className="team-logos">
+                        {getTeamById(liveBracket.place7.teamA?.id)?.logos?.map(
+                          (logo, i) =>
+                            logo ? (
+                              <img key={i} src={logo} className="team-logo" />
+                            ) : null,
+                        )}
+                      </div>
+
+                      <span>{liveBracket.place7.teamA?.name}</span>
+                    </div>
+
+                    <span className="live-vs">vs</span>
+
+                    <div className="team-with-logo">
+                      <div className="team-logos">
+                        {getTeamById(liveBracket.place7.teamB?.id)?.logos?.map(
+                          (logo, i) =>
+                            logo ? (
+                              <img key={i} src={logo} className="team-logo" />
+                            ) : null,
+                        )}
+                      </div>
+
+                      <span>{liveBracket.place7.teamB?.name}</span>
+                    </div>
                   </div>
                 </div>
               )}
@@ -665,8 +797,33 @@ export default function HomePage() {
                 <div className="live-bracket-section">
                   <h4>Mecz o 9 miejsce</h4>
                   <div className="live-bracket-match">
-                    {liveBracket.place9.teamA.name} vs{" "}
-                    {liveBracket.place9.teamB.name}
+                    <div className="team-with-logo">
+                      <div className="team-logos">
+                        {getTeamById(liveBracket.place9.teamA?.id)?.logos?.map(
+                          (logo, i) =>
+                            logo ? (
+                              <img key={i} src={logo} className="team-logo" />
+                            ) : null,
+                        )}
+                      </div>
+
+                      <span>{liveBracket.place9.teamA?.name}</span>
+                    </div>
+
+                    <span className="live-vs">vs</span>
+
+                    <div className="team-with-logo">
+                      <div className="team-logos">
+                        {getTeamById(liveBracket.place9.teamB?.id)?.logos?.map(
+                          (logo, i) =>
+                            logo ? (
+                              <img key={i} src={logo} className="team-logo" />
+                            ) : null,
+                        )}
+                      </div>
+
+                      <span>{liveBracket.place9.teamB?.name}</span>
+                    </div>
                   </div>
                 </div>
               )}

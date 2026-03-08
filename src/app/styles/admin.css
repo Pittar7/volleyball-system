@@ -194,7 +194,7 @@
   border-radius: 8px;
   border: 1px solid #ddd;
   margin-bottom: 12px;
-  min-width: 180px;
+  /* min-width: 180px; */
 }
 
 .selected-teams {
@@ -669,4 +669,73 @@
   height: 28px;
   object-fit: contain;
   margin-right: 4px;
+}
+.seed-section {
+  margin-top: 40px;
+}
+
+.seed-section table input {
+  width: 60px;
+  text-align: center;
+}
+.seed-actions {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+}
+.seed-section {
+  margin-top: 40px;
+}
+
+.seed-section h4 {
+  margin-bottom: 10px;
+}
+
+.seed-section table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.seed-section th {
+  background: #f1f3f6;
+  font-weight: 600;
+  padding: 10px;
+  text-align: left;
+}
+
+.seed-section td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.seed-section tr:last-child td {
+  border-bottom: none;
+}
+
+.seed-section input {
+  width: 60px;
+  padding: 6px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.seed-section .groups-grid {
+  margin-top: 15px;
+  gap: 30px;
+}
+.admin-logout {
+  background: #e74c3c;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.admin-logout:hover {
+  background: #c0392b;
 }
