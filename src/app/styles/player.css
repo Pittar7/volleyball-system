@@ -774,6 +774,7 @@
   gap: 40px;
   padding: 10px 20px;
   align-items: center;
+  cursor: pointer;
 }
 
 /* pojedynczy mecz */
@@ -855,5 +856,9 @@
   font-weight: 700;
   text-align: center;
   width: 70px;
-  
+}
+.table-place {
+  font-weight: 700;
+  text-align: center;
+  width: 40px;
 }

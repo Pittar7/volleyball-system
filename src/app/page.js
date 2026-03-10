@@ -6,11 +6,15 @@ import "./styles/player.css";
 import { calculateTable } from "@/lib/tournamentLogic";
 import ReactMarkdown from "react-markdown";
 import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
+
 export default function HomePage() {
+  const router = useRouter();
   const [data, setData] = useState(null);
   const [activeTab, setActiveTab] = useState("table");
   const [scheduleView, setScheduleView] = useState("groups");
   const [tableView, setTableView] = useState("groups");
+
   // groups | matches | main
   const [isMobile, setIsMobile] = useState(false);
 
@@ -67,6 +71,8 @@ export default function HomePage() {
 
   const groupA = tournament.teams.filter((t) => t.group === "A");
   const groupB = tournament.teams.filter((t) => t.group === "B");
+  const groupASeeded = [...groupA].sort((a, b) => a.seed - b.seed);
+  const groupBSeeded = [...groupB].sort((a, b) => a.seed - b.seed);
 
   const getTeamById = (id) => tournament.teams.find((t) => t.id === id);
 
@@ -92,19 +98,24 @@ export default function HomePage() {
     return setsA > setsB ? match.teamA : match.teamB;
   };
 
-  const tableA = calculateTable(
-    groupA,
-    schedule.filter(
-      (m) => m.type === "group" && groupA.some((t) => t.id === m.teamA.id),
-    ),
+  const groupAMatches = schedule.filter(
+    (m) => m.type === "group" && groupA.some((t) => t.id === m.teamA.id),
   );
 
-  const tableB = calculateTable(
-    groupB,
-    schedule.filter(
-      (m) => m.type === "group" && groupB.some((t) => t.id === m.teamA.id),
-    ),
+  const groupBMatches = schedule.filter(
+    (m) => m.type === "group" && groupB.some((t) => t.id === m.teamA.id),
   );
+
+  const hasResultsA = groupAMatches.some((m) => m.finished);
+  const hasResultsB = groupBMatches.some((m) => m.finished);
+
+  const tableA = hasResultsA
+    ? calculateTable(groupA, groupAMatches)
+    : [...groupA].sort((a, b) => a.seed - b.seed);
+
+  const tableB = hasResultsB
+    ? calculateTable(groupB, groupBMatches)
+    : [...groupB].sort((a, b) => a.seed - b.seed);
   const bracketGenerated = schedule.some((m) =>
     ["semifinal", "placement", "thirdPlace", "final"].includes(m.type),
   );
@@ -299,13 +310,18 @@ export default function HomePage() {
       <div className="live-ticker">
         <div
           className="live-ticker-track"
-          // onClick={() => router.push("/player?schedule=true")}
+          onClick={() => {
+            document.getElementById("schedule")?.click();
+            {
+              behavior: "smooth";
+            }
+          }}
         >
           {(isMobile
             ? [...tickerMatches, ...tickerMatches]
             : tickerMatches
           ).map((match, i) => (
-            <div key={i} className="ticker-match">
+            <div key={`${match.id}-${i}`} className="ticker-match">
               <span className="ticker-court">Boisko {match.court}</span>
 
               <div className="ticker-team">
@@ -348,6 +364,7 @@ export default function HomePage() {
         </button>
 
         <button
+          id="schedule"
           onClick={() => setActiveTab("schedule")}
           className={`tab-button ${activeTab === "schedule" ? "active" : ""}`}
         >
@@ -410,6 +427,7 @@ export default function HomePage() {
                 <table className="group-table">
                   <thead>
                     <tr>
+                      <th>Miejsce</th>
                       <th>Drużyna</th>
                       <th>M</th>
                       <th>Pkt</th>
@@ -418,12 +436,13 @@ export default function HomePage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {tableA.map((team) => {
+                    {tableA.map((team, index) => {
                       const diff = team.smallPointsWon - team.smallPointsLost;
                       const sign = diff > 0 ? "+" : "";
 
                       return (
                         <tr key={team.id}>
+                          <td className="table-place">{index + 1}</td>
                           <td className="team-cell">
                             <div className="team-with-logo">
                               <div className="team-logos">
@@ -480,6 +499,7 @@ export default function HomePage() {
                 <table className="group-table">
                   <thead>
                     <tr>
+                      <th>Miejsce</th>
                       <th>Drużyna</th>
                       <th>M</th>
                       <th>Pkt</th>
@@ -488,12 +508,13 @@ export default function HomePage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {tableB.map((team) => {
+                    {tableB.map((team, index) => {
                       const diff = team.smallPointsWon - team.smallPointsLost;
                       const sign = diff > 0 ? "+" : "";
 
                       return (
                         <tr key={team.id}>
+                          <td className="table-place">{index + 1}</td>
                           <td className="team-cell">
                             <div className="team-with-logo">
                               <div className="team-logos">
@@ -547,12 +568,13 @@ export default function HomePage() {
           )}
 
           {/* ===== MACIERZ MECZÓW ===== */}
+
           {tableView === "matches" && (
             <div className="space-y-8">
               <div>
                 <h3 className="section-title">Grupa A</h3>
                 <MatchMatrix
-                  teams={groupA}
+                  teams={groupASeeded}
                   matches={schedule.filter(
                     (m) =>
                       m.type === "group" &&
@@ -565,7 +587,7 @@ export default function HomePage() {
               <div>
                 <h3 className="section-title">Grupa B</h3>
                 <MatchMatrix
-                  teams={groupB}
+                  teams={groupBSeeded}
                   matches={schedule.filter(
                     (m) =>
                       m.type === "group" &&
@@ -712,9 +734,11 @@ export default function HomePage() {
               <div className="live-bracket-section">
                 <h4>Półfinały</h4>
 
-                {liveBracket.semifinals.map((match, i) => (
-                  // eslint-disable-next-line react/jsx-key
-                  <div className="live-bracket-match">
+                {liveBracket.semifinals.map((match) => (
+                  <div
+                    key={`${match.teamA?.id}-${match.teamB?.id}`}
+                    className="live-bracket-match"
+                  >
                     <div className="team-with-logo">
                       <div className="team-logos">
                         {getTeamById(match.teamA?.id)?.logos?.map((logo, i) =>

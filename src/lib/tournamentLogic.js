@@ -65,20 +65,20 @@ export function generateGroupMatches(teams, group) {
     const t = sorted;
 
     const schedule = [
-      [t[0], t[4]],
-      [t[1], t[3]],
-
-      [t[0], t[2]],
-      [t[1], t[4]],
-
-      [t[2], t[3]],
       [t[0], t[1]],
+      [t[2], t[3]],
 
-      [t[2], t[4]],
-      [t[0], t[3]],
-
+      [t[0], t[4]],
       [t[1], t[2]],
+
       [t[3], t[4]],
+      [t[0], t[2]],
+
+      [t[1], t[3]],
+      [t[2], t[4]],
+
+      [t[0], t[3]],
+      [t[2], t[4]],
     ];
 
     return schedule.map((pair, i) => ({
