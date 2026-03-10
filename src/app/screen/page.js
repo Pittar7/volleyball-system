@@ -391,7 +391,12 @@ export default function ScreenPage() {
                                 winner === match.teamA.id ? "winner" : ""
                               }
                             >
-                              {match.teamA.name}
+                              <span>
+                                {match.teamA.name}
+                                {winner === match.teamA.id && (
+                                  <span className="winner-icon">🏆</span>
+                                )}
+                              </span>
                             </span>
                           </td>
 
@@ -416,7 +421,12 @@ export default function ScreenPage() {
                                 winner === match.teamB.id ? "winner" : ""
                               }
                             >
-                              {match.teamB.name}
+                              <span>
+                                {match.teamB.name}
+                                {winner === match.teamB.id && (
+                                  <span className="winner-icon">🏆</span>
+                                )}
+                              </span>
                             </span>
                           </td>
                         </tr>
