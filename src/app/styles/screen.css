@@ -418,3 +418,7 @@ table {
 
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
+.winner {
+  font-weight: 800;
+  color: #16a34a;
+}

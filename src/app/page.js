@@ -297,39 +297,41 @@ export default function HomePage() {
   return (
     <main className="player-page">
       <div className="live-ticker">
-        <div className="live-ticker">
-          <div className="live-ticker-track">
-            {(isMobile
-              ? [...tickerMatches, ...tickerMatches]
-              : tickerMatches
-            ).map((match, i) => (
-              <div key={i} className="ticker-match">
-                <span className="ticker-court">Boisko {match.court}</span>
+        <div
+          className="live-ticker-track"
+          // onClick={() => router.push("/player?schedule=true")}
+        >
+          {(isMobile
+            ? [...tickerMatches, ...tickerMatches]
+            : tickerMatches
+          ).map((match, i) => (
+            <div key={i} className="ticker-match">
+              <span className="ticker-court">Boisko {match.court}</span>
 
-                <div className="ticker-team">
-                  {getTeamById(match.teamA.id)?.logos?.map((logo, i) =>
-                    logo ? (
-                      <img key={i} src={logo} className="ticker-logo" />
-                    ) : null,
-                  )}
-                  <span>{match.teamA.name}</span>
-                </div>
-
-                <span className="ticker-vs">vs</span>
-
-                <div className="ticker-team">
-                  {getTeamById(match.teamB.id)?.logos?.map((logo, i) =>
-                    logo ? (
-                      <img key={i} src={logo} className="ticker-logo" />
-                    ) : null,
-                  )}
-                  <span>{match.teamB.name}</span>
-                </div>
+              <div className="ticker-team">
+                {getTeamById(match.teamA.id)?.logos?.map((logo, i) =>
+                  logo ? (
+                    <img key={i} src={logo} className="ticker-logo" />
+                  ) : null,
+                )}
+                <span>{match.teamA.name}</span>
               </div>
-            ))}
-          </div>
+
+              <span className="ticker-vs">vs</span>
+
+              <div className="ticker-team">
+                {getTeamById(match.teamB.id)?.logos?.map((logo, i) =>
+                  logo ? (
+                    <img key={i} src={logo} className="ticker-logo" />
+                  ) : null,
+                )}
+                <span>{match.teamB.name}</span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
+
       <div
         className="background-logo"
         style={{
@@ -711,6 +713,7 @@ export default function HomePage() {
                 <h4>Półfinały</h4>
 
                 {liveBracket.semifinals.map((match, i) => (
+                  // eslint-disable-next-line react/jsx-key
                   <div className="live-bracket-match">
                     <div className="team-with-logo">
                       <div className="team-logos">

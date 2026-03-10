@@ -155,7 +155,7 @@ export default function ScreenPage() {
 
   useEffect(() => {
     const leftRotation = setInterval(() => {
-      setLeftView((v) => (v + 1) % 2);
+      setLeftView((v) => (v + 0) % 1);
     }, 10000);
 
     const rightRotation = setInterval(() => {
@@ -195,7 +195,6 @@ export default function ScreenPage() {
     schedule.filter((m) => m.type === "group" && m.group === "B"),
   );
 
-  // const visibleMatches = sortedSchedule.slice(0, 10);
   const getTeamById = (id) => tournament.teams.find((t) => t.id === id);
   const liveMatches = schedule.filter((m) => m.status === "live");
 
@@ -214,10 +213,45 @@ export default function ScreenPage() {
 
     topBarMatches = [...topBarMatches, ...nextPlanned];
   }
+  const getVisibleMatches = () => {
+    const finished = sortedSchedule.filter((m) => m.finished).slice(-4); // ostatnie 4 zakończone
 
+    const upcoming = sortedSchedule.filter((m) => !m.finished).slice(0, 11); // kolejne mecze
+
+    return [...finished, ...upcoming];
+  };
   // 👇 TELEBIM TERMINARZA
-  const visibleMatches = sortedSchedule.slice(0, 10);
+  const visibleMatches = getVisibleMatches();
+  const getMatchScore = (match) => {
+    let a = 0;
+    let b = 0;
 
+    match.sets.forEach((s) => {
+      if (s.a > s.b) a++;
+      if (s.b > s.a) b++;
+    });
+
+    return `${a}:${b}`;
+  };
+  const getMatchWinner = (match) => {
+    let setsA = 0;
+    let setsB = 0;
+
+    match.sets.forEach((s) => {
+      const a = parseInt(s.a);
+      const b = parseInt(s.b);
+
+      if (!isNaN(a) && !isNaN(b)) {
+        if (a > b) setsA++;
+        if (b > a) setsB++;
+      }
+    });
+
+    if (setsA > setsB) return match.teamA.id;
+    if (setsB > setsA) return match.teamB.id;
+
+    return null;
+  };
   return (
     <>
       <div className="screen-live-bar">
@@ -249,6 +283,10 @@ export default function ScreenPage() {
                     ) : null,
                   )}
                   <span>{match.teamA.name}</span>
+
+                  {match.finished && (
+                    <span className="match-score">{getMatchScore(match)}</span>
+                  )}
                 </div>
 
                 <span className="live-vs">vs</span>
@@ -281,12 +319,12 @@ export default function ScreenPage() {
               </>
             )}
 
-            {leftView === 1 && (
+            {/* {leftView === 1 && (
               <>
                 <h2>Klasyfikacja</h2>
                 <LiveRanking schedule={schedule} tournament={tournament} />
               </>
-            )}
+            )} */}
           </div>
 
           {/* PRAWA STRONA */}
@@ -316,10 +354,14 @@ export default function ScreenPage() {
 
                   <tbody>
                     {visibleMatches.map((match) => {
-                      const status =
-                        match.status ||
-                        (match.finished ? "finished" : "planned");
-
+                      const status = match.finished
+                        ? "finished"
+                        : match.status === "live"
+                          ? "live"
+                          : "planned";
+                      const winner = match.finished
+                        ? getMatchWinner(match)
+                        : null;
                       return (
                         <tr key={match.id}>
                           <td className={`schedule-status ${status}`}>
@@ -344,10 +386,18 @@ export default function ScreenPage() {
                                 ) : null,
                             )}
 
-                            <span>{match.teamA.name}</span>
+                            <span
+                              className={
+                                winner === match.teamA.id ? "winner" : ""
+                              }
+                            >
+                              {match.teamA.name}
+                            </span>
                           </td>
 
-                          <td>vs</td>
+                          <td className="match-center">
+                            {match.finished ? `${getMatchScore(match)}` : "vs"}
+                          </td>
 
                           <td className="screen-team">
                             {getTeamById(match.teamB.id)?.logos?.map(
@@ -361,7 +411,13 @@ export default function ScreenPage() {
                                 ) : null,
                             )}
 
-                            <span>{match.teamB.name}</span>
+                            <span
+                              className={
+                                winner === match.teamB.id ? "winner" : ""
+                              }
+                            >
+                              {match.teamB.name}
+                            </span>
                           </td>
                         </tr>
                       );

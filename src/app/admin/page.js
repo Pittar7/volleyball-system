@@ -486,13 +486,16 @@ export default function AdminPage() {
               const error = validateMatch(match);
               if (error) return alert(error);
 
-              setSchedule(
-                schedule.map((m) =>
-                  m.id === match.id
-                    ? { ...m, finished: true, status: "finished" }
-                    : m,
-                ),
+              const updated = schedule.map((m) =>
+                m.id === match.id
+                  ? { ...m, finished: true, status: "finished" }
+                  : m,
               );
+
+              setData({
+                ...data,
+                schedule: updated,
+              });
             }}
             className="admin-btn admin-btn-primary"
           >
