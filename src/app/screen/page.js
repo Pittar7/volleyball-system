@@ -5,7 +5,7 @@ import MatchMatrix from "@/components/MatchMatrix";
 import { calculateTable } from "@/lib/tournamentLogic";
 import "../styles/screen.css";
 import ReactMarkdown from "react-markdown";
-
+import { QRCodeCanvas } from "qrcode.react";
 function GroupTable({ table, teams }) {
   return (
     <table className="screen-group-table">
@@ -172,7 +172,8 @@ export default function ScreenPage() {
 
   // ===== DANE =====
 
-  const { tournament, schedule = [] } = data;
+  const tournament = data?.tournament || { teams: [] };
+  const schedule = data?.schedule || [];
 
   const sortedSchedule = [...schedule].sort((a, b) => a.order - b.order);
 
@@ -235,7 +236,11 @@ export default function ScreenPage() {
                   {match.status === "live" ? "TRWA" : "ZAPLANOWANY"}
                 </span>
 
-                <span className="live-court">Boisko {match.court}</span>
+                <span className="live-court">
+                  {match.court === "C"
+                    ? "Boisko Centralne"
+                    : `Boisko ${match.court}`}
+                </span>
 
                 <div className="live-team">
                   {teamA?.logos?.map((logo, i) =>
@@ -377,6 +382,17 @@ export default function ScreenPage() {
                 </div>
               </>
             )}
+            <div className="screen-qr">
+              <QRCodeCanvas
+                value={
+                  typeof window !== "undefined" ? window.location.origin : ""
+                }
+                size={120}
+                bgColor="#ffffff"
+                fgColor="#000000"
+              />
+              <span>Skanuj aby zobaczyć wyniki</span>
+            </div>
           </div>
         </div>
       </div>

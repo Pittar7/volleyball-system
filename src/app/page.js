@@ -5,7 +5,7 @@ import MatchMatrix from "@/components/MatchMatrix";
 import "./styles/player.css";
 import { calculateTable } from "@/lib/tournamentLogic";
 import ReactMarkdown from "react-markdown";
-
+import { supabase } from "@/lib/supabase";
 export default function HomePage() {
   const [data, setData] = useState(null);
   const [activeTab, setActiveTab] = useState("table");
@@ -24,23 +24,42 @@ export default function HomePage() {
 
     return () => window.removeEventListener("resize", checkScreen);
   }, []);
-
+  const fetchData = async () => {
+    try {
+      const res = await fetch("/api/tournament");
+      const json = await res.json();
+      setData(json);
+    } catch (err) {
+      console.error("Błąd pobierania danych", err);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch("/api/tournament");
-        const json = await res.json();
-        setData(json);
-      } catch (err) {
-        console.error("Błąd pobierania danych", err);
-      }
-    };
-
     fetchData();
     const interval = setInterval(fetchData, 20000);
     return () => clearInterval(interval);
   }, []);
+  useEffect(() => {
+    fetchData();
 
+    const channel = supabase
+      .channel("tournament-live")
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "tournament",
+        },
+        (payload) => {
+          setData(payload.new.data);
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
   if (!data) return <div className="player-page">Ładowanie...</div>;
 
   const tournament = data?.tournament || { teams: [] };

@@ -111,7 +111,7 @@
   },
   "schedule": [
     {
-      "id": "d9c4b7d3-ee41-4b9c-97ba-ed427a33e5fb",
+      "id": "32d52f9e-6256-4aa7-a981-90d80c22d73e",
       "type": "group",
       "group": "A",
       "round": 1,
@@ -137,25 +137,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 1,
-      "court": "A"
+      "court": "C"
     },
     {
-      "id": "53371f5d-36c7-4e76-9fb3-171998125acb",
+      "id": "7b021b22-d86e-4f0c-896e-a1bbeff8e7c0",
       "type": "group",
       "group": "B",
       "round": 1,
@@ -181,25 +181,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "1"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "1"
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 2,
       "court": "B"
     },
     {
-      "id": "692b1719-277e-4ba5-bad9-9c601017081d",
+      "id": "d80beeaf-d200-494c-bf8b-239f9601ee68",
       "type": "group",
       "group": "A",
       "round": 1,
@@ -225,25 +225,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 3,
       "court": "A"
     },
     {
-      "id": "0241fcf4-8f6c-49b7-946b-ebe8dc46daf4",
+      "id": "e722e45b-30cd-4bcc-b077-593f6a23826b",
       "type": "group",
       "group": "B",
       "round": 1,
@@ -269,25 +269,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "1"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "1"
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 4,
       "court": "B"
     },
     {
-      "id": "592c3ec2-4403-4825-bcec-cdd01572cae6",
+      "id": "39b70b0e-b773-41f3-baeb-6357d69331da",
       "type": "group",
       "group": "A",
       "round": 2,
@@ -313,25 +313,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 5,
       "court": "A"
     },
     {
-      "id": "4f0db537-08b7-4534-89c2-5e4bdae46738",
+      "id": "66f22e84-50ae-48d8-a5b3-413eaeaee05d",
       "type": "group",
       "group": "B",
       "round": 2,
@@ -357,25 +357,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 6,
       "court": "B"
     },
     {
-      "id": "4e94d65f-4160-411b-9d7e-d12021b4f5fe",
+      "id": "acb8ce31-ece4-4930-8aae-002b107f38a5",
       "type": "group",
       "group": "A",
       "round": 2,
@@ -401,25 +401,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "2",
+          "b": "22"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 7,
       "court": "A"
     },
     {
-      "id": "bbfb3ab5-a410-4bed-b651-604510cbea8e",
+      "id": "53e537f4-acac-4531-811f-963cf0a5d815",
       "type": "group",
       "group": "B",
       "round": 2,
@@ -445,25 +445,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "33",
+          "b": "2"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 8,
       "court": "B"
     },
     {
-      "id": "88910d59-086d-449c-8963-07ffbd3ac654",
+      "id": "e7b85bd7-dd49-4aa8-8cbf-a5234df96e29",
       "type": "group",
       "group": "A",
       "round": 3,
@@ -489,25 +489,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "1"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "1"
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 9,
       "court": "A"
     },
     {
-      "id": "279b11d9-3304-4aad-ae4b-a6b25d271ef6",
+      "id": "fb395afa-b86d-4e67-be59-3e719365e207",
       "type": "group",
       "group": "B",
       "round": 3,
@@ -533,25 +533,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 10,
       "court": "B"
     },
     {
-      "id": "0b893e94-3a1c-48b8-b0c7-620f15e4118c",
+      "id": "ebb621c4-dc53-42a3-83f4-60a8a6dc9853",
       "type": "group",
       "group": "A",
       "round": 3,
@@ -577,25 +577,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 11,
       "court": "A"
     },
     {
-      "id": "a10b7c7f-2dfd-4e21-a1b2-7bb0958701a1",
+      "id": "0b5c5d0f-ade5-406e-b35b-cdefe961d170",
       "type": "group",
       "group": "B",
       "round": 3,
@@ -621,25 +621,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 12,
       "court": "B"
     },
     {
-      "id": "f6dcbcd7-183e-4d30-8aa6-96fcced228f9",
+      "id": "1e6fc1a1-e400-489d-a71c-816332dfb29c",
       "type": "group",
       "group": "A",
       "round": 4,
@@ -665,12 +665,12 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
           "a": "",
@@ -683,7 +683,7 @@
       "court": "A"
     },
     {
-      "id": "ed146510-380d-4fae-90df-a32fbf95ce8f",
+      "id": "cccdf90f-5ae0-43a6-a746-177b43653827",
       "type": "group",
       "group": "B",
       "round": 4,
@@ -709,25 +709,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 14,
       "court": "B"
     },
     {
-      "id": "5ccd1e91-0dce-4bda-9054-53bb1f966612",
+      "id": "0d078cfb-6f91-4606-a4fa-321594f6304c",
       "type": "group",
       "group": "A",
       "round": 4,
@@ -753,25 +753,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "2",
+          "b": "22"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "33",
+          "b": "2"
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 15,
       "court": "A"
     },
     {
-      "id": "6e5dc2e2-6c06-4d37-a3ac-8fad05237015",
+      "id": "6e857d14-cb3b-48a5-8085-99101e6bd0d4",
       "type": "group",
       "group": "B",
       "round": 4,
@@ -797,25 +797,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "2"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "2",
+          "b": "22"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "2",
+          "b": "22"
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 16,
       "court": "B"
     },
     {
-      "id": "032905ec-cc8d-4308-b015-b128d0fd779d",
+      "id": "77f179d4-6f37-4af4-8a45-021f3579da65",
       "type": "group",
       "group": "A",
       "round": 5,
@@ -841,25 +841,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "22",
+          "b": "3"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "33",
+          "b": "3"
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 17,
       "court": "A"
     },
     {
-      "id": "af0b84cd-2c04-4a58-8707-1c68faf3bb89",
+      "id": "e97fd9b1-70ca-4ea3-ae7b-a16228877600",
       "type": "group",
       "group": "B",
       "round": 5,
@@ -885,25 +885,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "33",
+          "b": "3"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "33",
+          "b": "3"
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 18,
       "court": "B"
     },
     {
-      "id": "4fa1c22c-637d-439e-b3f3-8c2ee6e347a2",
+      "id": "03afd366-0bea-4773-8cc1-af517dfaf6ae",
       "type": "group",
       "group": "A",
       "round": 5,
@@ -929,25 +929,25 @@
       },
       "sets": [
         {
-          "a": "",
-          "b": ""
+          "a": "1",
+          "b": "33"
         },
         {
-          "a": "",
-          "b": ""
+          "a": "3",
+          "b": "33"
         },
         {
           "a": "",
           "b": ""
         }
       ],
-      "finished": false,
-      "status": "planned",
+      "finished": true,
+      "status": "finished",
       "order": 19,
       "court": "A"
     },
     {
-      "id": "76a3f97b-89cc-4b1b-9eaa-7e2bd2bc26d9",
+      "id": "8e3fa91e-b2ea-480f-8bf5-6609ae38ed2c",
       "type": "group",
       "group": "B",
       "round": 5,
@@ -973,6 +973,52 @@
       },
       "sets": [
         {
+          "a": "33",
+          "b": "3"
+        },
+        {
+          "a": "33",
+          "b": "3"
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": true,
+      "status": "finished",
+      "order": 20,
+      "court": "B"
+    },
+    {
+      "id": "2470cb75-2920-445a-8abb-5d38abe899fe",
+      "type": "placement",
+      "status": "live",
+      "label": "Mecz o 5 miejsce",
+      "order": 21,
+      "court": "C",
+      "teamA": {
+        "id": "e7b79fa3-92f5-4379-b7b5-bc6ea8b22334",
+        "name": "RCI GDYNIA",
+        "played": 3,
+        "points": 4,
+        "setsWon": 3,
+        "setsLost": 4,
+        "smallPointsWon": 0,
+        "smallPointsLost": 0
+      },
+      "teamB": {
+        "id": "5704d34b-4b60-4cbc-ad3c-1db642cfe072",
+        "name": "JDC „C”",
+        "played": 4,
+        "points": 6,
+        "setsWon": 4,
+        "setsLost": 4,
+        "smallPointsWon": 0,
+        "smallPointsLost": 0
+      },
+      "sets": [
+        {
           "a": "",
           "b": ""
         },
@@ -985,10 +1031,177 @@
           "b": ""
         }
       ],
-      "finished": false,
+      "finished": false
+    },
+    {
+      "id": "1ead7b0e-34c8-48af-b497-20572a11c8f2",
+      "type": "placement",
       "status": "planned",
-      "order": 20,
-      "court": "B"
+      "label": "Mecz o 7 miejsce",
+      "order": 22,
+      "court": "A",
+      "teamA": {
+        "id": "ca8ae2fb-82cb-4c9f-8872-1aa446ac80ca",
+        "name": "RCI OLSZTYN",
+        "played": 3,
+        "points": 3,
+        "setsWon": 2,
+        "setsLost": 4,
+        "smallPointsWon": 0,
+        "smallPointsLost": 0
+      },
+      "teamB": {
+        "id": "db070fe7-780b-4df6-97b1-9f2e867a08b7",
+        "name": "JWD",
+        "played": 4,
+        "points": 5,
+        "setsWon": 4,
+        "setsLost": 5,
+        "smallPointsWon": 0,
+        "smallPointsLost": 0
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false
+    },
+    {
+      "id": "fae3ca4a-e02f-4543-b313-02bd5b4a60a0",
+      "type": "placement",
+      "status": "planned",
+      "label": "Mecz o 9 miejsce",
+      "order": 23,
+      "court": "A",
+      "teamA": {
+        "id": "5c5f6ca9-892d-4214-83e5-96ccc0d3df91",
+        "name": "RCI KRAKÓW",
+        "played": 4,
+        "points": 1,
+        "setsWon": 1,
+        "setsLost": 8,
+        "smallPointsWon": 0,
+        "smallPointsLost": 0
+      },
+      "teamB": {
+        "id": "36e31529-3ff0-44a8-aac3-19a48bc78fe8",
+        "name": "RCI BYDGOSZCZ",
+        "played": 4,
+        "points": 0,
+        "setsWon": 0,
+        "setsLost": 8,
+        "smallPointsWon": 0,
+        "smallPointsLost": 0
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false
+    },
+    {
+      "id": "b1530a66-165d-4d59-ae67-d086ec0d0360",
+      "type": "semifinal",
+      "order": 24,
+      "court": "A",
+      "status": "planned",
+      "teamA": {
+        "id": "9b14bb3b-0e92-439b-9eec-01db0558eeeb",
+        "name": "DKWOC",
+        "played": 4,
+        "points": 11,
+        "setsWon": 8,
+        "setsLost": 1,
+        "smallPointsWon": 0,
+        "smallPointsLost": 0
+      },
+      "teamB": {
+        "id": "95a46a90-9d4a-4602-be00-f550a92e7624",
+        "name": "RCI WARSZAWA",
+        "played": 4,
+        "points": 9,
+        "setsWon": 6,
+        "setsLost": 2,
+        "smallPointsWon": 0,
+        "smallPointsLost": 0
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false
+    },
+    {
+      "id": "92a9c5d4-c397-4752-b0b1-62034a4c48a6",
+      "type": "semifinal",
+      "order": 25,
+      "court": "B",
+      "status": "planned",
+      "teamA": {
+        "id": "d780a40c-7df3-49ef-9ea2-9d2133db7f71",
+        "name": "RCI WROCŁAW",
+        "played": 4,
+        "points": 10,
+        "setsWon": 7,
+        "setsLost": 2,
+        "smallPointsWon": 0,
+        "smallPointsLost": 0
+      },
+      "teamB": {
+        "id": "f66868ea-3117-4b96-8957-bd1bb1062203",
+        "name": "CWSD SZ i JDC „A”",
+        "played": 4,
+        "points": 8,
+        "setsWon": 6,
+        "setsLost": 3,
+        "smallPointsWon": 0,
+        "smallPointsLost": 0
+      },
+      "sets": [
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        },
+        {
+          "a": "",
+          "b": ""
+        }
+      ],
+      "finished": false
     }
   ]
 }

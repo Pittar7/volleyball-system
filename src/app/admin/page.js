@@ -13,8 +13,9 @@ import {
 import "../styles/admin.css";
 
 export default function AdminPage() {
-  const [tournament, setTournament] = useState(createEmptyTournament());
-  const [schedule, setSchedule] = useState([]);
+  const [data, setData] = useState(null);
+  const tournament = data?.tournament || { teams: [] };
+  const schedule = data?.schedule || [];
   const [adminView, setAdminView] = useState("setup");
   // setup | groups | bracket | schedule | summary
   const [selectedTeams, setSelectedTeams] = useState([]);
@@ -79,17 +80,19 @@ export default function AdminPage() {
   };
 
   const loadTournament = async () => {
-    const res = await fetch("/api/tournament");
-    const data = await res.json();
-    if (!data) return alert("Brak danych");
-    setTournament({
-      ...data.tournament,
-      teams: data.tournament.teams.map((team, i) => ({
-        ...team,
-        seed: team.seed ?? i + 1,
-      })),
-    });
-    setSchedule(data.schedule || []);
+    try {
+      const res = await fetch("/api/tournament");
+      const json = await res.json();
+
+      if (!json) {
+        alert("Brak zapisanych danych turnieju");
+        return;
+      }
+
+      setData(json);
+    } catch (err) {
+      console.error("Błąd wczytywania", err);
+    }
   };
   const logout = async () => {
     await fetch("/api/admin-logout", { method: "POST" });
@@ -113,9 +116,12 @@ export default function AdminPage() {
       seed: index + 1,
     }));
 
-    setTournament({
-      ...tournament,
-      teams,
+    setData({
+      ...data,
+      tournament: {
+        ...tournament,
+        teams,
+      },
     });
   };
 
@@ -165,7 +171,10 @@ export default function AdminPage() {
 
     // ❗ usuwamy stare mecze grupowe
 
-    setSchedule(scheduled);
+    setData({
+      ...data,
+      schedule: scheduled,
+    });
     setAdminView("groups");
   };
 
@@ -228,7 +237,10 @@ export default function AdminPage() {
       },
     ];
 
-    setSchedule([...schedule, ...newMatches]);
+    setData({
+      ...data,
+      schedule: [...schedule, ...newMatches],
+    });
   };
 
   // ==============================
@@ -263,7 +275,7 @@ export default function AdminPage() {
       id: crypto.randomUUID(),
       type: "final",
       order: maxOrder + 1,
-      court: "A",
+      court: "C",
       status: "planned",
       label: "Finał",
       teamA: winner1,
@@ -289,7 +301,10 @@ export default function AdminPage() {
       (m) => m.type !== "final" && m.type !== "thirdPlace",
     );
 
-    setSchedule([...cleaned, thirdPlace, finalMatch]);
+    setData({
+      ...data,
+      schedule: [...cleaned, thirdPlace, finalMatch],
+    });
   };
   // generowanie meczów o miejsca 5,7,9,11
   const generatePlacementMatches = () => {
@@ -335,7 +350,10 @@ export default function AdminPage() {
       });
     });
 
-    setSchedule(updated);
+    setData({
+      ...data,
+      schedule: updated,
+    });
   };
   // Funkcja przesuwania meczów w terminarzu
   const moveMatchUp = (index) => {
@@ -347,7 +365,10 @@ export default function AdminPage() {
     updated[index - 1].order = updated[index].order;
     updated[index].order = temp;
 
-    setSchedule(updated);
+    setData({
+      ...data,
+      schedule: updated,
+    });
   };
 
   const moveMatchDown = (index) => {
@@ -359,7 +380,10 @@ export default function AdminPage() {
     updated[index + 1].order = updated[index].order;
     updated[index].order = temp;
 
-    setSchedule(updated);
+    setData({
+      ...data,
+      schedule: updated,
+    });
   };
 
   // ==============================
@@ -419,7 +443,10 @@ export default function AdminPage() {
                               }
                             : m,
                         );
-                        setSchedule(updated);
+                        setData({
+                          ...data,
+                          schedule: updated,
+                        });
                       }}
                     />
                   </td>
@@ -440,7 +467,10 @@ export default function AdminPage() {
                               }
                             : m,
                         );
-                        setSchedule(updated);
+                        setData({
+                          ...data,
+                          schedule: updated,
+                        });
                       }}
                     />
                   </td>
@@ -535,12 +565,16 @@ export default function AdminPage() {
                   const updated = schedule.map((m) =>
                     m.id === match.id ? { ...m, court: e.target.value } : m,
                   );
-                  setSchedule(updated);
+                  setData({
+                    ...data,
+                    schedule: updated,
+                  });
                 }}
                 className="court-select"
               >
                 <option value="A">Boisko A</option>
                 <option value="B">Boisko B</option>
+                <option value="C">Centralne</option>
               </select>
               <select
                 value={match.status || "planned"}
@@ -548,7 +582,10 @@ export default function AdminPage() {
                   const updated = schedule.map((m) =>
                     m.id === match.id ? { ...m, status: e.target.value } : m,
                   );
-                  setSchedule(updated);
+                  setData({
+                    ...data,
+                    schedule: updated,
+                  });
                 }}
                 className="status-select"
               >
@@ -696,9 +733,12 @@ export default function AdminPage() {
             className="announcement-editor"
             value={tournament.announcements || ""}
             onChange={(e) =>
-              setTournament({
-                ...tournament,
-                announcements: e.target.value,
+              setData({
+                ...data,
+                tournament: {
+                  ...tournament,
+                  announcements: e.target.value,
+                },
               })
             }
             placeholder={`Np.
@@ -766,7 +806,13 @@ Mecze od 9:00
                       const updated = tournament.teams.map((t) =>
                         t.id === team.id ? { ...t, name: e.target.value } : t,
                       );
-                      setTournament({ ...tournament, teams: updated });
+                      setData({
+                        ...data,
+                        tournament: {
+                          ...tournament,
+                          teams: updated,
+                        },
+                      });
                     }}
                     className="admin-input"
                   />
@@ -782,7 +828,13 @@ Mecze od 9:00
                           : t,
                       );
 
-                      setTournament({ ...tournament, teams: updated });
+                      setData({
+                        ...data,
+                        tournament: {
+                          ...tournament,
+                          teams: updated,
+                        },
+                      });
                     }}
                     className="admin-select"
                   >
@@ -817,7 +869,13 @@ Mecze od 9:00
                           : t,
                       );
 
-                      setTournament({ ...tournament, teams: updated });
+                      setData({
+                        ...data,
+                        tournament: {
+                          ...tournament,
+                          teams: updated,
+                        },
+                      });
                     }}
                     className="admin-select"
                   >
@@ -857,7 +915,13 @@ Mecze od 9:00
                       const updated = tournament.teams.map((t) =>
                         t.id === team.id ? { ...t, group: e.target.value } : t,
                       );
-                      setTournament({ ...tournament, teams: updated });
+                      setData({
+                        ...data,
+                        tournament: {
+                          ...tournament,
+                          teams: updated,
+                        },
+                      });
                     }}
                     className="admin-select"
                   >
@@ -913,9 +977,12 @@ Mecze od 9:00
                                   : t,
                               );
 
-                              setTournament({
-                                ...tournament,
-                                teams: updated,
+                              setData({
+                                ...data,
+                                tournament: {
+                                  ...tournament,
+                                  teams: updated,
+                                },
                               });
                             }}
                           />
@@ -960,9 +1027,12 @@ Mecze od 9:00
                                   : t,
                               );
 
-                              setTournament({
-                                ...tournament,
-                                teams: updated,
+                              setData({
+                                ...data,
+                                tournament: {
+                                  ...tournament,
+                                  teams: updated,
+                                },
                               });
                             }}
                           />
