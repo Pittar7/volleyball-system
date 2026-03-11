@@ -3,7 +3,7 @@
 import { useEffect, useState, Fragment } from "react";
 import MatchMatrix from "@/components/MatchMatrix";
 import { calculateTable } from "@/lib/tournamentLogic";
-import "../styles/screen.css";
+import "@/app/styles/screen.css";
 import ReactMarkdown from "react-markdown";
 import { QRCodeCanvas } from "qrcode.react";
 function GroupTable({ table, teams }) {
@@ -272,36 +272,51 @@ export default function ScreenPage() {
   };
   const generateLiveRanking = () => {
     const teams = tournament.teams;
-
     const ranking = [];
 
     schedule.forEach((match) => {
       if (!match.finished) return;
 
       const winnerId = getMatchWinner(match);
-
       if (!winnerId) return;
 
       const loserId =
         winnerId === match.teamA.id ? match.teamB.id : match.teamA.id;
 
-      if (match.type === "final") {
-        ranking[0] = teams.find((t) => t.id === winnerId);
-        ranking[1] = teams.find((t) => t.id === loserId);
-      }
+      const winner = teams.find((t) => t.id === winnerId);
+      const loser = teams.find((t) => t.id === loserId);
 
       if (match.type === "thirdPlace") {
-        ranking[2] = teams.find((t) => t.id === winnerId);
-        ranking[3] = teams.find((t) => t.id === loserId);
+        ranking[2] = winner;
+        ranking[3] = loser;
       }
-
+      if (match.type === "final") {
+        ranking[0] = winner;
+        ranking[1] = loser;
+      }
       if (match.type === "placement") {
-        const place = parseInt(match.label.match(/\d+/)[0]);
+        const place = parseInt(match.label?.match(/\d+/)?.[0]);
 
-        ranking[place - 1] = teams.find((t) => t.id === winnerId);
-        ranking[place] = teams.find((t) => t.id === loserId);
+        if (!isNaN(place)) {
+          ranking[place - 1] = winner;
+          ranking[place] = loser;
+        }
       }
     });
+
+    // 🔧 uzupełnij brakujące miejsca drużynami które nie grały meczu o miejsce
+    const placedIds = ranking.filter(Boolean).map((t) => t.id);
+
+    const remainingTeams = teams.filter((t) => !placedIds.includes(t.id));
+
+    let i = 0;
+
+    for (let r = 0; r < teams.length; r++) {
+      if (!ranking[r] && remainingTeams[i]) {
+        ranking[r] = remainingTeams[i];
+        i++;
+      }
+    }
 
     return ranking;
   };
@@ -530,38 +545,45 @@ export default function ScreenPage() {
                   </thead>
 
                   <tbody>
-                    {tournament.teams.map((team, index) => {
-                      const finishedTeam = liveRanking[index];
+                    {liveRanking.map((team, index) => (
+                      <tr
+                        key={team.id}
+                        className={
+                          index === 0
+                            ? "rank-gold"
+                            : index === 1
+                              ? "rank-silver"
+                              : index === 2
+                                ? "rank-bronze"
+                                : "rank-locked"
+                        }
+                      >
+                        <td className="rank-place">
+                          {index === 0 && "🥇 "}
+                          {index === 1 && "🥈 "}
+                          {index === 2 && "🥉 "}
+                          {index + 1}
+                        </td>
 
-                      const isLocked = finishedTeam?.id === team.id;
-
-                      return (
-                        <tr
-                          key={team.id}
-                          className={isLocked ? "rank-locked" : "rank-pending"}
-                        >
-                          <td>{index + 1}</td>
-
-                          <td>
-                            <div className="team-with-logo">
-                              <div className="team-logos">
-                                {team.logos?.map((logo, i) =>
-                                  logo ? (
-                                    <img
-                                      key={i}
-                                      src={logo}
-                                      className="team-logo"
-                                    />
-                                  ) : null,
-                                )}
-                              </div>
-
-                              <span>{team.name}</span>
+                        <td>
+                          <div className="team-with-logo">
+                            <div className="team-logos">
+                              {team.logos?.map((logo, i) =>
+                                logo ? (
+                                  <img
+                                    key={i}
+                                    src={logo}
+                                    className="team-logo"
+                                  />
+                                ) : null,
+                              )}
                             </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
+
+                            <span>{team.name}</span>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </>

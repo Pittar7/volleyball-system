@@ -134,82 +134,69 @@ export default function HomePage() {
   );
   const generateFinalRanking = () => {
     let ranking = [];
-    if (!finalMatchFinished) {
-      // ranking tymczasowy na podstawie tabel grupowych
 
-      const combined = [...tableA, ...tableB]
-        .map((team) => ({
-          ...team,
-          setRatio:
-            team.setsLost === 0 ? team.setsWon : team.setsWon / team.setsLost,
-          smallPointRatio:
-            team.smallPointsLost === 0
-              ? team.smallPointsWon
-              : team.smallPointsWon / team.smallPointsLost,
-        }))
-        .sort((a, b) => {
-          if (b.points !== a.points) return b.points - a.points;
-          if (b.setRatio !== a.setRatio) return b.setRatio - a.setRatio;
-          return b.smallPointRatio - a.smallPointRatio;
-        });
-
-      return combined.map((team, index) => ({
-        place: index + 1,
-        team,
-        played: team.played,
-      }));
-    }
     const finalMatch = schedule.find((m) => m.type === "final" && m.finished);
 
-    // 🔹 JEŚLI FINAŁ ROZEGRANY → normalna klasyfikacja
     if (finalMatch) {
       const winner = getMatchWinner(finalMatch);
       const loser =
         winner.id === finalMatch.teamA.id ? finalMatch.teamB : finalMatch.teamA;
 
-      ranking.push({ place: 1, team: winner });
-      ranking.push({ place: 2, team: loser });
-
-      const thirdPlaceMatch = schedule.find(
-        (m) => m.type === "thirdPlace" && m.finished,
-      );
-
-      if (thirdPlaceMatch) {
-        const winner = getMatchWinner(thirdPlaceMatch);
-        const loser =
-          winner.id === thirdPlaceMatch.teamA.id
-            ? thirdPlaceMatch.teamB
-            : thirdPlaceMatch.teamA;
-
-        ranking.push({ place: 3, team: winner });
-        ranking.push({ place: 4, team: loser });
-      }
-
-      const placementMatches = schedule.filter(
-        (m) => m.type === "placement" && m.finished,
-      );
-
-      placementMatches.forEach((match) => {
-        const winner = getMatchWinner(match);
-        const loser = winner.id === match.teamA.id ? match.teamB : match.teamA;
-
-        const placeNumber = parseInt(match.label.match(/\d+/)[0]);
-
-        ranking.push({ place: placeNumber, team: winner });
-        ranking.push({ place: placeNumber + 1, team: loser });
-      });
-
-      return ranking.sort((a, b) => a.place - b.place);
+      ranking[0] = { place: 1, team: winner };
+      ranking[1] = { place: 2, team: loser };
     }
 
-    // 🔹 JEŚLI TURNIEJ W TRAKCIE → ranking tymczasowy z tabel grup
-    const combined = [...tableA, ...tableB];
+    const thirdPlaceMatch = schedule.find(
+      (m) => m.type === "thirdPlace" && m.finished,
+    );
 
-    return combined.map((team, index) => ({
-      place: index + 1,
-      team,
-      provisional: true,
-    }));
+    if (thirdPlaceMatch) {
+      const winner = getMatchWinner(thirdPlaceMatch);
+      const loser =
+        winner.id === thirdPlaceMatch.teamA.id
+          ? thirdPlaceMatch.teamB
+          : thirdPlaceMatch.teamA;
+
+      ranking[2] = { place: 3, team: winner };
+      ranking[3] = { place: 4, team: loser };
+    }
+
+    const placementMatches = schedule.filter(
+      (m) => m.type === "placement" && m.finished,
+    );
+
+    placementMatches.forEach((match) => {
+      const winner = getMatchWinner(match);
+      const loser = winner.id === match.teamA.id ? match.teamB : match.teamA;
+
+      const placeNumber = parseInt(match.label?.match(/\d+/)?.[0]);
+
+      if (!isNaN(placeNumber)) {
+        ranking[placeNumber - 1] = { place: placeNumber, team: winner };
+        ranking[placeNumber] = { place: placeNumber + 1, team: loser };
+      }
+    });
+
+    // 🔧 uzupełnienie brakujących miejsc (np 9 miejsce)
+    const placedIds = ranking.filter(Boolean).map((r) => r.team.id);
+
+    const remainingTeams = tournament.teams.filter(
+      (t) => !placedIds.includes(t.id),
+    );
+
+    let i = 0;
+
+    for (let r = 0; r < tournament.teams.length; r++) {
+      if (!ranking[r] && remainingTeams[i]) {
+        ranking[r] = {
+          place: r + 1,
+          team: remainingTeams[i],
+        };
+        i++;
+      }
+    }
+
+    return ranking;
   };
 
   const ranking = generateFinalRanking();
@@ -351,7 +338,7 @@ export default function HomePage() {
       <div
         className="background-logo"
         style={{
-          backgroundImage: "url('./logos/logo-turnieju.jpg')",
+          backgroundImage: "url('./logos/logo.jpg')",
         }}
       />
 
@@ -374,14 +361,14 @@ export default function HomePage() {
           onClick={() => setActiveTab("announcements")}
           className={`tab-button ${activeTab === "announcements" ? "active" : ""}`}
         >
-          Harmonogram
+          Tablica ogłoszeń
         </button>
       </div>
 
       {/*harmonogram*/}
       {activeTab === "announcements" && (
         <div className="player-card">
-          <h2 className="section-title text-center">Harmonogram turnieju</h2>
+          <h2 className="section-title text-center">Ogłoszenia turniejowe</h2>
 
           <div className="announcement-board">
             <ReactMarkdown>
@@ -877,24 +864,41 @@ export default function HomePage() {
           )}
           {scheduleView === "bracket" && (
             <>
-              {["placement", "semifinal", "thirdPlace", "final"].map((type) => {
-                const matches = schedule
-                  .filter((m) => m.type === type)
-                  .sort((a, b) => a.order - b.order);
+              {/* PÓŁFINAŁY */}
+              {schedule
+                .filter((m) => m.type === "semifinal")
+                .sort((a, b) => a.order - b.order).length > 0 && (
+                <div className="bracket-section">
+                  <h3 className="section-title">Półfinały</h3>
 
-                if (!matches.length) return null;
+                  <table className="schedule-table">
+                    <thead>
+                      <tr>
+                        <th>Boisko</th>
+                        <th>Drużyna A</th>
+                        <th>Wynik</th>
+                        <th>Drużyna B</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
 
-                return (
-                  <div key={type} className="bracket-section">
-                    <h3 className="section-title">
-                      {type === "placement"
-                        ? "Mecze o miejsca"
-                        : type === "semifinal"
-                          ? "Półfinały"
-                          : type === "thirdPlace"
-                            ? "Mecz o 3 miejsce"
-                            : "Finał"}
-                    </h3>
+                    <tbody>
+                      {schedule
+                        .filter((m) => m.type === "semifinal")
+                        .sort((a, b) => a.order - b.order)
+                        .map(renderMatchRow)}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              {/* MECZE O MIEJSCA */}
+              {schedule
+                .filter((m) => m.type === "placement")
+                .sort((a, b) => a.order - b.order)
+                .map((match) => (
+                  <div key={match.id} className="bracket-section">
+                    <h3 className="section-title">{match.label}</h3>
 
                     <table className="schedule-table">
                       <thead>
@@ -906,11 +910,67 @@ export default function HomePage() {
                           <th>Status</th>
                         </tr>
                       </thead>
-                      <tbody>{matches.map(renderMatchRow)}</tbody>
+
+                      <tbody>{renderMatchRow(match)}</tbody>
                     </table>
                   </div>
-                );
-              })}
+                ))}
+
+              {/* MECZ O 3 */}
+              {schedule
+                .filter((m) => m.type === "thirdPlace")
+                .sort((a, b) => a.order - b.order).length > 0 && (
+                <div className="bracket-section">
+                  <h3 className="section-title">Mecz o 3 miejsce</h3>
+
+                  <table className="schedule-table">
+                    <thead>
+                      <tr>
+                        <th>Boisko</th>
+                        <th>Drużyna A</th>
+                        <th>Wynik</th>
+                        <th>Drużyna B</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {schedule
+                        .filter((m) => m.type === "thirdPlace")
+                        .sort((a, b) => a.order - b.order)
+                        .map(renderMatchRow)}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              {/* FINAŁ */}
+              {schedule
+                .filter((m) => m.type === "final")
+                .sort((a, b) => a.order - b.order).length > 0 && (
+                <div className="bracket-section">
+                  <h3 className="section-title">Finał</h3>
+
+                  <table className="schedule-table">
+                    <thead>
+                      <tr>
+                        <th>Boisko</th>
+                        <th>Drużyna A</th>
+                        <th>Wynik</th>
+                        <th>Drużyna B</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {schedule
+                        .filter((m) => m.type === "final")
+                        .sort((a, b) => a.order - b.order)
+                        .map(renderMatchRow)}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </>
           )}
         </div>

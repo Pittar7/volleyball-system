@@ -270,29 +270,27 @@ export default function AdminPage() {
         : semifinals[1].teamA;
 
     const maxOrder = Math.max(...schedule.map((m) => m.order));
-
-    const finalMatch = {
-      id: crypto.randomUUID(),
-      type: "final",
-      order: maxOrder + 1,
-      court: "C",
-      status: "planned",
-      label: "Finał",
-      teamA: winner1,
-      teamB: winner2,
-      sets: Array(5).fill({ a: "", b: "" }),
-      finished: false,
-    };
-
     const thirdPlace = {
       id: crypto.randomUUID(),
       type: "thirdPlace",
-      order: maxOrder + 2,
+      order: maxOrder + 1,
       court: "B",
       status: "planned",
       label: "Mecz o 3 miejsce",
       teamA: loser1,
       teamB: loser2,
+      sets: Array(5).fill({ a: "", b: "" }),
+      finished: false,
+    };
+    const finalMatch = {
+      id: crypto.randomUUID(),
+      type: "final",
+      order: maxOrder + 2,
+      court: "C",
+      status: "planned",
+      label: "Finał",
+      teamA: winner1,
+      teamB: winner2,
       sets: Array(5).fill({ a: "", b: "" }),
       finished: false,
     };
@@ -1174,6 +1172,9 @@ Mecze od 9:00
       {/* ===== TERMINARZ ===== */}
       {adminView === "schedule" && (
         <>
+          <button onClick={() => window.open("/print-schedule")}>
+            Drukuj terminarz
+          </button>
           <div className="schedule-layout">
             {/* LEWA STRONA — TERMINARZ */}
             <div className="schedule-main">

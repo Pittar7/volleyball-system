@@ -1,0 +1,88 @@
+.print-container {
+  font-family: Arial, sans-serif;
+  padding: 30px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.court-section {
+  margin-bottom: 40px;
+}
+
+.print-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.print-table th,
+.print-table td {
+  border: 2px solid black;
+  padding: 8px;
+  text-align: center;
+}
+
+.print-table th {
+  background: #f3f4f6;
+}
+
+.result-cell {
+  width: 80px;
+  height: 28px;
+}
+
+.set-cell {
+  width: 60px;
+  height: 28px;
+}
+
+@media print {
+  body {
+    margin: 0;
+  }
+
+  .print-container {
+    padding: 10mm;
+  }
+}
+.print-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.print-table th,
+.print-table td {
+  border: 2px solid black;
+  padding: 8px;
+}
+
+.match-number {
+  width: 40px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.team-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.score-cell {
+  width: 80px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.match-row td {
+  height: 40px;
+}
+
+.set-row td {
+  border-top: none;
+  font-size: 20px;
+  padding-right: 10px;
+}

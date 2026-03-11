@@ -5,11 +5,13 @@
 
   height: calc(100vh - clamp(60px, 5vh, 90px));
 
-  background: #ffffff;
+  /* background: #ffffff; */
   color: #111827;
 
   /* padding: 1.2vw; */
   gap: 1.2vw;
+  position: relative;
+  z-index: 1;
 }
 
 .screen-group-table,
@@ -98,27 +100,46 @@
   width: 90%;
   border-collapse: collapse;
   font-size: clamp(16px, 1.2vw, 26px);
+  background-color: #dddfde;
 }
 
 .screen-ranking th {
   background: #f1f5f9;
-  padding: 10px 16px;
+  padding: 10px;
   border-bottom: 3px solid #cbd5f5;
 }
 
 .screen-ranking td {
   padding: 10px 16px;
   border-bottom: 2px solid #e5e7eb;
+  text-align: center;
 }
 
 .screen-ranking tr:nth-child(even) {
-  background: #f8fafc;
+  background: #dddfde;
 }
 .screen-container {
-  height: 100vh;
-  background: white;
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+.screen-container::before {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  background-image: url("/logos/logo.jpg");
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 170%;
+
+  opacity: 0.05;
+
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* ============================= */
@@ -168,7 +189,7 @@
 .live-match:not(:last-child) {
   border-right: 5px solid rgb(255, 255, 255);
   padding: 15px;
-  margin-left: 10 px;
+  margin-left: 10px;
 }
 
 /* logo */
@@ -451,7 +472,7 @@ table {
 }
 
 .rank-silver {
-  background: #e5e7eb;
+  background: #e8eaf0;
 }
 
 .rank-bronze {
@@ -488,12 +509,19 @@ table {
   text-align: center;
   font-weight: 700;
   background: #f5f5f5;
-  font-size: 16px;
-  letter-spacing: 0.5px;
 }
 .match-label-row td {
   background: #f3f4f6;
   font-weight: 700;
   text-align: center;
   padding: 6px;
+}
+
+.match-label {
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+.rank-place {
+  font-weight: 700;
+  font-size: 20px;
 }
