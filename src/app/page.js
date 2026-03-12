@@ -179,8 +179,13 @@ export default function HomePage() {
 
     // 🔧 uzupełnienie brakujących miejsc (np 9 miejsce)
     const placedIds = ranking.filter(Boolean).map((r) => r.team.id);
-
-    const remainingTeams = tournament.teams.filter(
+    const predictedRanking = [
+      ...[tableA[0], tableB[0], tableA[1], tableB[1]],
+      ...[tableA[2], tableB[2]],
+      ...[tableA[3], tableB[3]],
+      ...[tableA[4], tableB[4]],
+    ].filter(Boolean);
+    const remainingTeams = predictedRanking.filter(
       (t) => !placedIds.includes(t.id),
     );
 

@@ -313,7 +313,41 @@ export default function ScreenPage() {
 
     const block4 = [tableA[4], tableB[4]].filter(Boolean);
 
-    return [...block1, ...block2, ...block3, ...block4];
+    const ranking = [...block1, ...block2, ...block3, ...block4];
+
+    // 🔥 nadpisanie wynikami rozegranych meczów
+    schedule.forEach((match) => {
+      if (!match.finished) return;
+
+      const winnerId = getMatchWinner(match);
+
+      if (!winnerId) return;
+
+      const winner = winnerId === match.teamA.id ? match.teamA : match.teamB;
+
+      const loser = winnerId === match.teamA.id ? match.teamB : match.teamA;
+
+      if (match.type === "placement") {
+        const place = parseInt(match.label?.match(/\d+/)?.[0]);
+
+        if (!isNaN(place)) {
+          ranking[place - 1] = winner;
+          ranking[place] = loser;
+        }
+      }
+
+      if (match.type === "thirdPlace") {
+        ranking[2] = winner;
+        ranking[3] = loser;
+      }
+
+      if (match.type === "final") {
+        ranking[0] = winner;
+        ranking[1] = loser;
+      }
+    });
+
+    return ranking;
   };
   const semifinalMatches = sortedSchedule.filter((m) => m.type === "semifinal");
   const placementMatches = sortedSchedule.filter((m) => m.type === "placement");
