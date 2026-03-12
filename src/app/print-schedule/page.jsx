@@ -46,8 +46,8 @@ export default function PrintSchedule() {
               <tr>
                 <th>#</th>
                 <th>Drużyna A</th>
-                <th>Drużyna B</th>
                 <th>Wynik</th>
+                <th>Drużyna B</th>
               </tr>
             </thead>
 

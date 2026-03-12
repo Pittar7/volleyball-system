@@ -182,15 +182,11 @@ export default function AdminPage() {
   // PÓŁFINAŁY
   // ==============================
   const generateSemifinals = () => {
-    if (schedule.some((m) => m.type === "semifinal")) {
-      alert("Półfinały już wygenerowane");
-      return;
-    }
-
     const tableA = calculateTable(
       groupA,
       schedule.filter((m) => m.group === "A"),
     );
+
     const tableB = calculateTable(
       groupB,
       schedule.filter((m) => m.group === "B"),
@@ -201,8 +197,16 @@ export default function AdminPage() {
       return;
     }
 
+    // ❗ USUWAMY stare mecze fazy pucharowej
+    const cleanedSchedule = schedule.filter(
+      (m) =>
+        m.type !== "semifinal" && m.type !== "thirdPlace" && m.type !== "final",
+    );
+
     const maxOrder =
-      schedule.length > 0 ? Math.max(...schedule.map((m) => m.order)) : 0;
+      cleanedSchedule.length > 0
+        ? Math.max(...cleanedSchedule.map((m) => m.order))
+        : 0;
 
     const newMatches = [
       {
@@ -239,7 +243,7 @@ export default function AdminPage() {
 
     setData({
       ...data,
-      schedule: [...schedule, ...newMatches],
+      schedule: [...cleanedSchedule, ...newMatches],
     });
   };
 

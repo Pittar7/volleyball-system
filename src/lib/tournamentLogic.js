@@ -78,7 +78,7 @@ export function generateGroupMatches(teams, group) {
       [t[2], t[4]],
 
       [t[0], t[3]],
-      [t[2], t[4]],
+      [t[1], t[4]],
     ];
 
     return schedule.map((pair, i) => ({
@@ -255,6 +255,21 @@ export function calculateTable(teams, matches) {
     teamB.setsWon += setsB;
     teamB.setsLost += setsA;
 
+    // 🔥 LICZENIE MAŁYCH PUNKTÓW
+    match.sets.forEach((set) => {
+      const a = parseInt(set.a);
+      const b = parseInt(set.b);
+
+      if (isNaN(a) || isNaN(b)) return;
+
+      teamA.smallPointsWon += a;
+      teamA.smallPointsLost += b;
+
+      teamB.smallPointsWon += b;
+      teamB.smallPointsLost += a;
+    });
+
+    // PUNKTY MECZOWE
     if (setsA > setsB) {
       teamA.points += setsB === 0 ? 3 : 2;
       teamB.points += setsB === 0 ? 0 : 1;

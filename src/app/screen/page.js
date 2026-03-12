@@ -139,6 +139,13 @@ export default function ScreenPage() {
   const [leftView, setLeftView] = useState(0);
   const [rightView, setRightView] = useState(0);
 
+  const getVisibleMatches = () => {
+    const finished = sortedSchedule.filter((m) => m.finished).slice(-4); // ostatnie 4 zakończone
+
+    const upcoming = sortedSchedule.filter((m) => !m.finished).slice(0, 12); // kolejne mecze
+
+    return [...finished, ...upcoming];
+  };
   // ===== HELPER =====
 
   const getLiveMatches = (schedule) => {
@@ -171,13 +178,23 @@ export default function ScreenPage() {
       setLeftView((v) => (v + 1) % 2);
     }, 10000);
 
-    const rightRotation = setInterval(() => {
-      setRightView((v) => (v + 1) % 2);
-    }, 12000);
+    let timer;
+
+    const rotateRight = (view) => {
+      const duration = view === 0 ? 15000 : 5000; // 👈 czas dla slajdu
+
+      timer = setTimeout(() => {
+        const next = (view + 1) % 2;
+        setRightView(next);
+        rotateRight(next);
+      }, duration);
+    };
+
+    rotateRight(0);
 
     return () => {
       clearInterval(leftRotation);
-      clearInterval(rightRotation);
+      clearTimeout(timer);
     };
   }, []);
 
@@ -197,6 +214,7 @@ export default function ScreenPage() {
     ["semifinal", "placement", "thirdPlace", "final"].includes(m.type),
   );
   const sortedSchedule = [...schedule].sort((a, b) => a.order - b.order);
+  const visibleMatches = getVisibleMatches();
 
   const groupA = tournament.teams.filter((t) => t.group === "A");
   const groupB = tournament.teams.filter((t) => t.group === "B");
@@ -231,22 +249,20 @@ export default function ScreenPage() {
 
     topBarMatches = [...topBarMatches, ...nextPlanned];
   }
-  const getVisibleMatches = () => {
-    const finished = sortedSchedule.filter((m) => m.finished).slice(-6); // ostatnie 4 zakończone
 
-    const upcoming = sortedSchedule.filter((m) => !m.finished).slice(0, 15); // kolejne mecze
-
-    return [...finished, ...upcoming];
-  };
   // 👇 TELEBIM TERMINARZA
-  const visibleMatches = getVisibleMatches();
   const getMatchScore = (match) => {
     let a = 0;
     let b = 0;
 
     match.sets.forEach((s) => {
-      if (s.a > s.b) a++;
-      if (s.b > s.a) b++;
+      const sa = parseInt(s.a);
+      const sb = parseInt(s.b);
+
+      if (isNaN(sa) || isNaN(sb)) return;
+
+      if (sa > sb) a++;
+      if (sb > sa) b++;
     });
 
     return `${a}:${b}`;
@@ -271,56 +287,46 @@ export default function ScreenPage() {
     return null;
   };
   const generateLiveRanking = () => {
-    const teams = tournament.teams;
-    const ranking = [];
+    const block1 = [tableA[0], tableB[0], tableA[1], tableB[1]]
+      .filter(Boolean)
+      .sort(
+        (a, b) =>
+          b.points - a.points ||
+          b.setsWon - b.setsLost - (a.setsWon - a.setsLost),
+      );
 
-    schedule.forEach((match) => {
-      if (!match.finished) return;
+    const block2 = [tableA[2], tableB[2]]
+      .filter(Boolean)
+      .sort(
+        (a, b) =>
+          b.points - a.points ||
+          b.setsWon - b.setsLost - (a.setsWon - a.setsLost),
+      );
 
-      const winnerId = getMatchWinner(match);
-      if (!winnerId) return;
+    const block3 = [tableA[3], tableB[3]]
+      .filter(Boolean)
+      .sort(
+        (a, b) =>
+          b.points - a.points ||
+          b.setsWon - b.setsLost - (a.setsWon - a.setsLost),
+      );
 
-      const loserId =
-        winnerId === match.teamA.id ? match.teamB.id : match.teamA.id;
+    const block4 = [tableA[4], tableB[4]].filter(Boolean);
 
-      const winner = teams.find((t) => t.id === winnerId);
-      const loser = teams.find((t) => t.id === loserId);
-
-      if (match.type === "thirdPlace") {
-        ranking[2] = winner;
-        ranking[3] = loser;
-      }
-      if (match.type === "final") {
-        ranking[0] = winner;
-        ranking[1] = loser;
-      }
-      if (match.type === "placement") {
-        const place = parseInt(match.label?.match(/\d+/)?.[0]);
-
-        if (!isNaN(place)) {
-          ranking[place - 1] = winner;
-          ranking[place] = loser;
-        }
-      }
-    });
-
-    // 🔧 uzupełnij brakujące miejsca drużynami które nie grały meczu o miejsce
-    const placedIds = ranking.filter(Boolean).map((t) => t.id);
-
-    const remainingTeams = teams.filter((t) => !placedIds.includes(t.id));
-
-    let i = 0;
-
-    for (let r = 0; r < teams.length; r++) {
-      if (!ranking[r] && remainingTeams[i]) {
-        ranking[r] = remainingTeams[i];
-        i++;
-      }
-    }
-
-    return ranking;
+    return [...block1, ...block2, ...block3, ...block4];
   };
+  const semifinalMatches = sortedSchedule.filter((m) => m.type === "semifinal");
+  const placementMatches = sortedSchedule.filter((m) => m.type === "placement");
+  const thirdPlaceMatch = sortedSchedule.find((m) => m.type === "thirdPlace");
+  const finalMatch = sortedSchedule.find((m) => m.type === "final");
+
   const liveRanking = generateLiveRanking();
+  const finalFinished = finalMatch?.finished;
+  const teamStillPlaying = (teamId) => {
+    return schedule.some(
+      (m) => !m.finished && (m.teamA?.id === teamId || m.teamB?.id === teamId),
+    );
+  };
   const liveBracket = {
     semifinals: [
       { teamA: tableA[0], teamB: tableB[1] },
@@ -331,6 +337,7 @@ export default function ScreenPage() {
     place7: { teamA: tableA[3], teamB: tableB[3] },
     place9: { teamA: tableA[4], teamB: tableB[4] },
   };
+
   return (
     <>
       {topBarMatches.length > 0 && (
@@ -461,9 +468,33 @@ export default function ScreenPage() {
                       <h4>Mecz o 5 miejsce</h4>
 
                       <div className="live-bracket-match">
-                        <span>{liveBracket.place5.teamA?.name}</span>
+                        <div className="team-with-logo">
+                          <div className="team-logos">
+                            {getTeamById(
+                              liveBracket.place5.teamA?.id,
+                            )?.logos?.map((logo, i) =>
+                              logo ? (
+                                <img key={i} src={logo} className="team-logo" />
+                              ) : null,
+                            )}
+                          </div>
+                          <span>{liveBracket.place5.teamA?.name}</span>
+                        </div>
+
                         <span className="live-vs">vs</span>
-                        <span>{liveBracket.place5.teamB?.name}</span>
+
+                        <div className="team-with-logo">
+                          <div className="team-logos">
+                            {getTeamById(
+                              liveBracket.place5.teamB?.id,
+                            )?.logos?.map((logo, i) =>
+                              logo ? (
+                                <img key={i} src={logo} className="team-logo" />
+                              ) : null,
+                            )}
+                          </div>
+                          <span>{liveBracket.place5.teamB?.name}</span>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -474,25 +505,82 @@ export default function ScreenPage() {
                       <h4>Mecz o 7 miejsce</h4>
 
                       <div className="live-bracket-match">
-                        <span>{liveBracket.place7.teamA?.name}</span>
+                        <div className="team-with-logo">
+                          <div className="team-logos">
+                            {getTeamById(
+                              liveBracket.place7.teamA?.id,
+                            )?.logos?.map((logo, i) =>
+                              logo ? (
+                                <img key={i} src={logo} className="team-logo" />
+                              ) : null,
+                            )}
+                          </div>
+                          <span>{liveBracket.place7.teamA?.name}</span>
+                        </div>
+
                         <span className="live-vs">vs</span>
-                        <span>{liveBracket.place7.teamB?.name}</span>
+
+                        <div className="team-with-logo">
+                          <div className="team-logos">
+                            {getTeamById(
+                              liveBracket.place7.teamB?.id,
+                            )?.logos?.map((logo, i) =>
+                              logo ? (
+                                <img key={i} src={logo} className="team-logo" />
+                              ) : null,
+                            )}
+                          </div>
+                          <span>{liveBracket.place7.teamB?.name}</span>
+                        </div>
                       </div>
                     </div>
                   )}
 
                   {/* MECZ O 9 */}
-                  {liveBracket.place9?.teamA && (
-                    <div className="live-bracket-section">
-                      <h4>Mecz o 9 miejsce</h4>
+                  {tournament.teams.length >= 10 &&
+                    liveBracket.place9?.teamA && (
+                      <div className="live-bracket-section">
+                        <h4>Mecz o 9 miejsce</h4>
 
-                      <div className="live-bracket-match">
-                        <span>{liveBracket.place9.teamA?.name}</span>
-                        <span className="live-vs">vs</span>
-                        <span>{liveBracket.place9.teamB?.name}</span>
+                        <div className="live-bracket-match">
+                          <div className="team-with-logo">
+                            <div className="team-logos">
+                              {getTeamById(
+                                liveBracket.place9.teamA?.id,
+                              )?.logos?.map((logo, i) =>
+                                logo ? (
+                                  <img
+                                    key={i}
+                                    src={logo}
+                                    className="team-logo"
+                                  />
+                                ) : null,
+                              )}
+                            </div>
+                            <span>{liveBracket.place9.teamA?.name}</span>
+                          </div>
+
+                          <span className="live-vs">vs</span>
+
+                          <div className="team-with-logo">
+                            <div className="team-logos">
+                              {getTeamById(
+                                liveBracket.place9.teamB?.id,
+                              )?.logos?.map((logo, i) =>
+                                logo ? (
+                                  <img
+                                    key={i}
+                                    src={logo}
+                                    className="team-logo"
+                                  />
+                                ) : null,
+                              )}
+                            </div>
+                            <span>{liveBracket.place9.teamB?.name}</span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                 </div>
               </>
             )}
@@ -502,23 +590,13 @@ export default function ScreenPage() {
                 <h2>Drabinka turnieju</h2>
 
                 <div className="bracket-preview">
-                  {schedule
-                    .filter((m) =>
-                      [
-                        "semifinal",
-                        "thirdPlace",
-                        "final",
-                        "placement",
-                      ].includes(m.type),
-                    )
-                    .sort((a, b) => a.order - b.order)
-                    .map((match) => (
-                      <div key={match.id} className="live-bracket-section">
-                        {match.label && (
-                          <div className="bracket-label">{match.label}</div>
-                        )}
+                  {/* PÓŁFINAŁY */}
+                  {semifinalMatches.length > 0 && (
+                    <div className="live-bracket-section">
+                      <div className="bracket-label">Półfinały</div>
 
-                        <div className="live-bracket-match">
+                      {semifinalMatches.map((match) => (
+                        <div key={match.id} className="live-bracket-match">
                           <span>{match.teamA?.name}</span>
 
                           <span className="live-vs">
@@ -527,8 +605,66 @@ export default function ScreenPage() {
 
                           <span>{match.teamB?.name}</span>
                         </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* MECZE O MIEJSCA */}
+                  {placementMatches.map((match) => (
+                    <div key={match.id} className="live-bracket-section">
+                      <div className="bracket-label">{match.label}</div>
+
+                      <div className="live-bracket-match">
+                        <span>{match.teamA?.name}</span>
+
+                        <span className="live-vs">
+                          {match.finished ? getMatchScore(match) : "vs"}
+                        </span>
+
+                        <span>{match.teamB?.name}</span>
                       </div>
-                    ))}
+                    </div>
+                  ))}
+
+                  {/* MECZ O 3 */}
+                  {thirdPlaceMatch && (
+                    <div className="live-bracket-section">
+                      <div className="bracket-label">
+                        {thirdPlaceMatch.label}
+                      </div>
+
+                      <div className="live-bracket-match">
+                        <span>{thirdPlaceMatch.teamA?.name}</span>
+
+                        <span className="live-vs">
+                          {thirdPlaceMatch.finished
+                            ? getMatchScore(thirdPlaceMatch)
+                            : "vs"}
+                        </span>
+
+                        <span>{thirdPlaceMatch.teamB?.name}</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* FINAŁ */}
+                  {finalMatch && (
+                    <div className="live-bracket-section">
+                      <div className="bracket-label">{finalMatch.label}</div>
+
+                      <div className="live-bracket-match">
+                        <span>{finalMatch.teamA?.name}</span>
+
+                        <span className="live-vs">
+                          {finalMatch.finished
+                            ? getMatchScore(finalMatch)
+                            : "vs"}
+                        </span>
+
+                        <span>{finalMatch.teamB?.name}</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </>
             )}
@@ -549,19 +685,23 @@ export default function ScreenPage() {
                       <tr
                         key={team.id}
                         className={
-                          index === 0
-                            ? "rank-gold"
-                            : index === 1
-                              ? "rank-silver"
-                              : index === 2
-                                ? "rank-bronze"
-                                : "rank-locked"
+                          finalFinished
+                            ? index === 0
+                              ? "rank-gold"
+                              : index === 1
+                                ? "rank-silver"
+                                : index === 2
+                                  ? "rank-bronze"
+                                  : "rank-locked"
+                            : teamStillPlaying(team.id)
+                              ? "rank-pending"
+                              : "rank-locked"
                         }
                       >
                         <td className="rank-place">
-                          {index === 0 && "🥇 "}
-                          {index === 1 && "🥈 "}
-                          {index === 2 && "🥉 "}
+                          {finalFinished && index === 0 && "🥇 "}
+                          {finalFinished && index === 1 && "🥈 "}
+                          {finalFinished && index === 2 && "🥉 "}
                           {index + 1}
                         </td>
 
@@ -609,95 +749,117 @@ export default function ScreenPage() {
                     </tr>
 
                     {/* <tr className="schedule-head-sub">
-                      <th>Drużyna</th>
-                      <th></th>
-                      <th>Drużyna</th>
-                    </tr> */}
+                    <th>Drużyna</th>
+                    <th></th>
+                    <th>Drużyna</th>
+                  </tr> */}
                   </thead>
 
                   <tbody>
-                    {visibleMatches.map((match) => {
-                      const status = match.finished
-                        ? "finished"
-                        : match.status === "live"
-                          ? "live"
-                          : "planned";
+                    {(() => {
+                      let semifinalShown = false;
 
-                      const winner = match.finished
-                        ? getMatchWinner(match)
-                        : null;
+                      return visibleMatches.map((match) => {
+                        const status = match.finished
+                          ? "finished"
+                          : match.status === "live"
+                            ? "live"
+                            : "planned";
 
-                      return (
-                        <Fragment key={match.id}>
-                          {match.label && (
-                            <tr
-                              key={`label-${match.id}`}
-                              className="match-label-row"
-                            >
-                              <td colSpan="5" className="match-label">
-                                {match.label}
+                        const winner = match.finished
+                          ? getMatchWinner(match)
+                          : null;
+
+                        return (
+                          <Fragment key={match.id}>
+                            {(() => {
+                              if (
+                                match.type === "semifinal" &&
+                                !semifinalShown
+                              ) {
+                                semifinalShown = true;
+
+                                return (
+                                  <tr className="match-label-row">
+                                    <td colSpan="5" className="match-label">
+                                      Półfinały
+                                    </td>
+                                  </tr>
+                                );
+                              }
+
+                              if (match.label) {
+                                return (
+                                  <tr className="match-label-row">
+                                    <td colSpan="5" className="match-label">
+                                      {match.label}
+                                    </td>
+                                  </tr>
+                                );
+                              }
+
+                              return null;
+                            })()}
+
+                            <tr key={match.id}>
+                              <td className={`schedule-status ${status}`}>
+                                {status === "live"
+                                  ? "Trwa"
+                                  : status === "finished"
+                                    ? "Zakończony"
+                                    : "Zaplanowany"}
+                              </td>
+
+                              <td>{match.court}</td>
+
+                              <td className="screen-team">
+                                {getTeamById(match.teamA.id)?.logos?.map(
+                                  (logo, i) =>
+                                    logo ? (
+                                      <img
+                                        key={i}
+                                        src={logo}
+                                        className="screen-team-logo"
+                                      />
+                                    ) : null,
+                                )}
+                                <span
+                                  className={
+                                    winner === match.teamA.id ? "winner" : ""
+                                  }
+                                >
+                                  {match.teamA.name}
+                                </span>
+                              </td>
+
+                              <td className="match-center">
+                                {match.finished ? getMatchScore(match) : "vs"}
+                              </td>
+
+                              <td className="screen-team">
+                                {getTeamById(match.teamB.id)?.logos?.map(
+                                  (logo, i) =>
+                                    logo ? (
+                                      <img
+                                        key={i}
+                                        src={logo}
+                                        className="screen-team-logo"
+                                      />
+                                    ) : null,
+                                )}
+                                <span
+                                  className={
+                                    winner === match.teamB.id ? "winner" : ""
+                                  }
+                                >
+                                  {match.teamB.name}
+                                </span>
                               </td>
                             </tr>
-                          )}
-
-                          <tr key={match.id}>
-                            <td className={`schedule-status ${status}`}>
-                              {status === "live"
-                                ? "Trwa"
-                                : status === "finished"
-                                  ? "Zakończony"
-                                  : "Zaplanowany"}
-                            </td>
-
-                            <td>{match.court}</td>
-
-                            <td className="screen-team">
-                              {getTeamById(match.teamA.id)?.logos?.map(
-                                (logo, i) =>
-                                  logo ? (
-                                    <img
-                                      key={i}
-                                      src={logo}
-                                      className="screen-team-logo"
-                                    />
-                                  ) : null,
-                              )}
-                              <span
-                                className={
-                                  winner === match.teamA.id ? "winner" : ""
-                                }
-                              >
-                                {match.teamA.name}
-                              </span>
-                            </td>
-
-                            <td className="match-center">
-                              {match.finished ? getMatchScore(match) : "vs"}
-                            </td>
-
-                            <td className="screen-team">
-                              {getTeamById(match.teamB.id)?.logos?.map(
-                                (logo, i) =>
-                                  logo ? (
-                                    <img
-                                      key={i}
-                                      src={logo}
-                                      className="screen-team-logo"
-                                    />
-                                  ) : null,
-                              )}
-                              <span
-                                className={
-                                  winner === match.teamB.id ? "winner" : ""
-                                }
-                              >
-                                {match.teamB.name}
-                              </span>
-                            </td>
-                          </tr>
-                        </Fragment>
-                      );
-                    })}
+                          </Fragment>
+                        );
+                      });
+                    })()}
                   </tbody>
                 </table>
               </>

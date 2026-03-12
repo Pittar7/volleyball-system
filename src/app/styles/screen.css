@@ -92,14 +92,22 @@
   border-bottom: 2px solid #e5e7eb;
 }
 
-.screen-group-table tr:nth-child(even) {
+.screen-group-table
+  tr:nth-child(even):not(.rank-gold):not(.rank-silver):not(.rank-bronze) {
   background: #f8fafc;
 }
 
 .screen-ranking {
-  width: 90%;
+  width: 55%;
+  max-width: 900px;
+  min-width: 400px;
+
+  margin: 0 auto; /* wyśrodkowanie */
+
   border-collapse: collapse;
-  font-size: clamp(16px, 1.2vw, 26px);
+  border-radius: 10px;
+  font-size: clamp(22px, 1.4vw, 28px);
+
   background-color: #dddfde;
 }
 
@@ -107,16 +115,23 @@
   background: #f1f5f9;
   padding: 10px;
   border-bottom: 3px solid #cbd5f5;
+  text-align: left;
 }
-
+.screen-ranking th:first-child,
+.screen-ranking td:first-child {
+  width: 120px;
+}
 .screen-ranking td {
   padding: 10px 16px;
   border-bottom: 2px solid #e5e7eb;
   text-align: center;
 }
-
+.screen-ranking td:nth-child(2) {
+  text-align: center;
+  padding-left: 30px;
+}
 .screen-ranking tr:nth-child(even) {
-  background: #dddfde;
+  background: #f8fafc;
 }
 .screen-container {
   position: relative;
@@ -141,7 +156,34 @@
   pointer-events: none;
   z-index: 0;
 }
+.rank-pending {
+  color: #9ca3af;
+}
 
+.rank-locked {
+  color: black;
+  font-weight: 700;
+}
+.rank-gold {
+  background: #ffe066 !important;
+  color: #000;
+  font-weight: 800;
+  border-left: 8px solid #facc15;
+}
+
+.rank-silver {
+  background: #d7daca !important;
+  color: #000;
+  font-weight: 800;
+  border-left: 8px solid #9ca3af;
+}
+
+.rank-bronze {
+  background: #f6ad55 !important;
+  color: #000;
+  font-weight: 800;
+  border-left: 8px solid #eb6117;
+}
 /* ============================= */
 /* LIVE BAR TELEBIM */
 /* ============================= */
@@ -448,7 +490,7 @@ table {
 }
 .winner {
   font-weight: 800;
-  color: #16a34a;
+  color: #3352b8;
 }
 .winner-icon {
   margin-left: 8px;
@@ -459,25 +501,7 @@ table {
   text-align: center;
   width: 40px;
 }
-.rank-pending {
-  color: #9ca3af;
-}
 
-.rank-locked {
-  color: black;
-  font-weight: 700;
-}
-.rank-gold {
-  background: #fff3b0;
-}
-
-.rank-silver {
-  background: #e8eaf0;
-}
-
-.rank-bronze {
-  background: #fcd9b6;
-}
 .live-bracket-section {
   margin-bottom: 20px;
   text-align: center;
@@ -499,9 +523,9 @@ table {
 }
 .bracket-label {
   text-align: center;
-  font-weight: 700;
+  font-weight: bold;
   margin-top: 10px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   color: #555;
   font-size: 18px;
 }
@@ -523,5 +547,5 @@ table {
 }
 .rank-place {
   font-weight: 700;
-  font-size: 20px;
+  font-size: 22px;
 }
